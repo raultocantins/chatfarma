@@ -1,0 +1,42 @@
+{
+    "system": {
+        "name": "MultiContab",
+        "url": "https://multicontab.com.br",
+        "color": {
+            "lightTheme": {
+                "palette": {
+                    "primary": "#6264A7",
+                    "secondary": "#6264A7"
+                },
+                "toolbar": {
+                    "background": "#6B62FE"
+                },
+                "menuItens": "#ffffff",
+                "sub": "#ffffff",
+                "toolbarIcon": "#ffffff",
+                "divide": "#E0E0E0"
+            },
+            "darkTheme": {
+                "palette": {
+                    "primary": "#ffffff",
+                    "secondary": "#ffffff",
+                    "background": {
+                        "default": "#1E212D",
+                        "paper": "#1E212D"
+                    },
+                    "text": {
+                        "primary": "#ffffff",
+                        "secondary": "#ffffff"
+                    }
+                },
+                "toolbar": {
+                    "background": "#1E212D"
+                },
+                "menuItens": "#1E212D",
+                "sub": "#1E212D",
+                "toolbarIcon": "#1E212D",
+                "divide": "#080d14"
+            }
+        }
+    }
+}

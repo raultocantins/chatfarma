@@ -1,0 +1,15 @@
+.react-calendar__tile--now {
+  background-color: #6264a7 !important;
+}
+
+.react-calendar__tile--active {
+  background-color: #6264a7 !important;
+}
+
+.react-daterange-picker__wrapper {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+.react-daterange-picker {
+  background-color: transparent;
+}

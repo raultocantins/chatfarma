@@ -1,0 +1,10 @@
+[
+  "20200904070004-create-default-settings.js",
+  "20200904070004-create-default-users.js",
+  "20200904070006-create-apiToken-settings.js",
+  "20230130004700-create-alltickets-settings.js",
+  "20230326221400-create-ASC-settings.js",
+  "20230326221600-create-created-settings.js",
+  "20230501010700-create-openai-settings.js",
+  "20230507221800-create-n8n-integrations.js"
+]

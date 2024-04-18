@@ -1,15 +1,15 @@
 {
     "system": {
-        "name": "MultiContab",
-        "url": "https://multicontab.com.br",
+        "name": "ChatFarma",
+        "url": "https://chatfarma.com.br",
         "color": {
             "lightTheme": {
                 "palette": {
-                    "primary": "#6264A7",
-                    "secondary": "#6264A7"
+                    "primary": "#1968F0",
+                    "secondary": "#1968F0"
                 },
                 "toolbar": {
-                    "background": "#6B62FE"
+                    "background": "#1968F0"
                 },
                 "menuItens": "#ffffff",
                 "sub": "#ffffff",
@@ -21,8 +21,8 @@
                     "primary": "#ffffff",
                     "secondary": "#ffffff",
                     "background": {
-                        "default": "#1E212D",
-                        "paper": "#1E212D"
+                        "default": "#333333",
+                        "paper": "#333333"
                     },
                     "text": {
                         "primary": "#ffffff",
@@ -30,11 +30,11 @@
                     }
                 },
                 "toolbar": {
-                    "background": "#1E212D"
+                    "background": "#333333"
                 },
-                "menuItens": "#1E212D",
-                "sub": "#1E212D",
-                "toolbarIcon": "#1E212D",
+                "menuItens": "#333333",
+                "sub": "#333333",
+                "toolbarIcon": "#333333",
                 "divide": "#080d14"
             }
         }

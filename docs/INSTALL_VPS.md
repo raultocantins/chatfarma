@@ -1,6 +1,7 @@
-# Manual de Instação do Press Ticket na VPS 
+# Manual de Instação do Press Ticket na VPS
 
 ### Observação:
+
 - Antes de começar a instalação é necessário ter criado antecipadamente os subdomínios e já estarem apontados para o IP da VPS.
 
 ================================================
@@ -14,7 +15,7 @@ sudo su root
 2. Acessando diretório raiz
 
 ```bash
-cd ~ 
+cd ~
 ```
 
 3. Instalando mysql server
@@ -44,7 +45,7 @@ sudo mysql -u root
 7. Criando o BD
 
 ```bash
-CREATE DATABASE pressticket CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE chatfarma CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ```
 
 8. Acessar o BD do mysql
@@ -89,7 +90,8 @@ sudo su root
 adduser deploy
 ```
 
-15. 
+15.
+
 ```bash
 usermod -aG sudo deploy
 ```
@@ -130,8 +132,9 @@ sudo apt install apt-transport-https ca-certificates curl software-properties-co
 sudo apt update
 ```
 
-22. 
-```bash 
+22.
+
+```bash
 sudo usermod -aG mysql ${USER}
 ```
 
@@ -168,21 +171,21 @@ openssl rand -base64 32
 28. Editar os dados abaixo e colar os valores gerados no item 27.
 
 ```bash
-NODE_ENV=  
-BACKEND_URL=https://back.pressticket.com.br  
-FRONTEND_URL=https://ticket.pressticket.com.br  
-PORT=8080  
-PROXY_PORT=443  
-CHROME_BIN=/usr/bin/google-chrome-stable  
+NODE_ENV=
+BACKEND_URL=https://back.chatfarma.com.br
+FRONTEND_URL=https://ticket.chatfarma.com.br
+PORT=8080
+PROXY_PORT=443
+CHROME_BIN=/usr/bin/google-chrome-stable
 
-DB_DIALECT=mysql  
-DB_HOST=localhost  
-DB_TIMEZONE=-03:00   
-DB_USER=root  
-DB_PASS=  
-DB_NAME=pressticket
+DB_DIALECT=mysql
+DB_HOST=localhost
+DB_TIMEZONE=-03:00
+DB_USER=root
+DB_PASS=
+DB_NAME=chatfarma
 
-USER_LIMIT=3  
+USER_LIMIT=3
 CONNECTIONS_LIMIT=1
 
 PM2_FRONTEND=0
@@ -258,12 +261,14 @@ sudo npm install -g pm2
 pm2 start dist/server.js --name Press-Ticket-backend
 ```
 
-40. 
+40.
+
 ```bash
 pm2 startup ubuntu -u deploy
 ```
 
 41.
+
 ```bash
 sudo env PATH=$PATH:/usr/bin pm2 startup ubuntu -u deploy --hp /home/deploy
 ```
@@ -286,11 +291,12 @@ npm install
 nano .env
 ```
 
-45. 
+45.
+
 ```bash
-REACT_APP_BACKEND_URL=https://back.pressticket.com.br 
+REACT_APP_BACKEND_URL=https://back.chatfarma.com.br
 REACT_APP_HOURS_CLOSE_TICKETS_AUTO=
-REACT_APP_PAGE_TITLE=PressTicket
+REACT_APP_PAGE_TITLE=ChatFarma
 PORT=3333
 ```
 
@@ -333,20 +339,20 @@ sudo apt install nginx
 52. Editar os dados abaixo com a URL que será usada para acessar o frontend.
 
 ```bash
-server {  
-  server_name front.pressticket.com.br;  
-  location / {  
-    proxy_pass http://127.0.0.1:3333;  
-    proxy_http_version 1.1;  
-    proxy_set_header Upgrade $http_upgrade;  
-    proxy_set_header Connection 'upgrade';  
-    proxy_set_header Host $host;  
-    proxy_set_header X-Real-IP $remote_addr;  
-    proxy_set_header X-Forwarded-Proto $scheme;  
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;  
-    proxy_cache_bypass $http_upgrade;  
-  }  
-}  
+server {
+  server_name front.chatfarma.com.br;
+  location / {
+    proxy_pass http://127.0.0.1:3333;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_cache_bypass $http_upgrade;
+  }
+}
 ```
 
 53. Criar e editar o arquivo Press-Ticket-frontend com o comando abaixo e prencher com os dados do item 52.
@@ -364,19 +370,19 @@ sudo cp /etc/nginx/sites-available/Press-Ticket-frontend /etc/nginx/sites-availa
 55. Editar os dados abaixo com a URL que será usada para acessar o backend.
 
 ```bash
-server {  
-  server_name back.pressticket.com.br;  
-  location / {  
-    proxy_pass http://127.0.0.1:8080;  
-    proxy_http_version 1.1;  
-    proxy_set_header Upgrade $http_upgrade;  
-    proxy_set_header Connection 'upgrade';  
-    proxy_set_header Host $host;  
-    proxy_set_header X-Real-IP $remote_addr;  
-    proxy_set_header X-Forwarded-Proto $scheme;  
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;  
-    proxy_cache_bypass $http_upgrade;  
-  }  
+server {
+  server_name back.chatfarma.com.br;
+  location / {
+    proxy_pass http://127.0.0.1:8080;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_cache_bypass $http_upgrade;
+  }
 }
 ```
 
@@ -385,7 +391,7 @@ server {
 ```bash
 sudo nano /etc/nginx/sites-available/Press-Ticket-backend
 ```
-  
+
 57. Acessar a pasta onde os arquivos foram criados
 
 ```bash
@@ -435,10 +441,11 @@ sudo nano /etc/nginx/nginx.conf
 ```
 
 65.
+
 ```bash
 client_max_body_size 20M; # HANDLE BIGGER UPLOADS
 ```
- 
+
 66. Testar as configurações do nginx
 
 ```bash
@@ -497,11 +504,14 @@ sh UPDATE.sh
 
 ### Usuário padrão para acesso
 
-* User: 
+- User:
+
 ```bash
-admin@pressticket.com.br  
+admin@chatfarma.com.br
 ```
-* Password: 
+
+- Password:
+
 ```bash
 admin
 ```

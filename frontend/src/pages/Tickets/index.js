@@ -9,7 +9,7 @@ import Ticket from "../../components/Ticket/";
 
 import Hidden from "@material-ui/core/Hidden";
 
-import welcome from "../../assets/welcome.png";
+import welcome from "../../assets/welcome.svg";
 import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({

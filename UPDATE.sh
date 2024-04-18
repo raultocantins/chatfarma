@@ -1,6 +1,6 @@
 #!/bin/bash
 echo ""
-echo "ATUALIZANDO PARA A VERSÃO MAIS RECENTE DO MULTICONTAB..."
+echo "ATUALIZANDO PARA A VERSÃO MAIS RECENTE DO ChatFarma..."
 echo " "
 
 sleep 2

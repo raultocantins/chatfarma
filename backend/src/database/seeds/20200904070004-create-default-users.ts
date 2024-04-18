@@ -6,8 +6,8 @@ module.exports = {
       "Users",
       [
         {
-          name: "MultiContab",
-          email: "admin@multicontab.com",
+          name: "ChatFarma",
+          email: "admin@chatfarma.com",
           passwordHash:
             "$2a$08$WaEmpmFDD/XkDqorkpQ42eUZozOqRCPkPcTkmHHMyuTGUOkI8dHsq",
           profile: "admin",

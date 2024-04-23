@@ -18,7 +18,6 @@ import Tags from "../pages/Tags";
 import { AuthProvider } from "../context/Auth/AuthContext";
 import { WhatsAppsProvider } from "../context/WhatsApp/WhatsAppsContext";
 import Route from "./Route";
-import Kanban from "../pages/Kanban";
 import Search from "../pages/Search";
 
 const Routes = () => {
@@ -31,7 +30,6 @@ const Routes = () => {
           <WhatsAppsProvider>
             <LoggedInLayout>
               <Route exact path="/" component={Dashboard} isPrivate />
-              <Route exact path="/kanban" component={Kanban} isPrivate />
               <Route
                 exact
                 path="/tickets/:ticketId?"

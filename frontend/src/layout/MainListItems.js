@@ -27,7 +27,6 @@ import {
   Search,
   Settings,
   SignalCellular4Bar,
-  ViewColumn,
   WhatsApp,
 } from "@material-ui/icons";
 
@@ -330,12 +329,6 @@ const MainListItems = (props) => {
         perform="drawer-admin-items:view"
         yes={() => (
           <>
-            <ListItemLink
-              to="/kanban"
-              primary="Painel"
-              icon={<ViewColumn />}
-              label="Painel"
-            />
             <ListItemLink
               to="/connections"
               primary={i18n.t("mainDrawer.listItems.connections")}

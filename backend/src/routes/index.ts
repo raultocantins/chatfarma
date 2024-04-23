@@ -15,7 +15,6 @@ import tagRoutes from "./tagRoutes";
 import integrationRoutes from "./integrationRoutes";
 // import companyRoutes from "./companyRoutes";
 import systemRoutes from "./systemRoutes";
-import kanbanRoutes from "./kanbanRoutes";
 import searchRoutes from "./searchRoutes";
 
 const routes = Router();
@@ -35,6 +34,5 @@ routes.use(tagRoutes);
 routes.use(integrationRoutes);
 // routes.use(companyRoutes);
 routes.use(systemRoutes);
-routes.use(kanbanRoutes);
 routes.use(searchRoutes);
 export default routes;

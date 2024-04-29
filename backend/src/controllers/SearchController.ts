@@ -11,6 +11,7 @@ type IndexQuerySearch = {
   selectedContact?: string;
   startDate?: string;
   endDate?: string;
+  keyword?: string;
 };
 export const index = async (req: Request, res: Response): Promise<Response> => {
   if (req.user.profile === "") {
@@ -37,7 +38,8 @@ export const tickets = async (
     selectedStatus,
     selectedContact,
     startDate,
-    endDate
+    endDate,
+    keyword
   } = req.query as IndexQuerySearch;
 
   const ticketsFiltered = await ListTicketsService({
@@ -47,7 +49,8 @@ export const tickets = async (
     selectedStatus,
     selectedContact,
     startDate,
-    endDate
+    endDate,
+    keyword
   });
 
   return res.status(200).json(ticketsFiltered);

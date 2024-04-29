@@ -19,6 +19,7 @@ import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "./css/calendar.css";
+import RelatorioCSV from "../../components/RelatorioCSV";
 const useStyles = makeStyles((theme) => ({
   container: {
     paddingTop: theme.spacing(4),
@@ -57,10 +58,14 @@ const useStyles = makeStyles((theme) => ({
   },
   calendar: {
     background: theme.palette.background.paper,
-    marginRight: 24,
+    margin: "10px 10px 10px 0px",
   },
   queueSelect: {
     background: theme.palette.background.paper,
+    margin: 10,
+  },
+  csvbtn: {
+    margin: 10,
   },
 }));
 
@@ -166,6 +171,7 @@ const Dashboard = () => {
               ))}
             </Select>
           </FormControl>
+          <RelatorioCSV className={classes.csvbtn} dados={tickets} />
         </Grid>
         <Grid container spacing={3}>
           <Grid item xs={4}>
@@ -216,13 +222,12 @@ const Dashboard = () => {
               </Grid>
             </Paper>
           </Grid>
-          {/* <Grid item xs={12}>
-            <Title>Atendimentos por horário</Title>
+          <Grid item xs={12}>
+            <Title>Atendimentos por usuário</Title>
             <Paper elevation={0} className={classes.fixedHeightPaper}>
-              <TimeChart loading={loading} tickets={tickets} />
+              <UsersChart loading={loading} tickets={tickets} />
             </Paper>
-          </Grid> */}
-
+          </Grid>
           <Grid item xs={12}>
             <Title>Atendimentos por dia</Title>
             <Paper elevation={0} className={classes.fixedHeightPaper}>
@@ -230,12 +235,6 @@ const Dashboard = () => {
             </Paper>
           </Grid>
 
-          <Grid item xs={12}>
-            <Title>Atendimentos por usuário</Title>
-            <Paper elevation={0} className={classes.fixedHeightPaper}>
-              <UsersChart loading={loading} tickets={tickets} />
-            </Paper>
-          </Grid>
           <Grid item xs={12}>
             <Title>Atendimentos por departamento</Title>
             <Paper elevation={0} className={classes.fixedHeightPaper}>

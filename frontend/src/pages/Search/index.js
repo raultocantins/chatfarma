@@ -98,6 +98,7 @@ const Search = () => {
   const [options, setOptions] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
   const [searchParam, setSearchParam] = useState("");
+  const [keyword, setKeyWord] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingContact, setLoadingContact] = useState(false);
   const [dateRange, setDateRange] = useState([null, null]);
@@ -127,6 +128,7 @@ const Search = () => {
           selectedContact,
           startDate: dateRange[0],
           endDate: dateRange[1],
+          keyword,
         },
       });
       setTickets(data.tickets);
@@ -270,6 +272,16 @@ const Search = () => {
           />
         </FormControl>
 
+        <TextField
+          className={classes.maxWidth}
+          size="small"
+          variant="outlined"
+          placeholder="Palavra-chave"
+          type="search"
+          value={keyword}
+          onChange={(e) => setKeyWord(e.target.value)}
+        />
+
         <FormControl
           variant="outlined"
           className={classes.maxWidth}
@@ -359,6 +371,7 @@ const Search = () => {
           disabled={
             !(
               selectedUser ||
+              keyword ||
               selectedQueue ||
               selectedStatus ||
               selectedContact ||

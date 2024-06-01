@@ -13,6 +13,11 @@ import QuickAnswer from "../models/QuickAnswer";
 import Tag from "../models/Tag";
 import ContactTag from "../models/ContactTag";
 import Integration from "../models/Integration";
+import CampaignSetting from "../models/CampaignSetting";
+import ContactList from "../models/ContactList";
+import CampaignShipping from "../models/CampaignShipping";
+import ContactListItem from "../models/ContactListItem";
+import Campaign from "../models/Campaign";
 
 // eslint-disable-next-line
 const dbConfig = require("../config/database");
@@ -34,7 +39,13 @@ const models = [
   QuickAnswer,
   Tag,
   ContactTag,
-  Integration
+  Integration,
+  CampaignSetting,
+  CampaignShipping,
+  ContactList,
+  ContactListItem,
+  Campaign,
+  CampaignSetting,
 ];
 
 sequelize.addModels(models);

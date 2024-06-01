@@ -15,11 +15,14 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@sentry/node": "^5.29.2",
     "@types/pino": "^6.3.4",
     "bcryptjs": "^2.4.3",
+    "bull": "^4.12.9",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "cron": "^3.1.7",
     "date-fns": "^2.16.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
@@ -44,6 +47,7 @@
     "swagger-ui-express": "^4.3.0",
     "uuid": "^8.3.2",
     "whatsapp-web.js": "^1.23.0",
+    "xlsx": "^0.18.5",
     "yup": "^0.32.8"
   },
   "devDependencies": {

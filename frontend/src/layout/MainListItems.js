@@ -20,12 +20,15 @@ import {
   CheckCircle,
   InsertChart,
   Label,
+  ListOutlined,
   PeopleAlt,
+  PeopleOutlined,
   QuestionAnswer,
   RecentActors,
   RemoveCircle,
   Search,
   Settings,
+  SettingsOutlined,
   SignalCellular4Bar,
   WhatsApp,
 } from "@material-ui/icons";
@@ -123,6 +126,7 @@ const MainListItems = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { handleLogout } = useContext(AuthContext);
   const [storedValue, setValue] = useLocalStorage("theme", { theme: "light" });
+
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (whatsApps.length > 0) {
@@ -218,7 +222,7 @@ const MainListItems = (props) => {
                   open={menuOpen}
                   onClose={handleCloseMenu}
                 >
-                  <MenuItem onClick={() => {}}>
+                  <MenuItem onClick={() => { }}>
                     <FormControl fullWidth margin="dense">
                       <Select
                         displayEmpty
@@ -323,6 +327,35 @@ const MainListItems = (props) => {
         icon={<Search />}
         label="Pesquisa"
       />
+
+
+
+
+      <ListItemLink
+        to="/campaigns"
+        primary={i18n.t("mainDrawer.listItems.campaigns")}
+        icon={<ListOutlined />}
+        label="campaigns"
+      />
+
+      <ListItemLink
+        to="/contact-lists"
+        primary={i18n.t("mainDrawer.listItems.contact-lists")}
+        icon={<PeopleOutlined />}
+        label="contact-lists"
+      />
+
+
+      <ListItemLink
+        to="/campaigns-config"
+        primary={i18n.t("mainDrawer.listItems.campaigns-config")}
+        icon={<SettingsOutlined />}
+        label="campaigns-config"
+      />
+
+
+
+
 
       <Can
         role={user.profile}

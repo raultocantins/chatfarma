@@ -20,16 +20,15 @@ import {
   CheckCircle,
   InsertChart,
   Label,
-  ListOutlined,
   PeopleAlt,
-  PeopleOutlined,
   QuestionAnswer,
   RecentActors,
   RemoveCircle,
   Search,
   Settings,
-  SettingsOutlined,
+  SettingsApplications,
   SignalCellular4Bar,
+  ViewList,
   WhatsApp,
 } from "@material-ui/icons";
 
@@ -108,7 +107,7 @@ function ListItemLink(props) {
             {icon}
           </ListItemIcon>
         ) : null}
-        <span style={{ fontSize: 8 }}>{label}</span>
+        <span style={{ fontSize: 8, whiteSpace: 'normal', textAlign: 'center' }}>{label}</span>
       </ListItem>
     </li>
   );
@@ -190,9 +189,9 @@ const MainListItems = (props) => {
   };
 
   return (
-    <div onClick={drawerClose}>
+    <div onClick={drawerClose} >
       <CssBaseline />
-      <li className={classes.li}>
+      <li className={classes.li} >
         <ListItem
           button
           style={{
@@ -328,34 +327,27 @@ const MainListItems = (props) => {
         label="Pesquisa"
       />
 
-
-
-
       <ListItemLink
         to="/campaigns"
         primary={i18n.t("mainDrawer.listItems.campaigns")}
-        icon={<ListOutlined />}
-        label="campaigns"
+        icon={<ViewList />}
+        label={i18n.t("mainDrawer.listItems.campaigns")}
       />
 
       <ListItemLink
         to="/contact-lists"
-        primary={i18n.t("mainDrawer.listItems.contact-lists")}
-        icon={<PeopleOutlined />}
-        label="contact-lists"
+        primary='Listas de Contatos'
+        icon={<RecentActors />}
+        label='Listas de Contatos'
       />
 
 
       <ListItemLink
         to="/campaigns-config"
-        primary={i18n.t("mainDrawer.listItems.campaigns-config")}
-        icon={<SettingsOutlined />}
-        label="campaigns-config"
+        primary='Configurações de campanha'
+        icon={<SettingsApplications />}
+        label='Configurações de campanha'
       />
-
-
-
-
 
       <Can
         role={user.profile}

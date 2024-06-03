@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 
 import MainContainer from "../../components/MainContainer";
 import MainHeader from "../../components/MainHeader";
@@ -28,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   mainPaper: {
     flex: 1,
     padding: theme.spacing(2),
+    margin: theme.spacing(1),
     overflowY: "scroll",
     ...theme.scrollbarStyles,
   },
@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "right",
   },
   tabPanelsContainer: {
+    padding: theme.spacing(2),
+  },
+  title: {
     padding: theme.spacing(2),
   },
 }));
@@ -149,13 +152,11 @@ const CampaignReport = () => {
   return (
     <MainContainer>
       <MainHeader>
-        <Grid style={{ width: "99.6%" }} container>
-          <Grid xs={12} item>
-            <Title>Relatório da {campaign.name || "Campanha"}</Title>
-          </Grid>
-        </Grid>
+        <div className={classes.title}>
+          <Title>Relatório da {campaign.name || "Campanha"}</Title>
+        </div>
       </MainHeader>
-      <Paper className={classes.mainPaper} variant="outlined">
+      <div className={classes.mainPaper} variant="outlined">
         <Typography variant="h6" component="h2">
           Status: {formatStatus(campaign.status)} {delivered} de {validContacts}
         </Typography>
@@ -240,7 +241,7 @@ const CampaignReport = () => {
             />
           </Grid>
         </Grid>
-      </Paper>
+      </div>
     </MainContainer>
   );
 };

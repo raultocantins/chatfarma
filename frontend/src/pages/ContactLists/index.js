@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -31,10 +30,11 @@ import TableRowSkeleton from "../../components/TableRowSkeleton";
 import ContactListDialog from "../../components/ContactListDialog";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import toastError from "../../errors/toastError";
-import { Grid } from "@material-ui/core";
+import { Tooltip } from "@material-ui/core";
 
 import planilhaExemplo from "../../assets/planilha.xlsx";
 import { socketManager } from "../../context/Socket/SocketContext";
+import MainHeaderButtonsWrapper from "../../components/MainHeaderButtonsWrapper";
 
 
 const reducer = (state, action) => {
@@ -84,9 +84,13 @@ const reducer = (state, action) => {
 const useStyles = makeStyles((theme) => ({
   mainPaper: {
     flex: 1,
-    padding: theme.spacing(1),
+    padding: theme.spacing(2),
+    margin: theme.spacing(1),
     overflowY: "scroll",
     ...theme.scrollbarStyles,
+  },
+  title: {
+    padding: theme.spacing(2),
   },
 }));
 
@@ -218,44 +222,38 @@ const ContactLists = () => {
         aria-labelledby="form-dialog-title"
         contactListId={selectedContactList && selectedContactList.id}
       />
+
       <MainHeader>
-        <Grid style={{ width: "99.6%" }} container>
-          <Grid xs={12} sm={8} item>
-            <Title>{i18n.t("contactLists.title")}</Title>
-          </Grid>
-          <Grid xs={12} sm={4} item>
-            <Grid spacing={2} container>
-              <Grid xs={7} sm={6} item>
-                <TextField
-                  fullWidth
-                  placeholder={i18n.t("contacts.searchPlaceholder")}
-                  type="search"
-                  value={searchParam}
-                  onChange={handleSearch}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon style={{ color: "gray" }} />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-              <Grid xs={5} sm={6} item>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  onClick={handleOpenContactListModal}
-                >
-                  {i18n.t("contactLists.buttons.add")}
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+        <div className={classes.title}>
+          <Title>{i18n.t("contactLists.title")}</Title>
+        </div>
+        <MainHeaderButtonsWrapper>
+          <TextField
+            style={{ width: 200 }}
+            placeholder={i18n.t("contacts.searchPlaceholder")}
+            type="search"
+            value={searchParam}
+            onChange={handleSearch}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon style={{ color: "gray" }} />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Tooltip title={i18n.t("contactLists.buttons.add")}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleOpenContactListModal}
+            >
+              {i18n.t("contactLists.buttons.add")}
+            </Button>
+          </Tooltip>
+        </MainHeaderButtonsWrapper>
       </MainHeader>
-      <Paper
+      <div
         className={classes.mainPaper}
         variant="outlined"
         onScroll={handleScroll}
@@ -319,7 +317,7 @@ const ContactLists = () => {
             </>
           </TableBody>
         </Table>
-      </Paper>
+      </div>
     </MainContainer>
   );
 };

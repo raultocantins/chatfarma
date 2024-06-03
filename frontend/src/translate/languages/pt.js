@@ -403,7 +403,8 @@ const messages = {
           apidocs: "Documentação",
           apititle: "API",
           apikey: "API Key",
-          token: "Token"
+          token: "Token",
+          campaigns: "Campanhas",
         },
         appBar: {
           message: {

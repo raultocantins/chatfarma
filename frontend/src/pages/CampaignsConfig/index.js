@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import { toast } from "react-toastify";
 
 import MainContainer from "../../components/MainContainer";
@@ -33,7 +32,8 @@ import ConfirmationModal from "../../components/ConfirmationModal";
 const useStyles = makeStyles((theme) => ({
   mainPaper: {
     flex: 1,
-    padding: theme.spacing(1),
+    padding: theme.spacing(2),
+    margin: theme.spacing(1),
     overflowY: "scroll",
     ...theme.scrollbarStyles,
   },
@@ -41,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "right",
   },
   tabPanelsContainer: {
+    padding: theme.spacing(2),
+  },
+  title: {
     padding: theme.spacing(2),
   },
 }));
@@ -123,13 +126,12 @@ const CampaignsConfig = () => {
         {i18n.t("campaigns.confirmationModal.deleteMessage")}
       </ConfirmationModal>
       <MainHeader>
-        <Grid style={{ width: "99.6%" }} container>
-          <Grid xs={12} item>
-            <Title>{i18n.t("campaignsConfig.title")}</Title>
-          </Grid>
-        </Grid>
+        <div className={classes.title}>
+          <Title>{i18n.t("campaignsConfig.title")}</Title>
+        </div>
+
       </MainHeader>
-      <Paper className={classes.mainPaper} variant="outlined">
+      <div className={classes.mainPaper} variant="outlined">
         <Box className={classes.tabPanelsContainer}>
           <Grid spacing={2} container>
             <Grid xs={12} item>
@@ -302,7 +304,7 @@ const CampaignsConfig = () => {
             )}
           </Grid>
         </Box>
-      </Paper>
+      </div>
     </MainContainer>
   );
 };

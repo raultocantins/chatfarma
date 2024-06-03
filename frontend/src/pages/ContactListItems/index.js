@@ -40,10 +40,11 @@ import toastError from "../../errors/toastError";
 import { AuthContext } from "../../context/Auth/AuthContext";
 import { Can } from "../../components/Can";
 import useContactLists from "../../hooks/useContactLists";
-import { Grid } from "@material-ui/core";
+import { Tooltip } from "@material-ui/core";
 
 import planilhaExemplo from "../../assets/planilha.xlsx";
 import { socketManager } from "../../context/Socket/SocketContext";
+import MainHeaderButtonsWrapper from "../../components/MainHeaderButtonsWrapper";
 
 
 const reducer = (state, action) => {
@@ -93,9 +94,12 @@ const reducer = (state, action) => {
 const useStyles = makeStyles((theme) => ({
   mainPaper: {
     flex: 1,
-    padding: theme.spacing(1),
+    padding: theme.spacing(2),
+    margin: theme.spacing(1),
     overflowY: "scroll",
     ...theme.scrollbarStyles,
+  }, title: {
+    padding: theme.spacing(2),
   },
 }));
 
@@ -279,65 +283,59 @@ const ContactListItems = () => {
           </>
         )}
       </ConfirmationModal>
+
       <MainHeader>
-        <Grid style={{ width: "99.6%" }} container>
-          <Grid xs={12} sm={5} item>
-            <Title>{contactList.name}</Title>
-          </Grid>
-          <Grid xs={12} sm={7} item>
-            <Grid spacing={2} container>
-              <Grid xs={12} sm={6} item>
-                <TextField
-                  fullWidth
-                  placeholder={i18n.t("contactListItems.searchPlaceholder")}
-                  type="search"
-                  value={searchParam}
-                  onChange={handleSearch}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon style={{ color: "gray" }} />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-              <Grid xs={4} sm={2} item>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  onClick={goToContactLists}
-                >
-                  {i18n.t("contactListItems.buttons.lists")}
-                </Button>
-              </Grid>
-              <Grid xs={4} sm={2} item>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    fileUploadRef.current.value = null;
-                    fileUploadRef.current.click();
-                  }}
-                >
-                  {i18n.t("contactListItems.buttons.import")}
-                </Button>
-              </Grid>
-              <Grid xs={4} sm={2} item>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  onClick={handleOpenContactListItemModal}
-                >
-                  {i18n.t("contactListItems.buttons.add")}
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+        <div className={classes.title}>
+          <Title>{contactList.name}</Title>
+        </div>
+
+        <MainHeaderButtonsWrapper>
+          <TextField
+            style={{ width: 200 }}
+            placeholder={i18n.t("contactListItems.searchPlaceholder")}
+            type="search"
+            value={searchParam}
+            onChange={handleSearch}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon style={{ color: "gray" }} />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Tooltip title={i18n.t("contactListItems.buttons.lists")}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={goToContactLists}
+            >
+              {i18n.t("contactListItems.buttons.lists")}
+            </Button>
+          </Tooltip>
+          <Tooltip title={i18n.t("contactListItems.buttons.import")}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                fileUploadRef.current.value = null;
+                fileUploadRef.current.click();
+              }}
+            >
+              {i18n.t("contactListItems.buttons.import")}
+            </Button>
+          </Tooltip>
+          <Tooltip title={i18n.t("contactListItems.buttons.add")}>
+
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleOpenContactListItemModal}
+            >
+              {i18n.t("contactListItems.buttons.add")}
+            </Button>
+          </Tooltip>
+        </MainHeaderButtonsWrapper>
       </MainHeader>
       <Paper
         className={classes.mainPaper}

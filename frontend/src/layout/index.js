@@ -133,7 +133,7 @@ const LoggedInLayout = ({ children }) => {
         }}
         open={drawerOpen}
       >
-        <List style={{ padding: 0 }}>
+        <List style={{ padding: 0 }} >
           <MainListItems />
         </List>
       </Drawer>

@@ -35,10 +35,11 @@ import TableRowSkeleton from "../../components/TableRowSkeleton";
 import CampaignModal from "../../components/CampaignModal";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import toastError from "../../errors/toastError";
-import { Grid } from "@material-ui/core";
+import { Grid, Tooltip } from "@material-ui/core";
 import { isArray } from "lodash";
 import { useDate } from "../../hooks/useDate";
 import { socketManager } from "../../context/Socket/SocketContext";
+import MainHeaderButtonsWrapper from "../../components/MainHeaderButtonsWrapper";
 
 
 const reducer = (state, action) => {
@@ -90,9 +91,13 @@ const reducer = (state, action) => {
 const useStyles = makeStyles((theme) => ({
   mainPaper: {
     flex: 1,
-    padding: theme.spacing(1),
+    padding: theme.spacing(2),
+    margin: theme.spacing(1),
     overflowY: "scroll",
     ...theme.scrollbarStyles,
+  },
+  title: {
+    padding: theme.spacing(2),
   },
 }));
 
@@ -267,46 +272,40 @@ const Campaigns = () => {
         campaignId={selectedCampaign && selectedCampaign.id}
       />
       <MainHeader>
-        <Grid style={{ width: "99.6%" }} container>
-          <Grid xs={12} sm={8} item>
-            <Title>{i18n.t("campaigns.title")}</Title>
-          </Grid>
-          <Grid xs={12} sm={4} item>
-            <Grid spacing={2} container>
-              <Grid xs={6} sm={6} item>
-                <TextField
-                  fullWidth
-                  placeholder={i18n.t("campaigns.searchPlaceholder")}
-                  type="search"
-                  value={searchParam}
-                  onChange={handleSearch}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon style={{ color: "gray" }} />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-              <Grid xs={6} sm={6} item>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  onClick={handleOpenCampaignModal}
-                  color="primary"
-                >
-                  {i18n.t("campaigns.buttons.add")}
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+        <div className={classes.title}>
+          <Title>{i18n.t("campaigns.title")}</Title>
+        </div>
+        <MainHeaderButtonsWrapper>
+          <TextField
+            style={{ width: 200 }}
+            placeholder={i18n.t("campaigns.searchPlaceholder")}
+            type="search"
+            value={searchParam}
+            onChange={handleSearch}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon style={{ color: "gray" }} />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Tooltip title={i18n.t("queues.buttons.add")}>
+            <Button
+              variant="contained"
+              onClick={handleOpenCampaignModal}
+              color="primary"
+            >
+              {i18n.t("campaigns.buttons.add")}
+            </Button>
+          </Tooltip>
+        </MainHeaderButtonsWrapper>
       </MainHeader>
-      <Paper
+      <div
         className={classes.mainPaper}
         variant="outlined"
         onScroll={handleScroll}
+
       >
         <Table size="small">
           <TableHead>
@@ -418,7 +417,7 @@ const Campaigns = () => {
             </>
           </TableBody>
         </Table>
-      </Paper>
+      </div>
     </MainContainer>
   );
 };

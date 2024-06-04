@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -35,10 +34,10 @@ import TableRowSkeleton from "../../components/TableRowSkeleton";
 import CampaignModal from "../../components/CampaignModal";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import toastError from "../../errors/toastError";
-import { Grid, Tooltip } from "@material-ui/core";
+import { Tooltip } from "@material-ui/core";
 import { isArray } from "lodash";
 import { useDate } from "../../hooks/useDate";
-import { socketManager } from "../../context/Socket/SocketContext";
+import openSocket from "../../services/socket-io";
 import MainHeaderButtonsWrapper from "../../components/MainHeaderButtonsWrapper";
 
 
@@ -135,7 +134,7 @@ const Campaigns = () => {
   }, [searchParam, pageNumber]);
 
   useEffect(() => {
-    const socket = socketManager.GetSocket();
+    const socket = openSocket();
 
     const onCompanyCampaign = (data) => {
       if (data.action === "update" || data.action === "create") {

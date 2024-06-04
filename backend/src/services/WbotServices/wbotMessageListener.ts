@@ -213,8 +213,8 @@ const prepareLocation = (msg: WbotMessage): WbotMessage => {
   const gmapsUrl = `https://maps.google.com/maps?q=${msg.location.latitude}%2C${msg.location.longitude}&z=17`;
   msg.body = `data:image/png;base64,${msg.body}|${gmapsUrl}`;
   msg.body += `|${msg.location.options
-      ? msg.location.options
-      : `${msg.location.latitude}, ${msg.location.longitude}`
+    ? msg.location.options
+    : `${msg.location.latitude}, ${msg.location.longitude}`
     }`;
   return msg;
 };
@@ -389,7 +389,6 @@ const handleMessage = async (
   if (!isValidMsg(msg)) {
     return;
   }
-
   const Integrationdb = await Integration.findOne({
     where: { key: "urlApiN8N" }
   });

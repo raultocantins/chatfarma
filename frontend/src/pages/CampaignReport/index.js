@@ -20,9 +20,7 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import { useDate } from "../../hooks/useDate";
-
-import { socketManager } from "../../context/Socket/SocketContext";
-
+import openSocket from "../../services/socket-io";
 const useStyles = makeStyles((theme) => ({
   mainPaper: {
     flex: 1,
@@ -102,7 +100,7 @@ const CampaignReport = () => {
 
   useEffect(() => {
 
-    const socket = socketManager.GetSocket();
+    const socket = openSocket();
 
     const onCampaign = (data) => {
 
@@ -117,13 +115,13 @@ const CampaignReport = () => {
       }
     }
 
-    socket.on(`company-${1}-campaign`, onCampaign);
+    socket.on(`company-campaign`, onCampaign);
 
     return () => {
       socket.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [campaignId, socketManager]);
+  }, [campaignId]);
 
   const findCampaign = async () => {
     setLoading(true);

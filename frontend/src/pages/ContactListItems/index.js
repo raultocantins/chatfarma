@@ -43,7 +43,7 @@ import useContactLists from "../../hooks/useContactLists";
 import { Tooltip } from "@material-ui/core";
 
 import planilhaExemplo from "../../assets/planilha.xlsx";
-import { socketManager } from "../../context/Socket/SocketContext";
+import openSocket from "../../services/socket-io";
 import MainHeaderButtonsWrapper from "../../components/MainHeaderButtonsWrapper";
 
 
@@ -158,7 +158,7 @@ const ContactListItems = () => {
   }, [searchParam, pageNumber, contactListId]);
 
   useEffect(() => {
-    const socket = socketManager.GetSocket();
+    const socket = openSocket();
 
     const onContactListItem = (data) => {
       if (data.action === "update" || data.action === "create") {

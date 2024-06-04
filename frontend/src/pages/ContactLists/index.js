@@ -33,9 +33,8 @@ import toastError from "../../errors/toastError";
 import { Tooltip } from "@material-ui/core";
 
 import planilhaExemplo from "../../assets/planilha.xlsx";
-import { socketManager } from "../../context/Socket/SocketContext";
 import MainHeaderButtonsWrapper from "../../components/MainHeaderButtonsWrapper";
-
+import openSocket from "../../services/socket-io";
 
 const reducer = (state, action) => {
   if (action.type === "LOAD_CONTACTLISTS") {
@@ -136,7 +135,7 @@ const ContactLists = () => {
   }, [searchParam, pageNumber]);
 
   useEffect(() => {
-    const socket = socketManager.GetSocket();
+    const socket = openSocket();
 
     const onContactList = (data) => {
       if (data.action === "update" || data.action === "create") {

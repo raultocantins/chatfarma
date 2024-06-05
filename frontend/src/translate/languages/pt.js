@@ -373,6 +373,15 @@ const messages = {
           cancel: "Cancelar",
         },
       },
+
+      sendContactModal: {
+        title: "Enviar contato",
+        fieldLabel: "Digite para pesquisar o contato",
+        buttons: {
+          ok: "Enviar",
+          cancel: "Cancelar",
+        },
+      },
       newTicketModalContactPage: {
         title: "Criar Ticket",
         queue: "Selecione um Setor",
@@ -491,7 +500,7 @@ const messages = {
           deleteMessage: "Todos os dados do atendente serão perdidos. Os tickets abertos deste atendente serão movidos para a espera.",
         },
       },
-      company:{
+      company: {
         success: "Dados da Empresa salvo com sucesso.",
         title: "Dados da Empresa",
         info: "Informações",

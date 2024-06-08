@@ -373,6 +373,15 @@ const messages = {
           cancel: "Cancelar",
         },
       },
+
+      sendContactModal: {
+        title: "Enviar contato",
+        fieldLabel: "Digite para pesquisar o contato",
+        buttons: {
+          ok: "Enviar",
+          cancel: "Cancelar",
+        },
+      },
       newTicketModalContactPage: {
         title: "Criar Ticket",
         queue: "Selecione um Setor",

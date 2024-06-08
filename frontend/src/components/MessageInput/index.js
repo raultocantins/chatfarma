@@ -33,6 +33,7 @@ import {
   Cancel,
   CheckCircleOutline,
   Clear,
+  ContactPhoneOutlined,
   HighlightOff,
   Mic,
   Mood,
@@ -48,6 +49,7 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import toastError from "../../errors/toastError";
 import api from "../../services/api";
 import RecordingTimer from "./RecordingTimer";
+import SendContactModal from "../SendContactModal";
 
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
@@ -234,7 +236,7 @@ const MessageInput = ({ ticketStatus }) => {
   const { setReplyingMessage, replyingMessage } = useContext(ReplyMessageContext);
   const { user } = useContext(AuthContext);
   const [signMessage, setSignMessage] = useLocalStorage("signOption", true);
-
+  const [contactModalOpen, setContactModalOpen] = useState(false);
   useEffect(() => {
     inputRef.current.focus();
   }, [replyingMessage]);
@@ -551,7 +553,13 @@ const MessageInput = ({ ticketStatus }) => {
                 </ClickAwayListener>
               </div>
             ) : null}
-
+            <IconButton
+              disabled={loading || recording || ticketStatus !== "open"}
+              onClick={() => setContactModalOpen(true)}
+            >
+              <ContactPhoneOutlined className={classes.sendMessageIcons} />
+            </IconButton>
+            <SendContactModal modalOpen={contactModalOpen} onClose={() => setContactModalOpen(false)} ticketId={ticketId} />
             <input
               multiple
               type="file"

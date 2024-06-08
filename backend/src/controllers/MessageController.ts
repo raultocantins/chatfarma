@@ -9,6 +9,7 @@ import ShowTicketService from "../services/TicketServices/ShowTicketService";
 import DeleteWhatsAppMessage from "../services/WbotServices/DeleteWhatsAppMessage";
 import SendWhatsAppMedia from "../services/WbotServices/SendWhatsAppMedia";
 import SendWhatsAppMessage from "../services/WbotServices/SendWhatsAppMessage";
+import SendWhatsAppContact from "../services/WbotServices/SendWhatsAppContact";
 
 type IndexQuery = {
   pageNumber: string;
@@ -19,6 +20,7 @@ type MessageData = {
   fromMe: boolean;
   read: boolean;
   quotedMsg?: Message;
+  contactNumber?: string;
 };
 
 export const index = async (req: Request, res: Response): Promise<Response> => {
@@ -54,6 +56,15 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
     await SendWhatsAppMessage({ body, ticket, quotedMsg });
   }
 
+  return res.send();
+};
+
+export const storeContact = async (req: Request, res: Response): Promise<Response> => {
+  const { ticketId } = req.params;
+  const { contactNumber }: MessageData = req.body;
+  const ticket = await ShowTicketService(ticketId);
+  SetTicketMessagesAsRead(ticket);
+  await SendWhatsAppContact({ ticket, contactNumber });
   return res.send();
 };
 

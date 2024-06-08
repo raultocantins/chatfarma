@@ -11,15 +11,14 @@ import uploadConfig from "./config/upload";
 import AppError from "./errors/AppError";
 import routes from "./routes";
 import { logger } from "./utils/logger";
-import { messageQueue, sendScheduledMessages } from "./queues";
+import { messageQueue } from "./queues";
 
 
 Sentry.init({ dsn: process.env.SENTRY_DSN });
 
 const app = express();
 app.set("queues", {
-  messageQueue,
-  sendScheduledMessages
+  messageQueue
 });
 app.use(
   cors({

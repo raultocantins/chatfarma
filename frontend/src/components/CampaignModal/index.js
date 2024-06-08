@@ -32,6 +32,7 @@ import {
   Select,
   Tab,
   Tabs,
+  Tooltip,
 } from "@material-ui/core";
 import ConfirmationModal from "../ConfirmationModal";
 
@@ -64,6 +65,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: -12,
     marginLeft: -12,
   },
+  tabs: {
+    background: theme.palette.background.default
+  }
 }));
 
 const CampaignSchema = Yup.object().shape({
@@ -248,22 +252,7 @@ const CampaignModal = ({
     );
   };
 
-  const renderConfirmationMessageField = (identifier) => {
-    return (
-      <Field
-        as={TextField}
-        id={identifier}
-        name={identifier}
-        fullWidth
-        rows={5}
-        label={i18n.t(`campaigns.dialog.form.${identifier}`)}
-        placeholder={i18n.t("campaigns.dialog.form.messagePlaceholder")}
-        multiline={true}
-        variant="outlined"
-        disabled={!campaignEditable && campaign.status !== "CANCELADA"}
-      />
-    );
-  };
+
 
   const cancelCampaign = async () => {
     try {
@@ -351,36 +340,8 @@ const CampaignModal = ({
                       disabled={!campaignEditable}
                     />
                   </Grid>
+
                   <Grid xs={12} md={3} item>
-                    <FormControl
-                      variant="outlined"
-                      margin="dense"
-                      fullWidth
-                      className={classes.formControl}
-                    >
-                      <InputLabel id="confirmation-selection-label">
-                        {i18n.t("campaigns.dialog.form.confirmation")}
-                      </InputLabel>
-                      <Field
-                        as={Select}
-                        label={i18n.t("campaigns.dialog.form.confirmation")}
-                        placeholder={i18n.t(
-                          "campaigns.dialog.form.confirmation"
-                        )}
-                        labelId="confirmation-selection-label"
-                        id="confirmation"
-                        name="confirmation"
-                        error={
-                          touched.confirmation && Boolean(errors.confirmation)
-                        }
-                        disabled={!campaignEditable}
-                      >
-                        <MenuItem value={false}>Desabilitada</MenuItem>
-                        <MenuItem value={true}>Habilitada</MenuItem>
-                      </Field>
-                    </FormControl>
-                  </Grid>
-                  <Grid xs={12} md={4} item>
                     <FormControl
                       variant="outlined"
                       margin="dense"
@@ -469,128 +430,27 @@ const CampaignModal = ({
                     <Tabs
                       value={messageTab}
                       indicatorColor="primary"
-                      textColor="primary"
-                      onChange={(e, v) => setMessageTab(v)}
+                      textColor="secondary"
+                      onChange={(_, v) => setMessageTab(v)}
                       variant="fullWidth"
                       centered
-                      style={{
-                        background: "#f2f2f2",
-                        border: "1px solid #e6e6e6",
-                        borderRadius: 2,
-                      }}
+                      className={classes.tabs}
                     >
-                      <Tab label="Msg. 1" index={0} />
-                      <Tab label="Msg. 2" index={1} />
-                      <Tab label="Msg. 3" index={2} />
-                      <Tab label="Msg. 4" index={3} />
-                      <Tab label="Msg. 5" index={4} />
+                      <Tab label="Adicione sua mensagem" index={0} />
+
                     </Tabs>
                     <Box style={{ paddingTop: 20, border: "none" }}>
                       {messageTab === 0 && (
                         <>
-                          {values.confirmation ? (
-                            <Grid spacing={2} container>
-                              <Grid xs={12} md={8} item>
-                                <>{renderMessageField("message1")}</>
-                              </Grid>
-                              <Grid xs={12} md={4} item>
-                                <>
-                                  {renderConfirmationMessageField(
-                                    "confirmationMessage1"
-                                  )}
-                                </>
-                              </Grid>
-                            </Grid>
-                          ) : (
-                            <>{renderMessageField("message1")}</>
-                          )}
+                          {renderMessageField("message1")}
                         </>
                       )}
-                      {messageTab === 1 && (
-                        <>
-                          {values.confirmation ? (
-                            <Grid spacing={2} container>
-                              <Grid xs={12} md={8} item>
-                                <>{renderMessageField("message2")}</>
-                              </Grid>
-                              <Grid xs={12} md={4} item>
-                                <>
-                                  {renderConfirmationMessageField(
-                                    "confirmationMessage2"
-                                  )}
-                                </>
-                              </Grid>
-                            </Grid>
-                          ) : (
-                            <>{renderMessageField("message2")}</>
-                          )}
-                        </>
-                      )}
-                      {messageTab === 2 && (
-                        <>
-                          {values.confirmation ? (
-                            <Grid spacing={2} container>
-                              <Grid xs={12} md={8} item>
-                                <>{renderMessageField("message3")}</>
-                              </Grid>
-                              <Grid xs={12} md={4} item>
-                                <>
-                                  {renderConfirmationMessageField(
-                                    "confirmationMessage3"
-                                  )}
-                                </>
-                              </Grid>
-                            </Grid>
-                          ) : (
-                            <>{renderMessageField("message3")}</>
-                          )}
-                        </>
-                      )}
-                      {messageTab === 3 && (
-                        <>
-                          {values.confirmation ? (
-                            <Grid spacing={2} container>
-                              <Grid xs={12} md={8} item>
-                                <>{renderMessageField("message4")}</>
-                              </Grid>
-                              <Grid xs={12} md={4} item>
-                                <>
-                                  {renderConfirmationMessageField(
-                                    "confirmationMessage4"
-                                  )}
-                                </>
-                              </Grid>
-                            </Grid>
-                          ) : (
-                            <>{renderMessageField("message4")}</>
-                          )}
-                        </>
-                      )}
-                      {messageTab === 4 && (
-                        <>
-                          {values.confirmation ? (
-                            <Grid spacing={2} container>
-                              <Grid xs={12} md={8} item>
-                                <>{renderMessageField("message5")}</>
-                              </Grid>
-                              <Grid xs={12} md={4} item>
-                                <>
-                                  {renderConfirmationMessageField(
-                                    "confirmationMessage5"
-                                  )}
-                                </>
-                              </Grid>
-                            </Grid>
-                          ) : (
-                            <>{renderMessageField("message5")}</>
-                          )}
-                        </>
-                      )}
+
                     </Box>
                   </Grid>
                   {(campaign.mediaPath || attachment) && (
                     <Grid xs={12} item>
-                      <Button startIcon={<AttachFileIcon />}>
+                      <Button startIcon={<AttachFileIcon />} >
                         {attachment != null
                           ? attachment.name
                           : campaign.mediaName}
@@ -627,14 +487,18 @@ const CampaignModal = ({
                   </Button>
                 )}
                 {!attachment && !campaign.mediaPath && campaignEditable && (
-                  <Button
-                    color="primary"
-                    onClick={() => attachmentFile.current.click()}
-                    disabled={isSubmitting}
-                    variant="outlined"
-                  >
-                    {i18n.t("campaigns.dialog.buttons.attach")}
-                  </Button>
+                  <Tooltip title="Este recurso estará disponível em breve.">
+                    <span>
+                      <Button
+                        color="primary"
+                        onClick={() => attachmentFile.current.click()}
+                        disabled
+                        variant="outlined"
+                      >
+                        {i18n.t("campaigns.dialog.buttons.attach")}
+                      </Button>
+                    </span>
+                  </Tooltip>
                 )}
                 <Button
                   onClick={handleClose}

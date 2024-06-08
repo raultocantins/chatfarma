@@ -600,7 +600,7 @@ const messages = {
           readonly: "Apenas Visualização",
           form: {
             name: "Nome",
-            message1: "Mensagem 1",
+            message1: "Mensagem",
             message2: "Mensagem 2",
             message3: "Mensagem 3",
             message4: "Mensagem 4",
@@ -743,7 +743,7 @@ const messages = {
           assignedTo: "Responsável:",
           buttons: {
             return: "Retornar",
-            resolve: "Resolver",
+            resolve: "Finalizar",
             reopen: "Reabrir",
             accept: "Aceitar",
           },

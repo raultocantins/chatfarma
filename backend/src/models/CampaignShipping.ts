@@ -42,13 +42,13 @@ class CampaignShipping extends Model<CampaignShipping> {
   @Column
   campaignId: number;
 
-  @Column
+  @Column({ defaultValue: null })
   confirmationRequestedAt: Date;
 
   @Column
   confirmedAt: Date;
 
-  @Column
+  @Column({ defaultValue: null })
   deliveredAt: Date;
 
   @CreatedAt

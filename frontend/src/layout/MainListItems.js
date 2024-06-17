@@ -17,7 +17,10 @@ import {
 
 import {
   AccountTree,
+  AddBoxRounded,
   CheckCircle,
+  ExpandLessOutlined,
+  ExpandMoreOutlined,
   InsertChart,
   Label,
   PeopleAlt,
@@ -28,7 +31,6 @@ import {
   Settings,
   SettingsApplications,
   SignalCellular4Bar,
-  ViewList,
   WhatsApp,
 } from "@material-ui/icons";
 
@@ -107,11 +109,41 @@ function ListItemLink(props) {
             {icon}
           </ListItemIcon>
         ) : null}
+
+        <span style={{ fontSize: 8, whiteSpace: 'normal', textAlign: 'center' }}>{label}</span>
+
+      </ListItem>
+    </li>
+  );
+}
+
+
+function ListItemLinkExpanded(props) {
+  const { label, isExpanded, onClick } = props;
+  const classes = useStyles();
+
+  return (
+    <li className={classes.li}>
+      <ListItem
+        button
+        style={{
+          flexDirection: "column",
+          justifyContent: "center",
+          alignContent: "center",
+        }}
+
+      >
+        <ListItemIcon className={classes.icon} style={{ fontSize: 32 }} onClick={onClick}>
+          {isExpanded ?
+            <ExpandLessOutlined /> : <ExpandMoreOutlined />}
+        </ListItemIcon>
         <span style={{ fontSize: 8, whiteSpace: 'normal', textAlign: 'center' }}>{label}</span>
       </ListItem>
     </li>
   );
 }
+
+
 
 const MainListItems = (props) => {
   const history = useHistory();
@@ -123,6 +155,7 @@ const MainListItems = (props) => {
   const [userModalOpen, setUserModalOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isExpanded, setExpanded] = useState(false);
   const { handleLogout } = useContext(AuthContext);
   const [storedValue, setValue] = useLocalStorage("theme", { theme: "light" });
 
@@ -327,27 +360,41 @@ const MainListItems = (props) => {
         label="Pesquisa"
       />
 
-      <ListItemLink
-        to="/campaigns"
+
+      <ListItemLinkExpanded
         primary={i18n.t("mainDrawer.listItems.campaigns")}
-        icon={<ViewList />}
         label={i18n.t("mainDrawer.listItems.campaigns")}
+        isExpanded={isExpanded}
+        onClick={() => setExpanded(!isExpanded)}
       />
 
-      <ListItemLink
-        to="/contact-lists"
-        primary='Listas de Contatos'
-        icon={<RecentActors />}
-        label='Listas de Contatos'
-      />
+      {
+        isExpanded ? <>
+
+          <ListItemLink
+            to="/campaigns"
+            primary='Criar Campanha'
+            icon={<AddBoxRounded />}
+            label='Criar Campanha'
+          />
+          <ListItemLink
+            to="/contact-lists"
+            primary='Listas de Contatos'
+            icon={<RecentActors />}
+            label='Listas de Contatos'
+          />
 
 
-      <ListItemLink
-        to="/campaigns-config"
-        primary='Configurações de campanha'
-        icon={<SettingsApplications />}
-        label='Configurações de campanha'
-      />
+          <ListItemLink
+            to="/campaigns-config"
+            primary='Configurações de campanha'
+            icon={<SettingsApplications />}
+            label='Configurações de campanha'
+          />
+        </> : null
+      }
+
+
 
       <Can
         role={user.profile}

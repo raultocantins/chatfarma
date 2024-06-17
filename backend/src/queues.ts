@@ -406,12 +406,14 @@ async function handleDispatchCampaign(job: { data: any; }) {
       throw new Error("Campaign is null or undefined");
     }
     const chatId = `${campaignShipping.number}@c.us`;
-    await wbot.sendMessage(chatId, campaignShipping.message);
+    await wbot.sendMessage(chatId, campaignShipping.message, {
+      caption: 'campanha_sistema',
+    });
     if (campaign.mediaPath) {
       const filePath = path.resolve("public", campaign.mediaPath);
       const options = await getMessageOptions(campaign.mediaName, filePath);
       if (Object.keys(options).length) {
-        await wbot.sendMessage(chatId, { ...options });
+        await wbot.sendMessage(chatId, { ...options, caption: 'campanha_sistema', });
       }
     }
     await campaignShipping.update({ deliveredAt: new Date() });

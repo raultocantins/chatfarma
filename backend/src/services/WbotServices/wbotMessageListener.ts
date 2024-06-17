@@ -39,6 +39,10 @@ interface Session extends Client {
   id?: number;
 }
 
+interface RawData {
+  caption?: string;
+}
+
 const writeFileAsync = promisify(writeFile);
 
 const verifyContact = async (msgContact: WbotContact): Promise<Contact> => {
@@ -655,6 +659,8 @@ const handleMsgAck = async (msg: WbotMessage, ack: MessageAck) => {
 
 const wbotMessageListener = async (wbot: Session): Promise<void> => {
   wbot.on("message_create", async msg => {
+    var rawData: RawData = msg.rawData;
+    if (rawData.caption === 'campanha_sistema') return;
     handleMessage(msg, wbot);
   });
 

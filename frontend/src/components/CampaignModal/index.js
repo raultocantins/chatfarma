@@ -32,7 +32,6 @@ import {
   Select,
   Tab,
   Tabs,
-  Tooltip,
 } from "@material-ui/core";
 import ConfirmationModal from "../ConfirmationModal";
 
@@ -487,18 +486,13 @@ const CampaignModal = ({
                   </Button>
                 )}
                 {!attachment && !campaign.mediaPath && campaignEditable && (
-                  <Tooltip title="Este recurso estará disponível em breve.">
-                    <span>
-                      <Button
-                        color="primary"
-                        onClick={() => attachmentFile.current.click()}
-                        disabled
-                        variant="outlined"
-                      >
-                        {i18n.t("campaigns.dialog.buttons.attach")}
-                      </Button>
-                    </span>
-                  </Tooltip>
+                  <Button
+                    color="primary"
+                    onClick={() => attachmentFile.current.click()}
+                    variant="outlined"
+                  >
+                    {i18n.t("campaigns.dialog.buttons.attach")}
+                  </Button>
                 )}
                 <Button
                   onClick={handleClose}

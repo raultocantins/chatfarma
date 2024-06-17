@@ -12,10 +12,10 @@ import ContactListItem from "./models/ContactListItem";
 import CampaignSetting from "./models/CampaignSetting";
 import CampaignShipping from "./models/CampaignShipping";
 import GetWhatsappWbot from "./helpers/GetWhatsappWbot";
-import { getMessageOptions } from "./services/WbotServices/SendWhatsAppMedia";
 import { getIO } from "./libs/socket";
 import { startOfDay, endOfDay, parseISO, addHours, differenceInMilliseconds, format, } from "date-fns";
 import sequelize from "./database";
+import { MessageMedia } from "whatsapp-web.js";
 
 const connection = process.env.REDIS_URI || "";
 const limiterMax = process.env.REDIS_OPT_LIMITER_MAX || 1;
@@ -411,10 +411,15 @@ async function handleDispatchCampaign(job: { data: any; }) {
     });
     if (campaign.mediaPath) {
       const filePath = path.resolve("public", campaign.mediaPath);
-      const options = await getMessageOptions(campaign.mediaName, filePath);
-      if (Object.keys(options).length) {
-        await wbot.sendMessage(chatId, { ...options, caption: 'campanha_sistema', });
-      }
+      const newMedia = MessageMedia.fromFilePath(filePath);
+      await wbot.sendMessage(chatId,
+        newMedia,
+        {
+          caption: 'campanha_sistema',
+          sendAudioAsVoice: true
+        }
+      );
+
     }
     await campaignShipping.update({ deliveredAt: new Date() });
     await verifyAndFinalizeCampaign(campaign);

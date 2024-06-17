@@ -123,7 +123,7 @@ function ListItemLinkExpanded(props) {
   const classes = useStyles();
 
   return (
-    <li className={classes.li}>
+    <li className={classes.li} onClick={onClick} >
       <ListItem
         button
         style={{
@@ -133,7 +133,7 @@ function ListItemLinkExpanded(props) {
         }}
 
       >
-        <ListItemIcon className={classes.icon} style={{ fontSize: 32 }} onClick={onClick}>
+        <ListItemIcon className={classes.icon} style={{ fontSize: 32 }} >
           {isExpanded ?
             <ExpandLessOutlined /> : <ExpandMoreOutlined />}
         </ListItemIcon>

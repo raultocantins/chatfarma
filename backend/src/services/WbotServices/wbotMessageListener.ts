@@ -660,7 +660,7 @@ const handleMsgAck = async (msg: WbotMessage, ack: MessageAck) => {
 const wbotMessageListener = async (wbot: Session): Promise<void> => {
   wbot.on("message_create", async msg => {
     var rawData: RawData = msg.rawData;
-    if (rawData.caption === 'campanha_sistema') return;
+    if (rawData.caption === 'campanha_sistema' && msg.fromMe) return;
     handleMessage(msg, wbot);
   });
 

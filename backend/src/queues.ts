@@ -3,7 +3,6 @@ import Queue from "bull";
 import { Identifier, Op, QueryTypes } from "sequelize";
 import { isEmpty, isNil, isArray } from "lodash";
 import path from "path";
-import { MessageData, SendMessage } from "./helpers/SendMessage";
 import Whatsapp from "./models/Whatsapp";
 import { logger } from "./utils/logger";
 import Campaign from "./models/Campaign";
@@ -50,22 +49,6 @@ export const messageQueue = new Queue("MessageQueue", connection, {
 });
 
 export const campaignQueue = new Queue("CampaignQueue", connection);
-
-async function handleSendMessage(job: { data: any; }) {
-  try {
-    const { data } = job;
-    const whatsapp = await Whatsapp.findByPk(data.whatsappId);
-    if (whatsapp == null) {
-      throw Error("Whatsapp não identificado");
-    }
-    const messageData: MessageData = data.data;
-    await SendMessage(whatsapp, messageData);
-  } catch (e: unknown) {
-    Sentry.captureException(e);
-    logger.error("MessageQueue -> SendMessage: error", (e as Error).message);
-    throw e;
-  }
-}
 
 
 async function handleVerifyCampaigns() {
@@ -407,7 +390,7 @@ async function handleDispatchCampaign(job: { data: any; }) {
     }
     const chatId = `${campaignShipping.number}@c.us`;
     await wbot.sendMessage(chatId, campaignShipping.message, {
-      caption: 'campanha_sistema',
+      caption: '💬',
     });
     if (campaign.mediaPath) {
       const filePath = path.resolve("public", campaign.mediaPath);
@@ -415,7 +398,7 @@ async function handleDispatchCampaign(job: { data: any; }) {
       await wbot.sendMessage(chatId,
         newMedia,
         {
-          caption: 'campanha_sistema',
+          caption: '📎',
           sendAudioAsVoice: true
         }
       );
@@ -440,7 +423,6 @@ async function handleDispatchCampaign(job: { data: any; }) {
 
 export async function startQueueProcess() {
   logger.info("Iniciando processamento de filas");
-  messageQueue.process("SendMessage", handleSendMessage);
   campaignQueue.process("VerifyCampaignsDaatabase", handleVerifyCampaigns);
   campaignQueue.process("ProcessCampaign", handleProcessCampaign);
   campaignQueue.process("PrepareContact", handlePrepareContact);

@@ -17,7 +17,10 @@ import {
 
 import {
   AccountTree,
+  AddBoxRounded,
   CheckCircle,
+  ExpandLessOutlined,
+  ExpandMoreOutlined,
   InsertChart,
   Label,
   PeopleAlt,
@@ -26,6 +29,7 @@ import {
   RemoveCircle,
   Search,
   Settings,
+  SettingsApplications,
   SignalCellular4Bar,
   WhatsApp,
 } from "@material-ui/icons";
@@ -105,11 +109,41 @@ function ListItemLink(props) {
             {icon}
           </ListItemIcon>
         ) : null}
-        <span style={{ fontSize: 8 }}>{label}</span>
+
+        <span style={{ fontSize: 8, whiteSpace: 'normal', textAlign: 'center' }}>{label}</span>
+
       </ListItem>
     </li>
   );
 }
+
+
+function ListItemLinkExpanded(props) {
+  const { label, isExpanded, onClick } = props;
+  const classes = useStyles();
+
+  return (
+    <li className={classes.li} onClick={onClick} >
+      <ListItem
+        button
+        style={{
+          flexDirection: "column",
+          justifyContent: "center",
+          alignContent: "center",
+        }}
+
+      >
+        <ListItemIcon className={classes.icon} style={{ fontSize: 32 }} >
+          {isExpanded ?
+            <ExpandLessOutlined /> : <ExpandMoreOutlined />}
+        </ListItemIcon>
+        <span style={{ fontSize: 8, whiteSpace: 'normal', textAlign: 'center' }}>{label}</span>
+      </ListItem>
+    </li>
+  );
+}
+
+
 
 const MainListItems = (props) => {
   const history = useHistory();
@@ -121,8 +155,10 @@ const MainListItems = (props) => {
   const [userModalOpen, setUserModalOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isExpanded, setExpanded] = useState(false);
   const { handleLogout } = useContext(AuthContext);
   const [storedValue, setValue] = useLocalStorage("theme", { theme: "light" });
+
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (whatsApps.length > 0) {
@@ -186,9 +222,9 @@ const MainListItems = (props) => {
   };
 
   return (
-    <div onClick={drawerClose}>
+    <div onClick={drawerClose} >
       <CssBaseline />
-      <li className={classes.li}>
+      <li className={classes.li} >
         <ListItem
           button
           style={{
@@ -218,7 +254,7 @@ const MainListItems = (props) => {
                   open={menuOpen}
                   onClose={handleCloseMenu}
                 >
-                  <MenuItem onClick={() => {}}>
+                  <MenuItem onClick={() => { }}>
                     <FormControl fullWidth margin="dense">
                       <Select
                         displayEmpty
@@ -323,6 +359,42 @@ const MainListItems = (props) => {
         icon={<Search />}
         label="Pesquisa"
       />
+
+
+      <ListItemLinkExpanded
+        primary={i18n.t("mainDrawer.listItems.campaigns")}
+        label={i18n.t("mainDrawer.listItems.campaigns")}
+        isExpanded={isExpanded}
+        onClick={() => setExpanded(!isExpanded)}
+      />
+
+      {
+        isExpanded ? <>
+
+          <ListItemLink
+            to="/campaigns"
+            primary='Criar Campanha'
+            icon={<AddBoxRounded />}
+            label='Criar Campanha'
+          />
+          <ListItemLink
+            to="/contact-lists"
+            primary='Listas de Contatos'
+            icon={<RecentActors />}
+            label='Listas de Contatos'
+          />
+
+
+          <ListItemLink
+            to="/campaigns-config"
+            primary='Configurações de campanha'
+            icon={<SettingsApplications />}
+            label='Configurações de campanha'
+          />
+        </> : null
+      }
+
+
 
       <Can
         role={user.profile}

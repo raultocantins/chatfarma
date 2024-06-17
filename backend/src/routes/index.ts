@@ -13,9 +13,12 @@ import quickAnswerRoutes from "./quickAnswerRoutes";
 import apiRoutes from "./apiRoutes";
 import tagRoutes from "./tagRoutes";
 import integrationRoutes from "./integrationRoutes";
-// import companyRoutes from "./companyRoutes";
 import systemRoutes from "./systemRoutes";
 import searchRoutes from "./searchRoutes";
+import contactListRoutes from "./contactListRoutes";
+import contactListItemRoutes from "./contactListItemRoutes";
+import campaignRoutes from "./campaignRoutes";
+import campaignSettingRoutes from "./campaignSettingRoutes";
 
 const routes = Router();
 
@@ -32,7 +35,10 @@ routes.use(quickAnswerRoutes);
 routes.use("/api/messages", apiRoutes);
 routes.use(tagRoutes);
 routes.use(integrationRoutes);
-// routes.use(companyRoutes);
 routes.use(systemRoutes);
 routes.use(searchRoutes);
+routes.use(contactListRoutes);
+routes.use(contactListItemRoutes);
+routes.use(campaignRoutes);
+routes.use(campaignSettingRoutes);
 export default routes;

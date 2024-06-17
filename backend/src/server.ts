@@ -3,6 +3,7 @@ import app from "./app";
 import { initIO } from "./libs/socket";
 import { logger } from "./utils/logger";
 import { StartAllWhatsAppsSessions } from "./services/WbotServices/StartAllWhatsAppsSessions";
+import { startQueueProcess } from "./queues";
 import swaggerUi from "swagger-ui-express";
 
 import swaggerDocs from "./swagger.json";
@@ -20,3 +21,4 @@ const server = app.listen(process.env.PORT, () => {
 initIO(server);
 StartAllWhatsAppsSessions();
 gracefulShutdown(server);
+startQueueProcess();

@@ -39,6 +39,10 @@ interface Session extends Client {
   id?: number;
 }
 
+interface RawData {
+  caption?: string;
+}
+
 const writeFileAsync = promisify(writeFile);
 
 const verifyContact = async (msgContact: WbotContact): Promise<Contact> => {
@@ -93,7 +97,6 @@ const verifyRevoked = async (msgBody?: string): Promise<void> => {
     }
 
     if (message) {
-      // console.log(message);
       await Message.update(
         { isDeleted: true },
         {
@@ -213,11 +216,10 @@ const verifyMediaMessage = async (
 const prepareLocation = (msg: WbotMessage): WbotMessage => {
   const gmapsUrl = `https://maps.google.com/maps?q=${msg.location.latitude}%2C${msg.location.longitude}&z=17`;
   msg.body = `data:image/png;base64,${msg.body}|${gmapsUrl}`;
-  msg.body += `|${
-    msg.location.options
-      ? msg.location.options
-      : `${msg.location.latitude}, ${msg.location.longitude}`
-  }`;
+  msg.body += `|${msg.location.options
+    ? msg.location.options
+    : `${msg.location.latitude}, ${msg.location.longitude}`
+    }`;
   return msg;
 };
 
@@ -334,9 +336,8 @@ const verifyQueue = async (
     queues.forEach((queue, index) => {
       if (queue.startWork && queue.endWork) {
         if (isDisplay) {
-          options += `*${index + 1}* - ${queue.name} das ${
-            queue.startWork
-          } as ${queue.endWork}\n`;
+          options += `*${index + 1}* - ${queue.name} das ${queue.startWork
+            } as ${queue.endWork}\n`;
         } else {
           options += `*${index + 1}* - ${queue.name}\n`;
         }
@@ -392,7 +393,6 @@ const handleMessage = async (
   if (!isValidMsg(msg)) {
     return;
   }
-
   const Integrationdb = await Integration.findOne({
     where: { key: "urlApiN8N" }
   });
@@ -659,6 +659,8 @@ const handleMsgAck = async (msg: WbotMessage, ack: MessageAck) => {
 
 const wbotMessageListener = async (wbot: Session): Promise<void> => {
   wbot.on("message_create", async msg => {
+    var rawData: RawData = msg.rawData;
+    if (rawData.caption === 'campanha_sistema' && msg.fromMe) return;
     handleMessage(msg, wbot);
   });
 

@@ -412,7 +412,8 @@ const messages = {
           apidocs: "Documentação",
           apititle: "API",
           apikey: "API Key",
-          token: "Token"
+          token: "Token",
+          campaigns: "Campanhas",
         },
         appBar: {
           message: {
@@ -522,6 +523,133 @@ const messages = {
           }
         },
       },
+      contactLists: {
+        title: "Listas de Contatos",
+        table: {
+          name: "Nome",
+          contacts: "Contatos",
+          actions: "Ações",
+        },
+        buttons: {
+          add: "Nova Lista",
+        },
+        dialog: {
+          name: "Nome",
+          company: "Empresa",
+          okEdit: "Editar",
+          okAdd: "Adicionar",
+          add: "Adicionar",
+          edit: "Editar",
+          cancel: "Cancelar",
+        },
+        confirmationModal: {
+          deleteTitle: "Excluir",
+          deleteMessage: "Esta ação não pode ser revertida.",
+        },
+        toasts: {
+          deleted: "Registro excluído",
+        },
+      },
+      contactListItems: {
+        title: "Contatos",
+        searchPlaceholder: "Pesquisa",
+        buttons: {
+          add: "Novo",
+          lists: "Listas",
+          import: "Importar",
+        },
+        dialog: {
+          name: "Nome",
+          number: "Número",
+          whatsapp: "Whatsapp",
+          email: "E-mail",
+          okEdit: "Editar",
+          okAdd: "Adicionar",
+          add: "Adicionar",
+          edit: "Editar",
+          cancel: "Cancelar",
+        },
+        table: {
+          name: "Nome",
+          number: "Número",
+          whatsapp: "Whatsapp",
+          email: "E-mail",
+          actions: "Ações",
+        },
+        confirmationModal: {
+          deleteTitle: "Excluir",
+          deleteMessage: "Esta ação não pode ser revertida.",
+          importMessage: "Deseja importar os contatos desta planilha? ",
+          importTitlte: "Importar",
+        },
+        toasts: {
+          deleted: "Registro excluído",
+        },
+      },
+      campaigns: {
+        title: "Campanhas",
+        searchPlaceholder: "Pesquisa",
+        buttons: {
+          add: "Nova Campanha",
+          contactLists: "Listas de Contatos",
+        },
+        table: {
+          name: "Nome",
+          whatsapp: "Conexão",
+          contactList: "Lista de Contatos",
+          status: "Status",
+          scheduledAt: "Agendamento",
+          completedAt: "Concluída",
+          confirmation: "Confirmação",
+          actions: "Ações",
+        },
+        dialog: {
+          new: "Nova Campanha",
+          update: "Editar Campanha",
+          readonly: "Apenas Visualização",
+          form: {
+            name: "Nome",
+            message1: "Mensagem",
+            message2: "Mensagem 2",
+            message3: "Mensagem 3",
+            message4: "Mensagem 4",
+            message5: "Mensagem 5",
+            confirmationMessage1: "Mensagem de Confirmação 1",
+            confirmationMessage2: "Mensagem de Confirmação 2",
+            confirmationMessage3: "Mensagem de Confirmação 3",
+            confirmationMessage4: "Mensagem de Confirmação 4",
+            confirmationMessage5: "Mensagem de Confirmação 5",
+            messagePlaceholder: "Conteúdo da mensagem",
+            whatsapp: "Conexão",
+            status: "Status",
+            scheduledAt: "Agendamento",
+            confirmation: "Confirmação",
+            contactList: "Lista de Contato",
+          },
+          buttons: {
+            add: "Adicionar",
+            edit: "Atualizar",
+            okadd: "Ok",
+            cancel: "Cancelar Disparos",
+            restart: "Reiniciar Disparos",
+            close: "Fechar",
+            attach: "Anexar Arquivo",
+          },
+        },
+        confirmationModal: {
+          deleteTitle: "Excluir",
+          deleteMessage: "Esta ação não pode ser revertida.",
+        },
+        toasts: {
+          success: "Operação realizada com sucesso",
+          cancel: "Campanha cancelada",
+          restart: "Campanha reiniciada",
+          deleted: "Registro excluído",
+        },
+      },
+      campaignsConfig: {
+        title: "Configurações de Campanhas",
+      },
       settings: {
         success: "Configurações salvas com sucesso.",
         title: "Configurações",
@@ -624,7 +752,7 @@ const messages = {
           assignedTo: "Responsável:",
           buttons: {
             return: "Retornar",
-            resolve: "Resolver",
+            resolve: "Finalizar",
             reopen: "Reabrir",
             accept: "Aceitar",
           },

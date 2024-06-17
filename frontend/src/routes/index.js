@@ -19,6 +19,11 @@ import { AuthProvider } from "../context/Auth/AuthContext";
 import { WhatsAppsProvider } from "../context/WhatsApp/WhatsAppsContext";
 import Route from "./Route";
 import Search from "../pages/Search";
+import Campaigns from "../pages/Campaigns";
+import CampaignsConfig from "../pages/CampaignsConfig";
+import CampaignReport from "../pages/CampaignReport";
+import ContactLists from "../pages/ContactLists/";
+import ContactListItems from "../pages/ContactListItems/";
 
 const Routes = () => {
   return (
@@ -54,6 +59,36 @@ const Routes = () => {
               <Route exact path="/Queues" component={Queues} isPrivate />
               <Route exact path="/Tags" component={Tags} isPrivate />
               <Route exact path="/search" component={Search} isPrivate />
+              <Route
+                exact
+                path="/contact-lists"
+                component={ContactLists}
+                isPrivate
+              />
+              <Route
+                exact
+                path="/contact-lists/:contactListId/contacts"
+                component={ContactListItems}
+                isPrivate
+              />
+              <Route
+                exact
+                path="/campaigns"
+                component={Campaigns}
+                isPrivate
+              />
+              <Route
+                exact
+                path="/campaign/:campaignId/report"
+                component={CampaignReport}
+                isPrivate
+              />
+              <Route
+                exact
+                path="/campaigns-config"
+                component={CampaignsConfig}
+                isPrivate
+              />
             </LoggedInLayout>
           </WhatsAppsProvider>
         </Switch>

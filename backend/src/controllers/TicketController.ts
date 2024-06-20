@@ -32,6 +32,7 @@ interface TicketData {
   queueId: number;
   userId: number;
   transf: boolean;
+  sendFarewellMessage: boolean;
 }
 
 export const index = async (req: Request, res: Response): Promise<Response> => {
@@ -100,7 +101,7 @@ export const update = async (
 ): Promise<Response> => {
   const { ticketId } = req.params;
   const ticketData: TicketData = req.body;
-
+  if (ticketData.sendFarewellMessage == null) { ticketData.sendFarewellMessage = true; }
   const { ticket } = await UpdateTicketService({
     ticketData,
     ticketId
@@ -114,7 +115,7 @@ export const update = async (
     }
   }
 
-  if (ticket.status === "closed" && ticket.isGroup === false) {
+  if (ticket.status === "closed" && ticket.isGroup === false && ticketData.sendFarewellMessage) {
     const whatsapp = await ShowWhatsAppService(ticket.whatsappId);
 
     const { farewellMessage } = whatsapp;

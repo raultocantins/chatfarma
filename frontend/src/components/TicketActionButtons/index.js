@@ -12,6 +12,7 @@ import ButtonWithSpinner from "../ButtonWithSpinner";
 import toastError from "../../errors/toastError";
 import { AuthContext } from "../../context/Auth/AuthContext";
 import { Can } from "../Can";
+import FinishModal from "../FinishModal";
 
 const useStyles = makeStyles((theme) => ({
   actionButtons: {
@@ -30,6 +31,7 @@ const TicketActionButtons = ({ ticket }) => {
   const history = useHistory();
   const [anchorEl, setAnchorEl] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [finishModal, setFinishModal] = useState(false);
   const ticketOptionsMenuOpen = Boolean(anchorEl);
   const { user } = useContext(AuthContext);
 
@@ -41,12 +43,13 @@ const TicketActionButtons = ({ ticket }) => {
     setAnchorEl(null);
   };
 
-  const handleUpdateTicketStatus = async (e, status, userId) => {
+  const handleUpdateTicketStatus = async (e, status, userId, sendFarewellMessage) => {
     setLoading(true);
     try {
       await api.put(`/tickets/${ticket.id}`, {
         status: status,
         userId: userId || null,
+        sendFarewellMessage: sendFarewellMessage
       });
 
       setLoading(false);
@@ -88,10 +91,20 @@ const TicketActionButtons = ({ ticket }) => {
             size="small"
             variant="contained"
             color="primary"
-            onClick={(e) => handleUpdateTicketStatus(e, "closed", user?.id)}
+            onClick={(_) => setFinishModal(true)}
           >
             {i18n.t("messagesList.header.buttons.resolve")}
           </ButtonWithSpinner>
+          <FinishModal
+            title='Finalizar Atendimento'
+            open={finishModal}
+            onClose={() => setFinishModal(false)}
+            onConfirm={(e) => handleUpdateTicketStatus(e, "closed", user?.id, e)}
+            primaryText='Sim'
+            secondaryText='Não'
+          >
+            Você deseja enviar uma mensagem de encerramento ao encerrar o atendimento?
+          </FinishModal>
           <IconButton color="primary" onClick={handleOpenTicketOptionsMenu}>
             <MoreVert />
           </IconButton>

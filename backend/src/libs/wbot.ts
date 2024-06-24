@@ -127,10 +127,10 @@ export const initWbot = async (whatsapp: Whatsapp): Promise<Session> => {
       const wbot: Session = new Client({
         session: sessionCfg,
         authStrategy: new LocalAuth({ clientId: `bd_${whatsapp.id}` }),
-        webVersion: "2.2412.50",
+        webVersion: "2.2412.51",
         webVersionCache: {
           remotePath:
-            "https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2412.50.html",
+            "https://raw.githubusercontent.com/raultocantins/wa-version/main/2.2412.51.html",
           type: "remote"
         },
         puppeteer: {

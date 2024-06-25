@@ -304,7 +304,7 @@ const verifyQueue = async (
           );
           verifyMessage(sentMessage, ticket, contact);
         },
-        3000,
+        1500,
         ticket.id
       );
 
@@ -345,8 +345,13 @@ const verifyQueue = async (
         options += `*${index + 1}* - ${queue.name}\n`;
       }
     });
+    var body = '';
+    if (queues.length === 0) {
+      body = formatBody(`\u200e${greetingMessage}`, ticket);
+    } else {
+      body = formatBody(`\u200e${greetingMessage}\n\n${options}`, ticket);
+    }
 
-    const body = formatBody(`\u200e${greetingMessage}\n\n${options}`, ticket);
 
     const debouncedSentMessage = debounce(
       async () => {
@@ -356,11 +361,12 @@ const verifyQueue = async (
         );
         verifyMessage(sentMessage, ticket, contact);
       },
-      3000,
+      1500,
       ticket.id
     );
-
-    debouncedSentMessage();
+    if (greetingMessage !== "") {
+      debouncedSentMessage();
+    }
   }
 };
 
@@ -512,8 +518,7 @@ const handleMessage = async (
       !ticket.queue &&
       !chat.isGroup &&
       !msg.fromMe &&
-      !ticket.userId &&
-      whatsapp.queues.length >= 1
+      !ticket.userId
     ) {
       await verifyQueue(wbot, msg, ticket, contact);
     }

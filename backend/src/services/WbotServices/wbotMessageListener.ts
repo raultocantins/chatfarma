@@ -125,6 +125,54 @@ const verifyRevoked = async (msgBody?: string): Promise<void> => {
   }
 };
 
+
+const verifyEditMessage = async (message: WbotMessage, newBody: string, prevBody: string): Promise<void> => {
+  await new Promise(r => setTimeout(r, 500));
+
+  const io = getIO();
+
+  if (message === undefined) {
+    return;
+  }
+
+  try {
+    const message = await Message.findOne({
+      where: {
+        body: prevBody
+      }
+    });
+
+    if (!message) {
+      return;
+    }
+
+    if (message) {
+      await Message.update(
+        { body: newBody },
+        {
+          where: { id: message.id }
+        }
+      );
+
+      const messageUpdated = await Message.findOne({
+        where: { id: message.id }
+      });
+
+      if (!messageUpdated) {
+        return;
+      }
+
+      io.to(messageUpdated.ticketId.toString()).emit("appMessage", {
+        action: "update",
+        message: messageUpdated
+      });
+    }
+  } catch (err) {
+    Sentry.captureException(err);
+    logger.error(`Error Message Edit. Err: ${err}`);
+  }
+};
+
 const verifyMediaMessage = async (
   msg: WbotMessage,
   ticket: Ticket,
@@ -328,44 +376,49 @@ const verifyQueue = async (
       await verifyMessage(sentMessage, ticket, contact);
     }
   } else {
-    let options = "";
+    if (!ticket.greetingSent) {
+      let options = "";
 
-    const chat = await msg.getChat();
-    await chat.sendStateTyping();
+      const chat = await msg.getChat();
+      await chat.sendStateTyping();
 
-    queues.forEach((queue, index) => {
-      if (queue.startWork && queue.endWork) {
-        if (isDisplay) {
-          options += `*${index + 1}* - ${queue.name} das ${queue.startWork
-            } as ${queue.endWork}\n`;
+      queues.forEach((queue, index) => {
+        if (queue.startWork && queue.endWork) {
+          if (isDisplay) {
+            options += `*${index + 1}* - ${queue.name} das ${queue.startWork
+              } as ${queue.endWork}\n`;
+          } else {
+            options += `*${index + 1}* - ${queue.name}\n`;
+          }
         } else {
           options += `*${index + 1}* - ${queue.name}\n`;
         }
+      });
+      var body = '';
+      if (queues.length === 0) {
+        body = formatBody(`\u200e${greetingMessage}`, ticket);
       } else {
-        options += `*${index + 1}* - ${queue.name}\n`;
+        body = formatBody(`\u200e${greetingMessage}\n\n${options}`, ticket);
       }
-    });
-    var body = '';
-    if (queues.length === 0) {
-      body = formatBody(`\u200e${greetingMessage}`, ticket);
-    } else {
-      body = formatBody(`\u200e${greetingMessage}\n\n${options}`, ticket);
-    }
 
 
-    const debouncedSentMessage = debounce(
-      async () => {
-        const sentMessage = await wbot.sendMessage(
-          `${contact.number}@c.us`,
-          body
-        );
-        verifyMessage(sentMessage, ticket, contact);
-      },
-      1500,
-      ticket.id
-    );
-    if (greetingMessage !== "") {
-      debouncedSentMessage();
+      const debouncedSentMessage = debounce(
+        async () => {
+          const sentMessage = await wbot.sendMessage(
+            `${contact.number}@c.us`,
+            body
+          );
+          verifyMessage(sentMessage, ticket, contact);
+        },
+        1500,
+        ticket.id
+      );
+      if (greetingMessage !== "") {
+        debouncedSentMessage();
+      }
+      await ticket.update({
+        greetingSent: true
+      });
     }
   }
 };
@@ -682,6 +735,12 @@ const wbotMessageListener = async (wbot: Session): Promise<void> => {
     const msgBody: string | undefined = before?.body;
     if (msgBody !== undefined) {
       verifyRevoked(msgBody || "");
+    }
+  });
+
+  wbot.on("message_edit", async (message, newBody, prevBody) => {
+    if (prevBody !== undefined) {
+      verifyEditMessage(message, newBody.toString() ?? '', prevBody.toString() ?? '');
     }
   });
 };

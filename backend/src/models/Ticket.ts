@@ -38,6 +38,10 @@ class Ticket extends Model<Ticket> {
   @Column
   isGroup: boolean;
 
+  @Default(false)
+  @Column
+  greetingSent: boolean;
+
   @CreatedAt
   createdAt: Date;
 

@@ -29,6 +29,8 @@ import {
 } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import api from "../../services/api";
+import toastError from "../../errors/toastError";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,12 +74,19 @@ const SalesModal = ({ open, onClose, onSave }) => {
   const [products, setProducts] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("");
 
+
   useEffect(() => {
-    setstatusList([
-      { id: 1, name: "VENDIDO" },
-      { id: 2, name: "FORA DO ALCANCE" },
-    ]);
+    (async () => {
+      try {
+        const { data } = await api.get("/sales/conditions");
+        console.log(data)
+        setstatusList(data);
+      } catch (err) {
+        toastError(err);
+      }
+    })();
   }, []);
+
 
   const handleSave = () => {
     //SALVAR A VENDA E DEPOIS FECHAR A MODAL

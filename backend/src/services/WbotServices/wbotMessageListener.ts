@@ -376,44 +376,49 @@ const verifyQueue = async (
       await verifyMessage(sentMessage, ticket, contact);
     }
   } else {
-    let options = "";
+    if (!ticket.greetingSent) {
+      let options = "";
 
-    const chat = await msg.getChat();
-    await chat.sendStateTyping();
+      const chat = await msg.getChat();
+      await chat.sendStateTyping();
 
-    queues.forEach((queue, index) => {
-      if (queue.startWork && queue.endWork) {
-        if (isDisplay) {
-          options += `*${index + 1}* - ${queue.name} das ${queue.startWork
-            } as ${queue.endWork}\n`;
+      queues.forEach((queue, index) => {
+        if (queue.startWork && queue.endWork) {
+          if (isDisplay) {
+            options += `*${index + 1}* - ${queue.name} das ${queue.startWork
+              } as ${queue.endWork}\n`;
+          } else {
+            options += `*${index + 1}* - ${queue.name}\n`;
+          }
         } else {
           options += `*${index + 1}* - ${queue.name}\n`;
         }
+      });
+      var body = '';
+      if (queues.length === 0) {
+        body = formatBody(`\u200e${greetingMessage}`, ticket);
       } else {
-        options += `*${index + 1}* - ${queue.name}\n`;
+        body = formatBody(`\u200e${greetingMessage}\n\n${options}`, ticket);
       }
-    });
-    var body = '';
-    if (queues.length === 0) {
-      body = formatBody(`\u200e${greetingMessage}`, ticket);
-    } else {
-      body = formatBody(`\u200e${greetingMessage}\n\n${options}`, ticket);
-    }
 
 
-    const debouncedSentMessage = debounce(
-      async () => {
-        const sentMessage = await wbot.sendMessage(
-          `${contact.number}@c.us`,
-          body
-        );
-        verifyMessage(sentMessage, ticket, contact);
-      },
-      1500,
-      ticket.id
-    );
-    if (greetingMessage !== "") {
-      debouncedSentMessage();
+      const debouncedSentMessage = debounce(
+        async () => {
+          const sentMessage = await wbot.sendMessage(
+            `${contact.number}@c.us`,
+            body
+          );
+          verifyMessage(sentMessage, ticket, contact);
+        },
+        1500,
+        ticket.id
+      );
+      if (greetingMessage !== "") {
+        debouncedSentMessage();
+      }
+      await ticket.update({
+        greetingSent: true
+      });
     }
   }
 };

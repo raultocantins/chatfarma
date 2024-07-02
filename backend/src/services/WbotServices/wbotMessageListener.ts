@@ -148,7 +148,7 @@ const verifyEditMessage = async (message: WbotMessage, newBody: string, prevBody
 
     if (message) {
       await Message.update(
-        { body: newBody },
+        { body: newBody, isEdited: true },
         {
           where: { id: message.id }
         }

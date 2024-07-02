@@ -16,6 +16,7 @@ import {
   Block,
   Done,
   DoneAll,
+  Edit,
   ExpandMore,
   GetApp,
 } from "@material-ui/icons";
@@ -249,8 +250,18 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 4,
     color: red[200],
   },
+  editedIcon: {
+    fontSize: 18,
+    verticalAlign: "middle",
+    marginRight: 4,
+    color: red[200],
+  },
 
   deletedMsg: {
+    color: red[200],
+  },
+
+  editedMsg: {
     color: red[200],
   },
 
@@ -770,6 +781,18 @@ const MessagesList = ({ ticketId, isGroup, tags }) => {
                     </span>
                   </div>
                 )}
+                {message.isEdited && (
+                  <div>
+                    <span className={classes.editedMsg}>
+                      <Edit
+                        color=""
+                        fontSize="small"
+                        className={classes.editedIcon}
+                      />
+                      Mensagem editada
+                    </span>
+                  </div>
+                )}
                 {(message.mediaUrl ||
                   message.mediaType === "location" ||
                   message.mediaType === "vcard") &&
@@ -819,6 +842,18 @@ const MessagesList = ({ ticketId, isGroup, tags }) => {
                       className={classes.deletedIcon}
                     />
                   )}
+                  {message.isEdited && (
+                  <div>
+                    <span className={classes.editedMsg}>
+                      <Edit
+                        color=""
+                        fontSize="small"
+                        className={classes.editedIcon}
+                      />
+                      Mensagem editada
+                    </span>
+                  </div>
+                )}
                   {message.quotedMsg && renderQuotedMessage(message)}
                   <MarkdownWrapper>{message.body}</MarkdownWrapper>
                   <span className={classes.timestamp}>

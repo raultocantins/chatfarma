@@ -24,7 +24,7 @@ import CampaignsConfig from "../pages/CampaignsConfig";
 import CampaignReport from "../pages/CampaignReport";
 import ContactLists from "../pages/ContactLists/";
 import ContactListItems from "../pages/ContactListItems/";
-
+import SalesLists from "../pages/SalesLists";
 const Routes = () => {
   return (
     <BrowserRouter>
@@ -59,6 +59,7 @@ const Routes = () => {
               <Route exact path="/Queues" component={Queues} isPrivate />
               <Route exact path="/Tags" component={Tags} isPrivate />
               <Route exact path="/search" component={Search} isPrivate />
+              <Route exact path="/sales" component={SalesLists} isPrivate />
               <Route
                 exact
                 path="/contact-lists"

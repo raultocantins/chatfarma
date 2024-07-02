@@ -31,6 +31,7 @@ import { Add } from "@material-ui/icons";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import api from "../../services/api";
 import toastError from "../../errors/toastError";
+import MoneyFormat from "../../utils/moneyFormat";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,12 +88,12 @@ const SalesModal = ({ open, onClose, onSave }) => {
   }, []);
 
 
-  const handleSave = async() => {
+  const handleSave = async () => {
     try {
-       await api.post("/sales",{
-        statusId:selectedStatus,
-        userId:user?.id,
-        products:products
+      await api.post("/sales", {
+        statusId: selectedStatus,
+        userId: user?.id,
+        products: products
       });
       onSave();
     } catch (err) {
@@ -126,7 +127,7 @@ const SalesModal = ({ open, onClose, onSave }) => {
                   </TableCell>
                   <TableCell>{product.name}</TableCell>
                   <TableCell align="center">{product.quantity}</TableCell>
-                  <TableCell align="center">R${product.amount}</TableCell>
+                  <TableCell align="center"><MoneyFormat value={product.amount * product.quantity} /></TableCell>
                   <TableCell align="center">
                     <IconButton
                       size="small"
@@ -246,8 +247,8 @@ const SalesModal = ({ open, onClose, onSave }) => {
                       className={classes.textField}
                       onChange={(e) => {
                         const { value } = e.target;
-                        // Permite apenas números, ponto e vírgula
-                        const formattedValue = value.replace(/[^0-9,.]/g, "");
+                        // Permite apenas números, ponto
+                        const formattedValue = value.replace(/[^0-9.]/g, "");
                         handleChange({
                           target: {
                             name: "amount",
@@ -324,7 +325,7 @@ const SalesModal = ({ open, onClose, onSave }) => {
           </Grid>
         </DialogContent>
         <DialogActions style={{ padding: "12px 24px" }}>
-          <Button onClick={handleSave} color="secondary" variant="outlined">
+          <Button onClick={onSave} color="secondary" variant="outlined">
             NENHUMA VENDA
           </Button>
 

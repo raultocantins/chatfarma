@@ -20,6 +20,7 @@ import contactListItemRoutes from "./contactListItemRoutes";
 import campaignRoutes from "./campaignRoutes";
 import campaignSettingRoutes from "./campaignSettingRoutes";
 import salesConditionsRoutes from "./salesConditionsRoutes";
+import salesRoutes from "./salesRoutes";
 
 const routes = Router();
 
@@ -43,4 +44,6 @@ routes.use(contactListItemRoutes);
 routes.use(campaignRoutes);
 routes.use(campaignSettingRoutes);
 routes.use(salesConditionsRoutes);
+routes.use(salesRoutes);
+
 export default routes;

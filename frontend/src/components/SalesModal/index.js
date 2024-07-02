@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
@@ -9,7 +9,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-
+import { AuthContext } from "../../context/Auth/AuthContext";
 import { i18n } from "../../translate/i18n";
 import {
   Box,
@@ -73,13 +73,12 @@ const SalesModal = ({ open, onClose, onSave }) => {
   const [statusList, setstatusList] = useState([]);
   const [products, setProducts] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("");
-
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     (async () => {
       try {
         const { data } = await api.get("/sales/conditions");
-        console.log(data)
         setstatusList(data);
       } catch (err) {
         toastError(err);
@@ -88,14 +87,17 @@ const SalesModal = ({ open, onClose, onSave }) => {
   }, []);
 
 
-  const handleSave = () => {
-    //SALVAR A VENDA E DEPOIS FECHAR A MODAL
-    var body = {
-      status: selectedStatus,
-      products: products,
-    };
-    console.log(body);
-    onSave();
+  const handleSave = async() => {
+    try {
+       await api.post("/sales",{
+        statusId:selectedStatus,
+        userId:user?.id,
+        products:products
+      });
+      onSave();
+    } catch (err) {
+      toastError(err);
+    }
   };
 
   const renderTableProducts = () => {

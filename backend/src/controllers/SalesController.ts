@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import ListSalesService from "../services/SalesServices/ListSalesService";
 import CreateSaleService from "../services/SalesServices/CreateSaleService";
+import DeleteSaleService from "../services/SalesServices/DeleteSaleService";
 type IndexQuerySearch = {
   selectedUser?: string;
   startDate?: string;
@@ -48,4 +49,16 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
   );
 
   return res.status(200).json(condition);
+};
+
+
+
+export const remove = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { saleId } = req.params;
+  await DeleteSaleService(saleId);
+
+  return res.status(200).json({ message: "sale deleted" });
 };

@@ -38,7 +38,7 @@ const ListSalesService = async ({
   if (selectedUser) {
     whereCondition = { ...whereCondition, userId: parseInt(selectedUser) };
   }
-  const limit = 5;
+  const limit = 20;
   const offset = limit * (+pageNumber - 1);
 
   const { count, rows: sales } = await Sale.findAndCountAll({

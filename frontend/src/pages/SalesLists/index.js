@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useContext } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -12,30 +12,54 @@ import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import MainContainer from "../../components/MainContainer";
 import MainHeader from "../../components/MainHeader";
 import Title from "../../components/Title";
-
+import { Can } from "../../components/Can";
 import api from "../../services/api";
 import TableRowSkeleton from "../../components/TableRowSkeleton";
 import toastError from "../../errors/toastError";
-import { Box, Button, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
-import { KeyboardArrowDownOutlined, KeyboardArrowUpOutlined } from "@material-ui/icons";
+import {
+  Box,
+  Button,
+  Collapse,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@material-ui/core";
+import {
+  KeyboardArrowDownOutlined,
+  KeyboardArrowUpOutlined,
+} from "@material-ui/icons";
 import MoneyFormat from "../../utils/moneyFormat";
 import { formateDateWithHours } from "../../utils/dateUtils";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker";
+import { AuthContext } from "../../context/Auth/AuthContext";
+import ToastSuccess from "../../components/ToastSuccess";
+import RelatorioSalesCSV from "../../components/RelatorioSalesCSV";
 const reducer = (state, action) => {
   if (action.type === "LOAD_SALES") {
-    const contactLists = action.payload;
-    const newContactLists = [];
+    const salesLists = action.payload;
+    const newSaleLists = [];
 
-    contactLists.forEach((contactList) => {
-      const contactListIndex = state.findIndex((u) => u.id === contactList.id);
-      if (contactListIndex !== -1) {
-        state[contactListIndex] = contactList;
+    salesLists.forEach((saleLists) => {
+      const saleListIndex = state.findIndex((u) => u.id === saleLists.id);
+      if (saleListIndex !== -1) {
+        state[saleListIndex] = saleLists;
       } else {
-        newContactLists.push(contactList);
+        newSaleLists.push(saleLists);
       }
     });
 
-    return [...state, ...newContactLists];
+    return [...state, ...newSaleLists];
+  }
+
+  if (action.type === "DELETE_SALE") {
+    const saleId = action.payload;
+    const saleIndex = state.findIndex((c) => c.id === saleId);
+    if (saleIndex !== -1) {
+      state.splice(saleIndex, 1);
+    }
+    return [...state];
   }
 
   if (action.type === "RESET_AND_LOAD_SALES") {
@@ -76,7 +100,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     margin: theme.spacing(0, 2, 0, 2),
   },
-
+  expandedRow: {
+    backgroundColor: theme.palette.divider,
+    paddingBottom: 0,
+    paddingTop: 0,
+  },
 }));
 
 const SalesLists = () => {
@@ -88,30 +116,23 @@ const SalesLists = () => {
   const [selectedUser, setSelectedUser] = useState("");
   const [dateRange, setDateRange] = useState([null, null]);
   const [data, setData] = useState([]);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     (async () => {
-      setLoading(true);
       try {
         const { data } = await api.get("/search/filters");
         setData(data);
-        setLoading(false);
       } catch (err) {
         toastError(err);
-        setLoading(false);
       }
     })();
   }, []);
 
   useEffect(() => {
-    dispatch({ type: "RESET" });
-    setPageNumber(1);
-  }, []);
-
-  useEffect(() => {
     setLoading(true);
     const delayDebounceFn = setTimeout(() => {
-      const fetchContactLists = async () => {
+      const fetchSalesLists = async () => {
         try {
           const { data } = await api.get("/sales");
           dispatch({ type: "LOAD_SALES", payload: data.sales });
@@ -121,11 +142,10 @@ const SalesLists = () => {
           toastError(err);
         }
       };
-      fetchContactLists();
+      fetchSalesLists();
     }, 500);
     return () => clearTimeout(delayDebounceFn);
   }, []);
-
 
   const loadMore = async () => {
     setPageNumber((prevState) => prevState + 1);
@@ -167,7 +187,7 @@ const SalesLists = () => {
           selectedUser,
           startDate: dateRange[0],
           endDate: dateRange[1],
-          pageNumber: 1
+          pageNumber: 1,
         },
       });
       dispatch({ type: "RESET_AND_LOAD_SALES", payload: data.sales });
@@ -176,6 +196,16 @@ const SalesLists = () => {
     } catch (err) {
       toastError(err);
       setLoading(false);
+    }
+  };
+
+  const deleteSale = async (id) => {
+    try {
+      await api.delete(`/sales/${id}`);
+      dispatch({ type: "DELETE_SALE", payload: id });
+      ToastSuccess("Venda removida com sucesso");
+    } catch (err) {
+      toastError(err);
     }
   };
   return (
@@ -226,54 +256,48 @@ const SalesLists = () => {
         >
           Buscar
         </Button>
+        <RelatorioSalesCSV className={classes.csvbtn} salesData={salesList} />
       </div>
       <div
         className={classes.mainPaper}
         variant="outlined"
         onScroll={handleScroll}
       >
-        <Table >
+        <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="left">
-                Detalhes
-              </TableCell>
-              <TableCell align="center">
-                ID da venda
-              </TableCell>
-              <TableCell align="center">
-                Data da venda
-              </TableCell>
-              <TableCell align="center">
-                Status da venda
-              </TableCell>
-              <TableCell align="center">
-                Atendente
-              </TableCell>
-              <TableCell align="center">
-                Ações
-              </TableCell>
+              <TableCell align="left">Detalhes</TableCell>
+              <TableCell align="center">ID da venda</TableCell>
+              <TableCell align="center">Data da venda</TableCell>
+              <TableCell align="center">Status da venda</TableCell>
+              <TableCell align="center">Atendente</TableCell>
+              <TableCell align="center">Ações</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {salesList.map((sale) => <Row key={sale.id} sale={sale} />)}
+            {salesList.map((sale) => (
+              <Row
+                key={sale.id}
+                sale={sale}
+                deleteSale={deleteSale}
+                user={user}
+              />
+            ))}
             {loading && <TableRowSkeleton columns={5} />}
           </TableBody>
         </Table>
-
       </div>
     </MainContainer>
   );
 };
 
-
 function Row(props) {
-  const { sale } = props;
+  const { sale, deleteSale, user } = props;
   const [open, setOpen] = React.useState(false);
-
+  const classes = useStyles();
   return (
     <React.Fragment>
-      <TableRow >
+      <TableRow>
         <TableCell>
           <IconButton aria-label="expand row" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowUpOutlined /> : <KeyboardArrowDownOutlined />}
@@ -285,21 +309,27 @@ function Row(props) {
         <TableCell align="center" scope="row">
           {formateDateWithHours(sale.createdAt)}
         </TableCell>
-        <TableCell align="center">     {sale.condition.name}</TableCell>
-        <TableCell align="center">     {sale.user.name}</TableCell>
+        <TableCell align="center"> {sale.condition.name}</TableCell>
+        <TableCell align="center"> {sale.user.name}</TableCell>
         <TableCell align="center">
-          <IconButton
-
-            onClick={(e) => {
-            }}
-          >
-            <DeleteOutlineIcon />
-          </IconButton>
+          <Can
+            role={user.profile}
+            perform="sales-list:deleteSale"
+            yes={() => (
+              <IconButton onClick={(_) => deleteSale(sale.id)}>
+                <DeleteOutlineIcon />
+              </IconButton>
+            )}
+            no={() => (
+              <IconButton disabled={true}>
+                <DeleteOutlineIcon />
+              </IconButton>
+            )}
+          />
         </TableCell>
-
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell className={classes.expandedRow} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">
@@ -325,7 +355,9 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="center">{product.quantity}</TableCell>
                       <TableCell align="right">
-                        <MoneyFormat value={product.amount * product.quantity} />
+                        <MoneyFormat
+                          value={product.amount * product.quantity}
+                        />
                       </TableCell>
                     </TableRow>
                   ))}

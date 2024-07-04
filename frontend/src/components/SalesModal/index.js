@@ -63,10 +63,10 @@ const CampaignSchema = Yup.object().shape({
 
   quantity: Yup.number()
     .min(1, "Too Short!")
-    .max(50, "Too Long!")
+    .max(100, "Too Long!")
     .required("Required"),
 
-  amount: Yup.number().min(1, "Too Short!").required("Required"),
+  amount: Yup.string().min(1, "Too Short!").required("Required"),
 });
 
 const SalesModal = ({ open, onClose, onSave }) => {
@@ -169,12 +169,14 @@ const SalesModal = ({ open, onClose, onSave }) => {
             enableReinitialize={true}
             validationSchema={CampaignSchema}
             onSubmit={(values, { resetForm }) => {
+              let amountConverted = values.amount.replace(",", ".");
+              let amount = parseFloat(amountConverted);
               setProducts([
                 ...products,
                 {
                   name: values.name,
                   quantity: values.quantity,
-                  amount: values.amount,
+                  amount: amount,
                 },
               ]);
               resetForm();
@@ -203,35 +205,27 @@ const SalesModal = ({ open, onClose, onSave }) => {
                   </Grid>
 
                   <Grid xs={12} md={4} item>
-                    <FormControl
+                    <Field
+                      as={TextField}
+                      label="Quantidade"
+                      name="quantity"
+                      error={touched.quantity && Boolean(errors.quantity)}
+                      helperText={touched.quantity && errors.quantity}
+                      className={classes.textField}
+                      fullWidth
                       variant="outlined"
                       margin="dense"
-                      fullWidth
-                      className={classes.formControl}
-                    >
-                      <InputLabel id="quantity-selection-label">
-                        Quantidade
-                      </InputLabel>
-                      <Field
-                        as={Select}
-                        label="Quantidade"
-                        placeholder="Quantidade"
-                        labelId="quantity-selection-label"
-                        id="quantity"
-                        name="quantity"
-                        error={touched.quantity && Boolean(errors.quantity)}
-                        helperText={touched.quantity && errors.quantity}
-                      >
-                        <MenuItem value="">Nenhuma</MenuItem>
-                        {Array.from({ length: 10 }, (_, i) => i + 1).map(
-                          (qt) => (
-                            <MenuItem key={qt} value={qt}>
-                              {qt}
-                            </MenuItem>
-                          )
-                        )}
-                      </Field>
-                    </FormControl>
+                      onChange={(e) => {
+                        const { value } = e.target;
+                        const formattedValue = value.replace(/[^0-9]/g, "");
+                        handleChange({
+                          target: {
+                            name: "quantity",
+                            value: formattedValue,
+                          },
+                        });
+                      }}
+                    />
                   </Grid>
                   <Grid xs={12} md={4} item>
                     <Field
@@ -248,7 +242,7 @@ const SalesModal = ({ open, onClose, onSave }) => {
                       onChange={(e) => {
                         const { value } = e.target;
                         // Permite apenas números, ponto
-                        const formattedValue = value.replace(/[^0-9.]/g, "");
+                        const formattedValue = value.replace(/[^0-9,]/g, "");
                         handleChange({
                           target: {
                             name: "amount",
@@ -334,6 +328,7 @@ const SalesModal = ({ open, onClose, onSave }) => {
             variant="contained"
             className={classes.btnWrapper}
             onClick={handleSave}
+            disabled={selectedStatus === "" || products.length === 0}
           >
             SALVAR VENDA
           </Button>

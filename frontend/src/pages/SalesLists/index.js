@@ -16,13 +16,13 @@ import Title from "../../components/Title";
 import api from "../../services/api";
 import TableRowSkeleton from "../../components/TableRowSkeleton";
 import toastError from "../../errors/toastError";
-import { Box, Collapse, Typography } from "@material-ui/core";
+import { Box, Button, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
 import { KeyboardArrowDownOutlined, KeyboardArrowUpOutlined } from "@material-ui/icons";
 import MoneyFormat from "../../utils/moneyFormat";
 import { formateDateWithHours } from "../../utils/dateUtils";
-
+import DateRangePicker from "@wojtekmaj/react-daterange-picker";
 const reducer = (state, action) => {
-  if (action.type === "LOAD_CONTACTLISTS") {
+  if (action.type === "LOAD_SALES") {
     const contactLists = action.payload;
     const newContactLists = [];
 
@@ -38,26 +38,8 @@ const reducer = (state, action) => {
     return [...state, ...newContactLists];
   }
 
-  if (action.type === "UPDATE_CONTACTLIST") {
-    const contactList = action.payload;
-    const contactListIndex = state.findIndex((u) => u.id === contactList.id);
-
-    if (contactListIndex !== -1) {
-      state[contactListIndex] = contactList;
-      return [...state];
-    } else {
-      return [contactList, ...state];
-    }
-  }
-
-  if (action.type === "DELETE_CONTACTLIST") {
-    const contactListId = action.payload;
-
-    const contactListIndex = state.findIndex((u) => u.id === contactListId);
-    if (contactListIndex !== -1) {
-      state.splice(contactListIndex, 1);
-    }
-    return [...state];
+  if (action.type === "RESET_AND_LOAD_SALES") {
+    return action.payload;
   }
 
   if (action.type === "RESET") {
@@ -76,6 +58,25 @@ const useStyles = makeStyles((theme) => ({
   title: {
     padding: theme.spacing(2),
   },
+  calendar: {
+    background: theme.palette.background.paper,
+    height: 40,
+    margin: 5,
+  },
+  maxWidth: {
+    width: 150,
+    margin: 5,
+  },
+  searchBtn: {
+    margin: 10,
+  },
+  filters: {
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+    margin: theme.spacing(0, 2, 0, 2),
+  },
+
 }));
 
 const SalesLists = () => {
@@ -83,7 +84,24 @@ const SalesLists = () => {
   const [loading, setLoading] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [hasMore, setHasMore] = useState(false);
-  const [contactLists, dispatch] = useReducer(reducer, []);
+  const [salesList, dispatch] = useReducer(reducer, []);
+  const [selectedUser, setSelectedUser] = useState("");
+  const [dateRange, setDateRange] = useState([null, null]);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      try {
+        const { data } = await api.get("/search/filters");
+        setData(data);
+        setLoading(false);
+      } catch (err) {
+        toastError(err);
+        setLoading(false);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     dispatch({ type: "RESET" });
@@ -96,8 +114,8 @@ const SalesLists = () => {
       const fetchContactLists = async () => {
         try {
           const { data } = await api.get("/sales");
-          dispatch({ type: "LOAD_CONTACTLISTS", payload: data });
-          setHasMore(false);
+          dispatch({ type: "LOAD_SALES", payload: data.sales });
+          setHasMore(data.hasMore);
           setLoading(false);
         } catch (err) {
           toastError(err);
@@ -106,11 +124,22 @@ const SalesLists = () => {
       fetchContactLists();
     }, 500);
     return () => clearTimeout(delayDebounceFn);
-  }, [pageNumber]);
+  }, []);
 
 
-  const loadMore = () => {
+  const loadMore = async () => {
     setPageNumber((prevState) => prevState + 1);
+    setLoading(true);
+    try {
+      const { data } = await api.get("/sales", {
+        params: { pageNumber },
+      });
+      dispatch({ type: "LOAD_SALES", payload: data.sales });
+      setHasMore(data.hasMore);
+      setLoading(false);
+    } catch (err) {
+      toastError(err);
+    }
   };
 
   const handleScroll = (e) => {
@@ -121,21 +150,88 @@ const SalesLists = () => {
     }
   };
 
+  const handleSelect = (range) => {
+    if (range) {
+      setDateRange(range);
+    } else {
+      setDateRange([null, null]);
+    }
+  };
+
+  const searchSales = async () => {
+    setLoading(true);
+    setPageNumber(1);
+    try {
+      const { data } = await api.get("/sales", {
+        params: {
+          selectedUser,
+          startDate: dateRange[0],
+          endDate: dateRange[1],
+          pageNumber: 1
+        },
+      });
+      dispatch({ type: "RESET_AND_LOAD_SALES", payload: data.sales });
+      setHasMore(data.hasMore);
+      setLoading(false);
+    } catch (err) {
+      toastError(err);
+      setLoading(false);
+    }
+  };
   return (
     <MainContainer>
       <MainHeader>
         <div className={classes.title}>
           <Title>Lista de vendas</Title>
         </div>
-
       </MainHeader>
+      <div className={classes.filters}>
+        <DateRangePicker
+          value={dateRange}
+          onChange={handleSelect}
+          className={classes.calendar}
+        />
+
+        <FormControl
+          variant="outlined"
+          className={classes.maxWidth}
+          size="small"
+        >
+          <InputLabel>Usuário</InputLabel>
+          <Select
+            label="Usuário"
+            value={selectedUser}
+            onChange={(e) => setSelectedUser(e.target.value)}
+          >
+            {data?.users?.map((user) => (
+              <MenuItem
+                key={user.id}
+                value={user.id}
+                onClick={(_) => {
+                  if (user.id === selectedUser) {
+                    setSelectedUser("");
+                  }
+                }}
+              >
+                {user.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.searchBtn}
+          onClick={() => searchSales()}
+        >
+          Buscar
+        </Button>
+      </div>
       <div
         className={classes.mainPaper}
         variant="outlined"
         onScroll={handleScroll}
       >
-
-
         <Table >
           <TableHead>
             <TableRow>
@@ -160,7 +256,7 @@ const SalesLists = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {contactLists.map((sale) => <Row key={sale.id} sale={sale} />)}
+            {salesList.map((sale) => <Row key={sale.id} sale={sale} />)}
             {loading && <TableRowSkeleton columns={5} />}
           </TableBody>
         </Table>

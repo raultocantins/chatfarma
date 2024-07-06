@@ -284,7 +284,7 @@ const SalesLists = () => {
                 user={user}
               />
             ))}
-            {loading && <TableRowSkeleton columns={5} />}
+            {loading && <TableRowSkeleton columns={7} />}
           </TableBody>
         </Table>
       </div>

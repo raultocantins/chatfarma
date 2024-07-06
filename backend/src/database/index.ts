@@ -18,6 +18,9 @@ import ContactList from "../models/ContactList";
 import CampaignShipping from "../models/CampaignShipping";
 import ContactListItem from "../models/ContactListItem";
 import Campaign from "../models/Campaign";
+import SalesCondition from "../models/SalesCondition";
+import Sale from "../models/Sale";
+import Product from "../models/Product";
 
 // eslint-disable-next-line
 const dbConfig = require("../config/database");
@@ -46,6 +49,9 @@ const models = [
   ContactListItem,
   Campaign,
   CampaignSetting,
+  SalesCondition,
+  Sale,
+  Product
 ];
 
 sequelize.addModels(models);

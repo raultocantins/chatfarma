@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker";
 
 import Paper from "@material-ui/core/Paper";
-import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { i18n } from "../../translate/i18n";
 
-import Title from "./Title";
+import Subtitle from "./Title";
+import Title from "../../components/Title";
 import DayChart from "./DayChart";
 import UsersChart from "./UsersChart";
 import QueueChart from "./QueueChart";
@@ -22,8 +22,8 @@ import "./css/calendar.css";
 import RelatorioCSV from "../../components/RelatorioCSV";
 const useStyles = makeStyles((theme) => ({
   container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
+    padding: theme.spacing(2),
+    margin: theme.spacing(1),
   },
   fixedHeightPaper: {
     padding: theme.spacing(2),
@@ -67,15 +67,17 @@ const useStyles = makeStyles((theme) => ({
   csvbtn: {
     margin: 10,
   },
+
 }));
 
 const Dashboard = () => {
+  let today = new Date();
   const classes = useStyles();
   const [loading, setLoading] = useState(true);
   const [tickets, setTickets] = useState([]);
   const [selectedQueue, setSelectedQueue] = useState("");
   const [queues, setQueues] = useState([]);
-  const [dateRange, setDateRange] = useState([new Date(), new Date()]);
+  const [dateRange, setDateRange] = useState([today.setDate(today.getDate() - 7), new Date()]);
 
   const handleSelect = (range) => {
     if (range) {
@@ -132,8 +134,11 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
-      <Container maxWidth="lg" className={classes.container}>
+    <div >
+      <div className={classes.container} >
+        <div >
+          <Title>Dashboard</Title>
+        </div>
         <Grid container className={classes.filtersGrid}>
           <DateRangePicker
             value={dateRange}
@@ -223,26 +228,26 @@ const Dashboard = () => {
             </Paper>
           </Grid>
           <Grid item xs={12}>
-            <Title>Atendimentos por usuário</Title>
+            <Subtitle>Atendimentos por usuário</Subtitle>
             <Paper elevation={0} className={classes.fixedHeightPaper}>
               <UsersChart loading={loading} tickets={tickets} />
             </Paper>
           </Grid>
           <Grid item xs={12}>
-            <Title>Atendimentos por dia</Title>
+            <Subtitle>Atendimentos por dia</Subtitle>
             <Paper elevation={0} className={classes.fixedHeightPaper}>
               <DayChart loading={loading} tickets={tickets} />
             </Paper>
           </Grid>
 
           <Grid item xs={12}>
-            <Title>Atendimentos por departamento</Title>
+            <Subtitle>Atendimentos por departamento</Subtitle>
             <Paper elevation={0} className={classes.fixedHeightPaper}>
               <QueueChart loading={loading} tickets={tickets} />
             </Paper>
           </Grid>
         </Grid>
-      </Container>
+      </div>
     </div>
   );
 };

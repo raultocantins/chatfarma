@@ -23,6 +23,7 @@ import {
   ExpandMoreOutlined,
   InsertChart,
   Label,
+  MonetizationOn,
   PeopleAlt,
   QuestionAnswer,
   RecentActors,
@@ -360,6 +361,12 @@ const MainListItems = (props) => {
         label="Pesquisa"
       />
 
+      <ListItemLink
+        to="/sales"
+        primary="Vendas"
+        icon={<MonetizationOn />}
+        label="Vendas"
+      />
 
       <ListItemLinkExpanded
         primary={i18n.t("mainDrawer.listItems.campaigns")}

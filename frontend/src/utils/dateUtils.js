@@ -9,4 +9,12 @@ function formateDateWithHours(dataString) {
   return dia + "/" + mes + "/" + ano + " " + horas + ":" + minutos;
 }
 
-export { formateDateWithHours };
+function formateDate(dataString) {
+  var data = new Date(dataString);
+  var dia = ("0" + data.getDate()).slice(-2);
+  var mes = ("0" + (data.getMonth() + 1)).slice(-2);
+  var ano = data.getFullYear();
+  return dia + "/" + mes + "/" + ano;
+}
+
+export { formateDateWithHours, formateDate };

@@ -80,31 +80,33 @@ const Settings = () => {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="Api" {...a11yProps(0)} />
-            <Tab label="Integrações" {...a11yProps(1)} />
-            <Tab label="Documentação" {...a11yProps(2)} />
-            <Tab label="Chave Api" {...a11yProps(3)} />
-            <Tab label="Opções" {...a11yProps(4)} />
+            <Tab label="Opções" {...a11yProps(0)} />
+            <Tab label="Api" {...a11yProps(1)} />
+            <Tab label="Integrações" {...a11yProps(2)} />
+            <Tab label="Documentação" {...a11yProps(3)} />
+            <Tab label="Chave Api" {...a11yProps(4)} />
+
           </Tabs>
         </Box>
       </Box>
 
       <div className={classes.mainPaper}>
         <CustomTabPanel value={value} index={0}>
-          <Api />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <Integrations />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
-          <ApiDocs />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={3}>
-          <SettingsKey />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={4}>
           <Options />
         </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+          <Api />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={2}>
+          <Integrations />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={3}>
+          <ApiDocs />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={4}>
+          <SettingsKey />
+        </CustomTabPanel>
+
       </div>
     </Container>
   );

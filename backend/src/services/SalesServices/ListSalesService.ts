@@ -52,7 +52,7 @@ const ListSalesService = async ({
     where: whereCondition,
     limit,
     offset,
-    order: ["createdAt", "DESC"]
+    order: [["createdAt", "DESC"]],
   });
   const hasMore = sales.length === limit && (offset + sales.length < count);
   return {

@@ -7,8 +7,16 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
 import SalesModal from "../SalesModal";
 
-const FinishModal = ({ title, children, open, onClose, onConfirm, primaryText, secondaryText }) => {
-
+const FinishModal = ({
+	title,
+	children,
+	open,
+	onClose,
+	onConfirm,
+	primaryText,
+	secondaryText,
+	contactId,
+}) => {
 	const [salesModal, setSalesModal] = useState(false);
 	const [sendFarewell, setSendFarewell] = useState(false);
 	useEffect(() => {
@@ -32,6 +40,7 @@ const FinishModal = ({ title, children, open, onClose, onConfirm, primaryText, s
 					onClose(false);
 					onConfirm(sendFarewell);
 				}}
+				contactId={contactId}
 			/>
 			<DialogTitle id="confirm-dialog">{title}</DialogTitle>
 			<DialogContent dividers>
@@ -41,10 +50,9 @@ const FinishModal = ({ title, children, open, onClose, onConfirm, primaryText, s
 				<Button
 					variant="contained"
 					onClick={() => {
-						setSendFarewell(false)
-						setSalesModal(true)
-					}
-					}
+						setSendFarewell(false);
+						setSalesModal(true);
+					}}
 					color="default"
 				>
 					{secondaryText}
@@ -52,8 +60,8 @@ const FinishModal = ({ title, children, open, onClose, onConfirm, primaryText, s
 				<Button
 					variant="contained"
 					onClick={() => {
-						setSendFarewell(true)
-						setSalesModal(true)
+						setSendFarewell(true);
+						setSalesModal(true);
 					}}
 					color="secondary"
 				>

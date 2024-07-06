@@ -17,6 +17,7 @@ interface ProductItem {
 interface Data {
   statusId: number;
   userId: number;
+  contactId: number;
   products: ProductItem[]
 }
 

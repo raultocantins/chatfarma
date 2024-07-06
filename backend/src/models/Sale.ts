@@ -13,6 +13,7 @@ import {
 import SalesCondition from "./SalesCondition";
 import User from "./User";
 import Product from "./Product";
+import Contact from "./Contact";
 
 @Table({ tableName: "Sales" })
 class Sale extends Model<Sale> {
@@ -35,11 +36,18 @@ class Sale extends Model<Sale> {
   @Column
   userId: number;
 
+  @ForeignKey(() => Contact)
+  @Column
+  contactId: number;
+
   @BelongsTo(() => SalesCondition)
   condition: SalesCondition;
 
   @BelongsTo(() => User)
   user: User;
+
+  @BelongsTo(() => Contact)
+  contact: Contact;
 
   @HasMany(() => Product)
   productList: Product[];

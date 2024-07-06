@@ -4,6 +4,7 @@ import Sale from "../../models/Sale";
 import SalesCondition from "../../models/SalesCondition";
 import { Op, Filterable } from "sequelize";
 import User from "../../models/User";
+import Contact from "../../models/Contact";
 interface Request {
   selectedUser?: string;
   startDate?: string;
@@ -45,7 +46,8 @@ const ListSalesService = async ({
     include: [
       { model: Product, as: 'productList', attributes: ["id", "name", "quantity", "amount"], },
       { model: SalesCondition, as: 'condition', attributes: ["id", "name"], },
-      { model: User, as: 'user', attributes: ["id", "name"], }
+      { model: User, as: 'user', attributes: ["id", "name"], },
+      { model: Contact, as: 'contact', attributes: ["id", "name", "number"], }
     ], attributes: ["id", "createdAt"],
     where: whereCondition,
     limit,

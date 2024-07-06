@@ -102,6 +102,7 @@ const TicketActionButtons = ({ ticket }) => {
             onConfirm={(e) => handleUpdateTicketStatus(e, "closed", user?.id, e)}
             primaryText='Sim'
             secondaryText='Não'
+            contactId={ticket.contactId}
           >
             Você deseja enviar uma mensagem de encerramento ao encerrar o atendimento?
           </FinishModal>

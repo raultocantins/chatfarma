@@ -32,6 +32,7 @@ import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import api from "../../services/api";
 import toastError from "../../errors/toastError";
 import MoneyFormat from "../../utils/moneyFormat";
+import ButtonWithSpinner from "../ButtonWithSpinner";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,17 +64,18 @@ const CampaignSchema = Yup.object().shape({
 
   quantity: Yup.number()
     .min(1, "Too Short!")
-    .max(100, "Too Long!")
+    .max(10000, "Too Long!")
     .required("Required"),
 
   amount: Yup.string().min(1, "Too Short!").required("Required"),
 });
 
-const SalesModal = ({ open, onClose, onSave }) => {
+const SalesModal = ({ open, onClose, onSave, contactId }) => {
   const classes = useStyles();
   const [statusList, setstatusList] = useState([]);
   const [products, setProducts] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("");
+  const [loading, setLoading] = useState(false);
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -89,14 +91,18 @@ const SalesModal = ({ open, onClose, onSave }) => {
 
 
   const handleSave = async () => {
+    setLoading(true)
     try {
       await api.post("/sales", {
         statusId: selectedStatus,
         userId: user?.id,
+        contactId: contactId,
         products: products
       });
       onSave();
+      setLoading(false)
     } catch (err) {
+      setLoading(false)
       toastError(err);
     }
   };
@@ -322,16 +328,15 @@ const SalesModal = ({ open, onClose, onSave }) => {
           <Button onClick={onSave} color="secondary" variant="outlined">
             NENHUMA VENDA
           </Button>
-
-          <Button
-            color="primary"
+          <ButtonWithSpinner color="primary"
             variant="contained"
             className={classes.btnWrapper}
             onClick={handleSave}
             disabled={selectedStatus === "" || products.length === 0}
+            loading={loading}
           >
             SALVAR VENDA
-          </Button>
+          </ButtonWithSpinner>
         </DialogActions>
       </Dialog>
     </div>

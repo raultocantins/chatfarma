@@ -271,6 +271,7 @@ const SalesLists = () => {
               <TableCell align="center">Data da venda</TableCell>
               <TableCell align="center">Status da venda</TableCell>
               <TableCell align="center">Atendente</TableCell>
+              <TableCell align="center">Contato</TableCell>
               <TableCell align="center">Ações</TableCell>
             </TableRow>
           </TableHead>
@@ -311,6 +312,7 @@ function Row(props) {
         </TableCell>
         <TableCell align="center"> {sale.condition.name}</TableCell>
         <TableCell align="center"> {sale.user.name}</TableCell>
+        <TableCell align="center"> {sale?.contact?.name ?? 'Indefinido'}</TableCell>
         <TableCell align="center">
           <Can
             role={user.profile}
@@ -329,7 +331,7 @@ function Row(props) {
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell className={classes.expandedRow} colSpan={6}>
+        <TableCell className={classes.expandedRow} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">

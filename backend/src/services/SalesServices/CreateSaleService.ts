@@ -9,6 +9,7 @@ interface ProductItem {
 interface Data {
   statusId: number;
   userId: number;
+  contactId: number;
   products: ProductItem[]
 }
 
@@ -18,6 +19,7 @@ const CreateSaleService = async (data: Data): Promise<void> => {
     const sale = await Sale.create({
       conditionId: data.statusId,
       userId: data.userId,
+      contactId: data.contactId
     });
     for (const product of data.products) {
       await Product.create({ saleId: sale.id, name: product.name, quantity: product.quantity, amount: product.amount });

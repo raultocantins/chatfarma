@@ -20,6 +20,8 @@ const FormattedData = (data) => {
         Valor: product.amount,
         "Status da venda": sale.condition.name,
         'Atendente': sale.user.name,
+        'Nome do Contato': sale?.contact?.name ?? 'Indefinido',
+        'Contato': sale?.contact?.number ?? 'Indefinido',
       });
     });
   });
@@ -35,6 +37,8 @@ const headers = [
   { label: 'Valor', key: 'Valor' },
   { label: 'Status da venda', key: 'Status da venda' },
   { label: 'Atendente', key: 'Atendente' },
+  { label: 'Nome do Contato', key: 'Nome do Contato' },
+  { label: 'Contato', key: 'Contato' },
 ];
 
 const RelatorioSalesCSV = ({ salesData }) => (

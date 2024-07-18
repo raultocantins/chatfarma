@@ -1,14 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
 import clsx from "clsx";
 
-import { AppBar, Drawer, List, makeStyles } from "@material-ui/core";
+import { Drawer, List, makeStyles } from "@material-ui/core";
 
 import MainListItems from "./MainListItems";
 import UserModal from "../components/UserModal";
 import { AuthContext } from "../context/Auth/AuthContext";
 import BackdropLoading from "../components/BackdropLoading";
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     position: "relative",
     whiteSpace: "nowrap",
+    backgroundColor: theme.palette.primary.main,
     width: drawerWidth,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
@@ -76,7 +77,6 @@ const useStyles = makeStyles((theme) => ({
       width: theme.spacing(9),
     },
   },
-  appBarSpacer: {},
   content: {
     flex: 1,
     overflow: "auto",
@@ -124,11 +124,10 @@ const LoggedInLayout = ({ children }) => {
     <div className={classes.root}>
       <Drawer
         variant={drawerVariant}
-        className={drawerOpen ? classes.drawerPaper : classes.drawerPaperClose}
+        // className={drawerOpen ? classes.drawerPaper : classes.drawerPaperClose}
         classes={{
           paper: clsx(
             classes.drawerPaper,
-            !drawerOpen && classes.drawerPaperClose
           ),
         }}
         open={drawerOpen}
@@ -142,13 +141,13 @@ const LoggedInLayout = ({ children }) => {
         onClose={() => setUserModalOpen(false)}
         userId={user?.id}
       />
-      <AppBar
+      {/* <AppBar
         position="absolute"
         className={clsx(classes.appBar, drawerOpen && classes.appBarShift)}
         color={process.env.NODE_ENV === "development" ? "inherit" : "primary"}
-      ></AppBar>
+      ></AppBar> */}
       <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
+        {/* <div className={classes.appBarSpacer} /> */}
 
         {children ? children : null}
       </main>

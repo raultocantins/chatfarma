@@ -19,7 +19,7 @@ import { i18n } from "../../translate/i18n";
 
 import { AuthContext } from "../../context/Auth/AuthContext";
 import { system } from "../../config.json";
-import logo from "../../assets/pharmacy.svg";
+import logo from "../../assets/pharmacy1.png";
 
 const Copyright = () => {
   return (
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   boxFormLogin: {
-    background: theme.palette.background.default,
+    background: theme.palette.background.paper,
     padding: theme.spacing(5, 3, 2),
   },
   background: {
@@ -146,7 +146,7 @@ const Login = () => {
                 href="#"
                 variant="body2"
                 component={RouterLink}
-                // to="/signup"
+              // to="/signup"
               >
                 Esqueceu sua senha, recupere aqui.
               </Link>

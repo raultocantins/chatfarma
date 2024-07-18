@@ -8,7 +8,6 @@ import {
   MenuItem,
   makeStyles,
   Menu,
-  Switch,
   CssBaseline,
   FormControl,
   Select,
@@ -24,6 +23,7 @@ import {
   InsertChart,
   Label,
   MonetizationOn,
+  Notifications,
   PeopleAlt,
   QuestionAnswer,
   RecentActors,
@@ -43,31 +43,24 @@ import { AuthContext } from "../context/Auth/AuthContext";
 import { Can } from "../components/Can";
 import UserModal from "../components/UserModal";
 import NotificationsPopOver from "../components/NotificationsPopOver";
-import { useLocation } from "react-router-dom/cjs/react-router-dom";
-import { useLocalStorage } from "../hooks/useLocalStorage";
-import { useHistory } from "react-router-dom";
 import api from "../services/api";
 import ToastSuccess from "../components/ToastSuccess";
 import toastError from "../errors/toastError";
 const useStyles = makeStyles((theme) => ({
   icon: {
-    color: theme.palette.secondary.main,
+    color: "#ffff",
     justifyContent: "center",
     alignContent: "center",
   },
   li: {
-    backgroundColor: theme.palette.menuItens.main,
     textAlign: "center",
+    color: "#ffff"
   },
   sub: {
     backgroundColor: theme.palette.sub.main,
   },
   divider: {
     backgroundColor: theme.palette.divide.main,
-  },
-  menuItemSelected: {
-    backgroundColor: theme.palette.background.default,
-    borderLeft: `2px solid ${theme.palette.primary.main}`,
   },
   statusOnlineIcon: {
     color: "#64A764",
@@ -84,7 +77,6 @@ const useStyles = makeStyles((theme) => ({
 function ListItemLink(props) {
   const { icon, to, label } = props;
   const classes = useStyles();
-  const location = useLocation();
   const renderLink = React.useMemo(
     () =>
       React.forwardRef((itemProps, ref) => (
@@ -98,10 +90,9 @@ function ListItemLink(props) {
       <ListItem
         button
         component={renderLink}
-        className={location.pathname === to ? classes.menuItemSelected : null}
         style={{
-          flexDirection: "column",
-          justifyContent: "center",
+          flexDirection: "row",
+          justifyContent: "flex-start",
           alignContent: "center",
         }}
       >
@@ -111,7 +102,7 @@ function ListItemLink(props) {
           </ListItemIcon>
         ) : null}
 
-        <span style={{ fontSize: 8, whiteSpace: 'normal', textAlign: 'center' }}>{label}</span>
+        <span style={{ fontSize: 13, whiteSpace: 'normal', textAlign: 'center' }}>{label}</span>
 
       </ListItem>
     </li>
@@ -128,17 +119,21 @@ function ListItemLinkExpanded(props) {
       <ListItem
         button
         style={{
-          flexDirection: "column",
-          justifyContent: "center",
+          flexDirection: "row",
+          justifyContent: "flex-start",
           alignContent: "center",
         }}
 
       >
+        <ListItemIcon className={classes.icon} style={{ fontSize: 32 }}>
+          <Notifications />
+        </ListItemIcon>
+        <span style={{ fontSize: 13, whiteSpace: 'normal', textAlign: 'center' }}>{label}</span>
         <ListItemIcon className={classes.icon} style={{ fontSize: 32 }} >
           {isExpanded ?
             <ExpandLessOutlined /> : <ExpandMoreOutlined />}
         </ListItemIcon>
-        <span style={{ fontSize: 8, whiteSpace: 'normal', textAlign: 'center' }}>{label}</span>
+
       </ListItem>
     </li>
   );
@@ -147,7 +142,6 @@ function ListItemLinkExpanded(props) {
 
 
 const MainListItems = (props) => {
-  const history = useHistory();
   const { drawerClose } = props;
   const { whatsApps } = useContext(WhatsAppsContext);
   const { user } = useContext(AuthContext);
@@ -158,7 +152,6 @@ const MainListItems = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isExpanded, setExpanded] = useState(false);
   const { handleLogout } = useContext(AuthContext);
-  const [storedValue, setValue] = useLocalStorage("theme", { theme: "light" });
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -223,14 +216,14 @@ const MainListItems = (props) => {
   };
 
   return (
-    <div onClick={drawerClose} >
+    <div onClick={drawerClose}>
       <CssBaseline />
-      <li className={classes.li} >
+      <li className={classes.li}>
         <ListItem
           button
           style={{
-            flexDirection: "column",
-            justifyContent: "center",
+            flexDirection: "row",
+            justifyContent: "flex-start",
             alignContent: "center",
           }}
           onClick={handleMenu}
@@ -319,7 +312,7 @@ const MainListItems = (props) => {
               </div>
             }
           </ListItemIcon>
-          <span style={{ fontSize: 8 }}>Perfil</span>
+          <span style={{ fontSize: 13 }}>Perfil</span>
         </ListItem>
       </li>
 
@@ -396,7 +389,7 @@ const MainListItems = (props) => {
             to="/campaigns-config"
             primary='Configurações de campanha'
             icon={<SettingsApplications />}
-            label='Configurações de campanha'
+            label='Configurações'
           />
         </> : null
       }
@@ -444,31 +437,6 @@ const MainListItems = (props) => {
           </>
         )}
       />
-
-      <ListItem
-        button
-        style={{
-          flexDirection: "column",
-          justifyContent: "center",
-          alignContent: "center",
-        }}
-      >
-        <ListItemIcon className={classes.icon} style={{ fontSize: 32 }}>
-          <Switch
-            size="small"
-            checked={storedValue.theme === "dark" ? true : false}
-            onChange={(_) => {
-              setValue({
-                theme: storedValue.theme === "dark" ? "light" : "dark",
-              });
-              history.go(0);
-            }}
-            name="darkMode"
-          />
-        </ListItemIcon>
-
-        <span style={{ fontSize: 8 }}>Modo Escuro</span>
-      </ListItem>
 
       <UserModal
         open={userModalOpen}

@@ -17,7 +17,7 @@ const TicketHeaderSkeleton = () => {
 	const classes = useStyles();
 
 	return (
-		<Card square className={classes.ticketHeader}>
+		<Card square className={classes.ticketHeader} elevation={0}>
 			<CardHeader
 				titleTypographyProps={{ noWrap: true }}
 				subheaderTypographyProps={{ noWrap: true }}

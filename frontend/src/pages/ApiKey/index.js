@@ -92,7 +92,7 @@ const SettingsKey = () => {
           {i18n.t("mainDrawer.listItems.token")}
         </Typography>
 
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={0}>
           <TextField
             id="api-token-setting"
             readonly

@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
+    backgroundColor: "#6264A715"
   },
 
   ticketNumber: {
@@ -95,7 +96,6 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 5,
     paddingTop: 5,
     paddingBottom: 0,
-    boxShadow: "0 1px 1px #b3b3b3",
   },
 
   quotedContainerLeft: {
@@ -138,7 +138,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     whiteSpace: "pre-wrap",
-    backgroundColor: "#dcf8c6",
+    backgroundColor: "rgba(98, 100, 167, 0.1)",
     color: "#303030",
     alignSelf: "flex-end",
     borderTopLeftRadius: 8,
@@ -149,7 +149,6 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 5,
     paddingTop: 5,
     paddingBottom: 0,
-    boxShadow: "0 1px 1px #b3b3b3",
   },
 
   quotedContainerRight: {
@@ -225,14 +224,13 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     alignSelf: "center",
     width: "110px",
-    backgroundColor: "#e1f3fb",
+    backgroundColor: "#6264A7",
     margin: "10px",
     borderRadius: "10px",
-    boxShadow: "0 1px 1px #b3b3b3",
   },
 
   dailyTimestampText: {
-    color: "#808888",
+    color: "#ffff",
     padding: 8,
     alignSelf: "center",
     marginLeft: "0px",
@@ -298,7 +296,6 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 5,
     paddingTop: 5,
     paddingBottom: 0,
-    boxShadow: "0 1px 1px #b3b3b3",
   },
 }));
 
@@ -843,17 +840,17 @@ const MessagesList = ({ ticketId, isGroup, tags }) => {
                     />
                   )}
                   {message.isEdited && (
-                  <div>
-                    <span className={classes.editedMsg}>
-                      <Edit
-                        color=""
-                        fontSize="small"
-                        className={classes.editedIcon}
-                      />
-                      Mensagem editada
-                    </span>
-                  </div>
-                )}
+                    <div>
+                      <span className={classes.editedMsg}>
+                        <Edit
+                          color=""
+                          fontSize="small"
+                          className={classes.editedIcon}
+                        />
+                        Mensagem editada
+                      </span>
+                    </div>
+                  )}
                   {message.quotedMsg && renderQuotedMessage(message)}
                   <MarkdownWrapper>{message.body}</MarkdownWrapper>
                   <span className={classes.timestamp}>
@@ -895,19 +892,19 @@ const MessagesList = ({ ticketId, isGroup, tags }) => {
         >
           {tags != null
             ? tags.map((tag) => {
-                return (
-                  <Chip
-                    label={tag.name ?? ""}
-                    size="small"
-                    style={{
-                      background: tag.color,
-                      marginRight: 5,
-                      color: "#ffff",
-                      fontWeight: "bold",
-                    }}
-                  />
-                );
-              })
+              return (
+                <Chip
+                  label={tag.name ?? ""}
+                  size="small"
+                  style={{
+                    background: tag.color,
+                    marginRight: 5,
+                    color: "#ffff",
+                    fontWeight: "bold",
+                  }}
+                />
+              );
+            })
             : null}
         </div>
 

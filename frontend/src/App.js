@@ -6,8 +6,6 @@ import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import { ptBR } from "@material-ui/core/locale";
 
 import { CssBaseline } from "@material-ui/core";
-
-import lightBackground from "./assets/wa-background-light.png";
 import darkBackground from "./assets/wa-background-dark.jpg";
 import { system } from "./config.json";
 import { useLocalStorage } from "./hooks/useLocalStorage";
@@ -21,7 +19,6 @@ const App = () => {
         MuiCssBaseline: {
           "@global": {
             body: {
-              backgroundColor: "transparent",
               "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
                 backgroundColor: "transparent",
                 width: 3,
@@ -32,26 +29,25 @@ const App = () => {
                 width: 3,
               },
               "&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus":
-                {
-                  backgroundColor: system.color.lightTheme.palette.primary,
-
-                  width: 3,
-                },
-              "&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active":
-                {
-                  backgroundColor: system.color.lightTheme.palette.primary,
-
-                  width: 3,
-                },
-              "&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover":
-                {
-                  backgroundColor: system.color.lightTheme.palette.primary,
-
-                  width: 3,
-                },
-              "&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner": {
+              {
                 backgroundColor: system.color.lightTheme.palette.primary,
 
+                width: 3,
+              },
+              "&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active":
+              {
+                backgroundColor: system.color.lightTheme.palette.primary,
+
+                width: 3,
+              },
+              "&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover":
+              {
+                backgroundColor: system.color.lightTheme.palette.primary,
+
+                width: 3,
+              },
+              "&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner": {
+                backgroundColor: system.color.lightTheme.palette.primary,
                 width: 3,
               },
             },
@@ -72,7 +68,9 @@ const App = () => {
         toolbarIcon: { main: system.color.lightTheme.toolbarIcon || "#ffffff" },
         divide: { main: system.color.lightTheme.divide || "#E0E0E0" },
       },
-      backgroundImage: `url(${lightBackground})`,
+      typography: {
+        fontFamily: 'Basier Circle, Arial, sans-serif',
+      },
     },
     locale
   );
@@ -94,23 +92,23 @@ const App = () => {
                 width: 3,
               },
               "&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus":
-                {
-                  backgroundColor: system.color.darkTheme.palette.primary,
+              {
+                backgroundColor: system.color.darkTheme.palette.primary,
 
-                  width: 3,
-                },
+                width: 3,
+              },
               "&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active":
-                {
-                  backgroundColor: system.color.darkTheme.palette.primary,
+              {
+                backgroundColor: system.color.darkTheme.palette.primary,
 
-                  width: 3,
-                },
+                width: 3,
+              },
               "&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover":
-                {
-                  backgroundColor: system.color.darkTheme.palette.primary,
+              {
+                backgroundColor: system.color.darkTheme.palette.primary,
 
-                  width: 3,
-                },
+                width: 3,
+              },
               "&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner": {
                 backgroundColor: system.color.darkTheme.palette.primary,
 

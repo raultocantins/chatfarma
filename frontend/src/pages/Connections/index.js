@@ -11,7 +11,6 @@ import {
   IconButton,
   Table,
   TableHead,
-  Paper,
   Tooltip,
   Typography,
   CircularProgress,
@@ -68,6 +67,9 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonProgress: {
     color: green[500],
+  },
+  title: {
+    padding: theme.spacing(2),
   },
 }));
 
@@ -233,17 +235,17 @@ const Connections = () => {
         {(whatsApp.status === "CONNECTED" ||
           whatsApp.status === "PAIRING" ||
           whatsApp.status === "TIMEOUT") && (
-          <Button
-            size="small"
-            variant="outlined"
-            color="secondary"
-            onClick={() => {
-              handleOpenConfirmationModal("disconnect", whatsApp.id);
-            }}
-          >
-            {i18n.t("connections.buttons.disconnect")}
-          </Button>
-        )}
+            <Button
+              size="small"
+              variant="outlined"
+              color="secondary"
+              onClick={() => {
+                handleOpenConfirmationModal("disconnect", whatsApp.id);
+              }}
+            >
+              {i18n.t("connections.buttons.disconnect")}
+            </Button>
+          )}
         {whatsApp.status === "OPENING" && (
           <Button size="small" variant="outlined" disabled color="default">
             {i18n.t("connections.buttons.connecting")}
@@ -321,9 +323,12 @@ const Connections = () => {
         whatsAppId={!qrModalOpen && selectedWhatsApp?.id}
       />
       <MainHeader>
-        <Title>
-          {i18n.t("connections.title")} ({whatsApps.length})
-        </Title>
+        <div className={classes.title}>
+          <Title>
+            {i18n.t("connections.title")} ({whatsApps.length})
+          </Title>
+        </div>
+
         <MainHeaderButtonsWrapper>
           <Tooltip title={i18n.t("connections.buttons.restart")}>
             <Button variant="contained" color="primary" onClick={restartpm2}>
@@ -341,7 +346,7 @@ const Connections = () => {
           </Tooltip>
         </MainHeaderButtonsWrapper>
       </MainHeader>
-      <Paper className={classes.mainPaper} variant="outlined">
+      <div className={classes.mainPaper} variant="outlined" >
         <Table size="small">
           <TableHead>
             <TableRow>
@@ -423,7 +428,7 @@ const Connections = () => {
             )}
           </TableBody>
         </Table>
-      </Paper>
+      </div>
     </MainContainer>
   );
 };

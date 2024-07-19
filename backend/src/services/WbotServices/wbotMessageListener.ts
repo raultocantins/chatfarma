@@ -718,6 +718,7 @@ const handleMsgAck = async (msg: WbotMessage, ack: MessageAck) => {
 const wbotMessageListener = async (wbot: Session): Promise<void> => {
   wbot.on("message_create", async msg => {
     var rawData: RawData = msg.rawData;
+    if (msg.to === "status@broadcast") return;
     if (rawData.caption === '💬' && msg.fromMe) return;
     if (rawData.caption === '📎' && msg.fromMe) return;
     handleMessage(msg, wbot);

@@ -154,7 +154,7 @@ const TicketListItem = ({ ticket, userId }) => {
         try {
           const { data } = await api.get("/tickets/" + ticket.id);
           setTag(data?.contact?.tags);
-        } catch (err) {}
+        } catch (err) { }
       };
       fetchTicket();
     }, 500);
@@ -371,7 +371,8 @@ const TicketListItem = ({ ticket, userId }) => {
                 variant="body2"
                 color="textPrimary"
               >
-                {ticket.contact.name}
+                {ticket.contact.name.slice(0, 20) +
+                  (ticket.contact.name.length > 20 ? " ..." : "")}
               </Typography>
               <br></br>
             </span>

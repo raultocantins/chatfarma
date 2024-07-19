@@ -7,9 +7,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import Drawer from "@material-ui/core/Drawer";
 import Link from "@material-ui/core/Link";
 import InputLabel from "@material-ui/core/InputLabel";
-//import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
 
 import { i18n } from "../../translate/i18n";
 
@@ -121,15 +119,15 @@ const ContactDrawer = ({ open, handleDrawerClose, contact, loading }) => {
 				<ContactDrawerSkeleton classes={classes} />
 			) : (
 				<div className={classes.content}>
-					<Paper square variant="outlined" className={classes.contactHeader}>
+					<div square variant="outlined" className={classes.contactHeader}>
 						<ModalImageContatc imageUrl={contact.profilePicUrl} />
 						<Typography>
 							{contact.name}
 							<CopyToClipboard content={contact.name} color="secondary" />
-							</Typography>
+						</Typography>
 						<Typography>
-							<Link href={`tel:${user.isTricked === "enabled" ? contact.number : contact.number.slice(0,-4) + "****"}`}>{user.isTricked === "enabled" ? contact.number : contact.number.slice(0,-4) + "****"}</Link>
-							<CopyToClipboard content={user.isTricked === "enabled" ? contact.number : contact.number.slice(0,-4) + "****"} color="secondary" />
+							<Link href={`tel:${user.isTricked === "enabled" ? contact.number : contact.number.slice(0, -4) + "****"}`}>{user.isTricked === "enabled" ? contact.number : contact.number.slice(0, -4) + "****"}</Link>
+							<CopyToClipboard content={user.isTricked === "enabled" ? contact.number : contact.number.slice(0, -4) + "****"} color="secondary" />
 						</Typography>
 						{contact.email && (
 							<Typography>
@@ -144,9 +142,9 @@ const ContactDrawer = ({ open, handleDrawerClose, contact, loading }) => {
 						>
 							{i18n.t("contactDrawer.buttons.edit")}
 						</Button>
-					</Paper>
+					</div>
 					<TagsContainer contact={contact} className={classes.contactTags} />
-					<Paper square variant="outlined" className={classes.contactDetails}>
+					<div square variant="outlined" className={classes.contactDetails}>
 						<ContactModal
 							open={modalOpen}
 							onClose={() => setModalOpen(false)}
@@ -156,7 +154,7 @@ const ContactDrawer = ({ open, handleDrawerClose, contact, loading }) => {
 							{i18n.t("contactDrawer.extraInfo")}
 						</Typography>
 						{contact?.extraInfo?.map(info => (
-							<Paper
+							<div
 								key={info.id}
 								square
 								variant="outlined"
@@ -169,9 +167,9 @@ const ContactDrawer = ({ open, handleDrawerClose, contact, loading }) => {
 								<Typography component="div" noWrap style={{ paddingTop: 2 }}>
 									<MarkdownWrapper>{info.value}</MarkdownWrapper>
 								</Typography>
-							</Paper>
+							</div>
 						))}
-					</Paper>
+					</div>
 				</div>
 			)}
 		</Drawer>

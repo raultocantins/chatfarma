@@ -393,8 +393,8 @@ const TicketListItem = ({ ticket, userId }) => {
                 >
                   {ticket.lastMessage ? (
                     <MarkdownWrapper>
-                      {ticket.lastMessage.slice(0, 20) +
-                        (ticket.lastMessage.length > 20 ? " ..." : "")}
+                      {ticket.lastMessage.slice(0, 15) +
+                        (ticket.lastMessage.length > 15 ? " ..." : "")}
                     </MarkdownWrapper>
                   ) : (
                     <br />

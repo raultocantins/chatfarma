@@ -17,7 +17,7 @@ import {
   Tooltip,
 } from "@material-ui/core";
 
-import { ClearOutlined, Done, Replay, Visibility } from "@material-ui/icons";
+import { ClearOutlined, Done, Replay } from "@material-ui/icons";
 
 import { green } from "@material-ui/core/colors";
 
@@ -285,7 +285,10 @@ const TicketListItem = ({ ticket, userId }) => {
         dense
         button
         onClick={(e) => {
-          if (ticket.status === "pending") return;
+          if (ticket.status === "pending") {
+            handleViewTicket(ticket.id)
+            return;
+          }
           handleSelectTicket(ticket.id);
         }}
         selected={ticketId && +ticketId === ticket.id}
@@ -393,8 +396,8 @@ const TicketListItem = ({ ticket, userId }) => {
                 >
                   {ticket.lastMessage ? (
                     <MarkdownWrapper>
-                      {ticket.lastMessage.slice(0, 15) +
-                        (ticket.lastMessage.length > 15 ? " ..." : "")}
+                      {ticket.lastMessage.slice(0, 17) +
+                        (ticket.lastMessage.length > 17 ? " ..." : "")}
                     </MarkdownWrapper>
                   ) : (
                     <br />
@@ -429,19 +432,6 @@ const TicketListItem = ({ ticket, userId }) => {
                       onClick={(e) => handleAcepptTicket(ticket.id)}
                     >
                       <Done />
-                    </IconButton>
-                  </Tooltip>
-                )}
-
-                {ticket.status === "pending" && (
-                  <Tooltip title={i18n.t("ticketsList.items.spy")}>
-                    <IconButton
-                      size="small"
-                      className={classes.bottomButton}
-                      color="primary"
-                      onClick={(e) => handleViewTicket(ticket.id)}
-                    >
-                      <Visibility />
                     </IconButton>
                   </Tooltip>
                 )}

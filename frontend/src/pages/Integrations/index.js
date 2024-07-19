@@ -88,11 +88,11 @@ const Integrations = () => {
   return (
     <div className={classes.root}>
       <Container className={classes.container}>
-        <Paper className={classes.paper1}>
+        <Paper className={classes.paper1} elevation={0}>
           <Typography align="center" variant="body1">
             {i18n.t("integrations.integrations.openai.title")}
           </Typography>
-          <Paper elevation={4} className={classes.paper}>
+          <Paper elevation={0} className={classes.paper}>
             <TextField
               style={{ marginRight: "1%", width: "50%" }}
               id="organization"
@@ -126,11 +126,11 @@ const Integrations = () => {
           </Paper>
         </Paper>
 
-        <Paper className={classes.paper1}>
+        <Paper className={classes.paper1} elevation={0}>
           <Typography align="center" variant="body1">
             {i18n.t("integrations.integrations.n8n.title")}
           </Typography>
-          <Paper elevation={4} className={classes.paper}>
+          <Paper elevation={0} className={classes.paper}>
             <TextField
               style={{ width: "100%" }}
               id="urlApiN8N"

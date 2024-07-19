@@ -96,7 +96,6 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 5,
     paddingTop: 5,
     paddingBottom: 0,
-    // boxShadow: "0 1px 1px #b3b3b3",
   },
 
   quotedContainerLeft: {
@@ -150,7 +149,6 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 5,
     paddingTop: 5,
     paddingBottom: 0,
-    // boxShadow: "0 1px 1px #b3b3b3",
   },
 
   quotedContainerRight: {
@@ -229,7 +227,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#6264A7",
     margin: "10px",
     borderRadius: "10px",
-    // boxShadow: "0 1px 1px #b3b3b3",
   },
 
   dailyTimestampText: {
@@ -299,7 +296,6 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 5,
     paddingTop: 5,
     paddingBottom: 0,
-    // boxShadow: "0 1px 1px #b3b3b3",
   },
 }));
 

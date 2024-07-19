@@ -73,7 +73,7 @@ export function TagsContainer({ contact }) {
   };
 
   return (
-    <Paper style={{ padding: 12 }}>
+    <div style={{ padding: 12 }}>
       <Autocomplete
         multiple
         size="small"
@@ -104,6 +104,6 @@ export function TagsContainer({ contact }) {
           <Paper style={{ width: 400, marginLeft: 12 }}>{children}</Paper>
         )}
       />
-    </Paper>
+    </div>
   );
 }

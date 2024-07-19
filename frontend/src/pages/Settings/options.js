@@ -165,7 +165,7 @@ const Options = () => {
   return (
     <div className={classes.root}>
       <Container className={classes.container} maxWidth="xs">
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={0}>
           <Tooltip title={i18n.t("settings.settings.userCreation.note")}>
             <FormControlLabel
               control={
@@ -186,7 +186,7 @@ const Options = () => {
 
         <Typography variant="body2" gutterBottom></Typography>
 
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={0}>
           <Tooltip title={i18n.t("settings.settings.allTicket.note")}>
             <FormControlLabel
               control={
@@ -207,7 +207,7 @@ const Options = () => {
 
         <Typography variant="body2" gutterBottom></Typography>
 
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={0}>
           <Tooltip title={i18n.t("settings.settings.CheckMsgIsGroup.note")}>
             <FormControlLabel
               control={
@@ -227,7 +227,7 @@ const Options = () => {
         </Paper>
 
         <Typography variant="body2" gutterBottom></Typography>
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={0}>
           <Tooltip title={i18n.t("settings.settings.call.note")}>
             <FormControlLabel
               control={
@@ -247,7 +247,7 @@ const Options = () => {
         </Paper>
 
         <Typography variant="body2" gutterBottom></Typography>
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={0}>
           <Tooltip title={i18n.t("settings.settings.sideMenu.note")}>
             <FormControlLabel
               control={
@@ -268,7 +268,7 @@ const Options = () => {
       </Container>
       <Container className={classes.container} maxWidth="xs">
         <Typography variant="body2" gutterBottom></Typography>
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={0}>
           <Tooltip title={i18n.t("settings.settings.closeTicketApi.note")}>
             <FormControlLabel
               control={
@@ -288,7 +288,7 @@ const Options = () => {
         </Paper>
 
         <Typography variant="body2" gutterBottom></Typography>
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={0}>
           <Tooltip title={i18n.t("settings.settings.darkMode.note")}>
             <FormControlLabel
               control={
@@ -308,7 +308,7 @@ const Options = () => {
         </Paper>
 
         <Typography variant="body2" gutterBottom></Typography>
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={0}>
           <Tooltip title={i18n.t("settings.settings.ASC.note")}>
             <FormControlLabel
               control={
@@ -328,7 +328,7 @@ const Options = () => {
         </Paper>
 
         <Typography variant="body2" gutterBottom></Typography>
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={0}>
           <Tooltip title={i18n.t("settings.settings.created.note")}>
             <FormControlLabel
               control={
@@ -349,7 +349,7 @@ const Options = () => {
 
         <Typography variant="body2" gutterBottom></Typography>
         <Tooltip title={i18n.t("settings.settings.timeCreateNewTicket.note")}>
-          <Paper className={classes.paper} elevation={3}>
+          <Paper className={classes.paper} elevation={0}>
             <Typography variant="body1">
               {i18n.t("settings.settings.timeCreateNewTicket.name")}
             </Typography>

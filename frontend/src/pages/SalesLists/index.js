@@ -134,7 +134,11 @@ const SalesLists = () => {
     const delayDebounceFn = setTimeout(() => {
       const fetchSalesLists = async () => {
         try {
-          const { data } = await api.get("/sales");
+          const { data } = await api.get("/sales", {
+            params: {
+              queueId: "",
+            }
+          });
           dispatch({ type: "LOAD_SALES", payload: data.sales });
           setHasMore(data.hasMore);
           setLoading(false);
@@ -152,7 +156,7 @@ const SalesLists = () => {
     setLoading(true);
     try {
       const { data } = await api.get("/sales", {
-        params: { pageNumber },
+        params: { pageNumber, queueId: "", },
       });
       dispatch({ type: "LOAD_SALES", payload: data.sales });
       setHasMore(data.hasMore);
@@ -187,6 +191,7 @@ const SalesLists = () => {
           selectedUser,
           startDate: dateRange[0],
           endDate: dateRange[1],
+          queueId: "",
           pageNumber: 1,
         },
       });

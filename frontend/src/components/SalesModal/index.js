@@ -31,7 +31,7 @@ import { Add } from "@material-ui/icons";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import api from "../../services/api";
 import toastError from "../../errors/toastError";
-import MoneyFormat from "../../utils/moneyFormat";
+import { MoneyFormat } from "../../utils/moneyFormat";
 import ButtonWithSpinner from "../ButtonWithSpinner";
 
 const useStyles = makeStyles((theme) => ({

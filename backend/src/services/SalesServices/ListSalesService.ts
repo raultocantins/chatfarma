@@ -10,6 +10,7 @@ interface Request {
   startDate?: string;
   endDate?: string;
   pageNumber?: string;
+  queueId?: string;
 }
 interface Response {
   sales: Sale[];
@@ -22,6 +23,7 @@ const ListSalesService = async ({
   startDate,
   endDate,
   pageNumber = "1",
+  queueId
 }: Request): Promise<Response> => {
   let whereCondition: Filterable["where"];
 
@@ -34,6 +36,11 @@ const ListSalesService = async ({
           +endOfDay(parseISO(endDate))
         ]
       }
+    };
+  }
+  if (queueId !== "" && queueId !== null) {
+    whereCondition = {
+      queueId: queueId!
     };
   }
   if (selectedUser) {

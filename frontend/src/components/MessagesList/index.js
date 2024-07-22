@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
   quotedContainerLeft: {
     margin: "-3px -80px 6px -6px",
     overflow: "hidden",
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "rgba(98, 100, 167, 0.1)",
     borderRadius: "7.5px",
     display: "flex",
     position: "relative",
@@ -154,7 +154,7 @@ const useStyles = makeStyles((theme) => ({
   quotedContainerRight: {
     margin: "-3px -80px 6px -6px",
     overflowY: "hidden",
-    backgroundColor: "#cfe9ba",
+    backgroundColor: "#ffff",
     borderRadius: "7.5px",
     display: "flex",
     position: "relative",

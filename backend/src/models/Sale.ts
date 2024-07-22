@@ -14,6 +14,7 @@ import SalesCondition from "./SalesCondition";
 import User from "./User";
 import Product from "./Product";
 import Contact from "./Contact";
+import Queue from "./Queue";
 
 @Table({ tableName: "Sales" })
 class Sale extends Model<Sale> {
@@ -35,6 +36,10 @@ class Sale extends Model<Sale> {
   @ForeignKey(() => User)
   @Column
   userId: number;
+
+  @ForeignKey(() => Queue)
+  @Column
+  queueId: number;
 
   @ForeignKey(() => Contact)
   @Column

@@ -30,7 +30,7 @@ import {
   KeyboardArrowDownOutlined,
   KeyboardArrowUpOutlined,
 } from "@material-ui/icons";
-import MoneyFormat from "../../utils/moneyFormat";
+import { MoneyFormat } from "../../utils/moneyFormat";
 import { formateDateWithHours } from "../../utils/dateUtils";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker";
 import { AuthContext } from "../../context/Auth/AuthContext";

@@ -20,6 +20,7 @@ import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "./css/calendar.css";
 import RelatorioCSV from "../../components/RelatorioCSV";
+import SalesChart from "./SalesChart";
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(2),
@@ -77,7 +78,7 @@ const Dashboard = () => {
   const [tickets, setTickets] = useState([]);
   const [selectedQueue, setSelectedQueue] = useState("");
   const [queues, setQueues] = useState([]);
-  const [dateRange, setDateRange] = useState([today.setDate(today.getDate() - 7), new Date()]);
+  const [dateRange, setDateRange] = useState([new Date(today.setDate(today.getDate() - 7)), new Date()]);
 
   const handleSelect = (range) => {
     if (range) {
@@ -231,6 +232,13 @@ const Dashboard = () => {
             <Subtitle>Atendimentos por usuário</Subtitle>
             <Paper elevation={0} className={classes.fixedHeightPaper}>
               <UsersChart loading={loading} tickets={tickets} />
+            </Paper>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Subtitle>Vendas por usuário</Subtitle>
+            <Paper elevation={0} className={classes.fixedHeightPaper}>
+              <SalesChart loading={loading} dateRange={dateRange} queueId={selectedQueue} />
             </Paper>
           </Grid>
           <Grid item xs={12}>

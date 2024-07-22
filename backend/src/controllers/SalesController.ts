@@ -7,6 +7,7 @@ type IndexQuerySearch = {
   startDate?: string;
   endDate?: string;
   pageNumber: string;
+  queueId?: string;
 };
 
 interface ProductItem {
@@ -27,14 +28,16 @@ export const index = async (req: Request, res: Response): Promise<Response> => {
     selectedUser,
     startDate,
     endDate,
-    pageNumber
+    pageNumber,
+    queueId
   } = req.query as IndexQuerySearch;
   const sales = await ListSalesService(
     {
       selectedUser,
       startDate,
       endDate,
-      pageNumber
+      pageNumber,
+      queueId
     }
   );
 

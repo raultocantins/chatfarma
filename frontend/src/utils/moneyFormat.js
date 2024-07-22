@@ -1,6 +1,6 @@
 import React from "react";
 
-function MoneyFormat({ value }) {
+export function MoneyFormat({ value }) {
     const formattedValue = new Intl.NumberFormat('pt-BR', {
         style: 'currency',
         currency: 'BRL',
@@ -9,4 +9,12 @@ function MoneyFormat({ value }) {
     return <span>{formattedValue}</span>;
 }
 
-export default MoneyFormat;
+export function MoneyFormatWithoutSpan({ value }) {
+    const formattedValue = new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+    }).format(value);
+    return formattedValue;
+}
+
+

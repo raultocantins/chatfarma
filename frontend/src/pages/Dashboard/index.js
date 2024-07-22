@@ -7,7 +7,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { i18n } from "../../translate/i18n";
 
-import Subtitle from "./Title";
 import Title from "../../components/Title";
 import DayChart from "./DayChart";
 import UsersChart from "./UsersChart";
@@ -186,7 +185,7 @@ const Dashboard = () => {
               className={classes.customFixedHeightPaper}
               style={{ overflow: "hidden" }}
             >
-              <Typography component="h3" variant="h6" color="primary" paragraph>
+              <Typography component="h3" variant="h6" color="primary" paragraph >
                 {i18n.t("dashboard.messages.inAttendance.title")}
               </Typography>
               <Grid item>
@@ -202,7 +201,7 @@ const Dashboard = () => {
               className={classes.customFixedHeightPaper}
               style={{ overflow: "hidden" }}
             >
-              <Typography component="h3" variant="h6" color="primary" paragraph>
+              <Typography variant="h6" color="primary" paragraph >
                 {i18n.t("dashboard.messages.waiting.title")}
               </Typography>
               <Grid item>
@@ -218,38 +217,34 @@ const Dashboard = () => {
               className={classes.customFixedHeightPaper}
               style={{ overflow: "hidden" }}
             >
-              <Typography component="h3" variant="h6" color="primary" paragraph>
+              <Typography component="h3" variant="h6" color="primary" paragraph >
                 {i18n.t("dashboard.messages.closed.title")}
               </Typography>
               <Grid item>
-                <Typography component="h1" variant="h4">
+                <Typography component="h1" variant="h4"  >
                   {getCountByStatus(tickets, "closed")}
                 </Typography>
               </Grid>
             </Paper>
           </Grid>
           <Grid item xs={12}>
-            <Subtitle>Atendimentos por usuário</Subtitle>
             <Paper elevation={0} className={classes.fixedHeightPaper}>
               <UsersChart loading={loading} tickets={tickets} />
             </Paper>
           </Grid>
 
           <Grid item xs={12}>
-            <Subtitle>Vendas por usuário</Subtitle>
             <Paper elevation={0} className={classes.fixedHeightPaper}>
               <SalesChart loading={loading} dateRange={dateRange} queueId={selectedQueue} />
             </Paper>
           </Grid>
           <Grid item xs={12}>
-            <Subtitle>Atendimentos por dia</Subtitle>
             <Paper elevation={0} className={classes.fixedHeightPaper}>
               <DayChart loading={loading} tickets={tickets} />
             </Paper>
           </Grid>
 
           <Grid item xs={12}>
-            <Subtitle>Atendimentos por departamento</Subtitle>
             <Paper elevation={0} className={classes.fixedHeightPaper}>
               <QueueChart loading={loading} tickets={tickets} />
             </Paper>

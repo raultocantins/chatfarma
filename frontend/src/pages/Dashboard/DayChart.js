@@ -10,9 +10,8 @@ const DayChart = ({ tickets, loading }) => {
 
       conversas.forEach((conversa) => {
         let dataCriacao = new Date(conversa.createdAt);
-        let dataFormatada = `${dataCriacao.getDate()}/${
-          dataCriacao.getMonth() + 1
-        }/${dataCriacao.getFullYear()}`;
+        let dataFormatada = `${dataCriacao.getDate()}/${dataCriacao.getMonth() + 1
+          }/${dataCriacao.getFullYear()}`;
 
         if (contagemPorDia[dataFormatada]) {
           contagemPorDia[dataFormatada]++;
@@ -26,6 +25,13 @@ const DayChart = ({ tickets, loading }) => {
 
     const chamadosPorDia = contarChamadosPorDia(tickets);
     return {
+      title: {
+        text: 'Atendimentos por dia',
+        textStyle: {
+          color: theme.palette.primary.main,
+          fontWeight: 'normal'
+        },
+      },
       tooltip: {
         trigger: "axis",
       },
@@ -79,6 +85,7 @@ const DayChart = ({ tickets, loading }) => {
       option={updateMapper(tickets)}
       style={{ height: 400 }}
       showLoading={loading}
+      opts={{ renderer: "png", }}
     />
   );
 };

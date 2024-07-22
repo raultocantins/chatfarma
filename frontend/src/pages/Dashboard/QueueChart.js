@@ -24,6 +24,13 @@ const QueueChart = ({ tickets, loading }) => {
     }));
 
     return {
+      title: {
+        text: 'Atendimentos por departamento',
+        textStyle: {
+          color: theme.palette.primary.main,
+          fontWeight: 'normal'
+        },
+      },
       toolbox: {
         feature: {
           saveAsImage: {},
@@ -41,7 +48,7 @@ const QueueChart = ({ tickets, loading }) => {
       },
       legend: {
         orient: "vertical",
-        left: "left",
+        bottom: "bottom",
         data: result.map((e) => e.name),
         textStyle: {
           color: theme.palette.text.secondary,
@@ -74,6 +81,7 @@ const QueueChart = ({ tickets, loading }) => {
         option={updateMapper(tickets)}
         style={{ height: 400 }}
         showLoading={loading}
+        opts={{ renderer: "png", }}
       />
     </>
   );

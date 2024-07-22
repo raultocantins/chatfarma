@@ -73,6 +73,13 @@ const SalesChart = ({ dateRange, queueId, loading }) => {
     const totalSales = data.map(sale => sale.totalSales);
 
     return {
+      title: {
+        text: 'Vendas por usuário',
+        textStyle: {
+          color: theme.palette.primary.main,
+          fontWeight: 'normal'
+        },
+      },
       toolbox: {
         feature: {
           saveAsImage: {},
@@ -128,7 +135,7 @@ const SalesChart = ({ dateRange, queueId, loading }) => {
     <ReactECharts
       option={getOption(processData(sales))}
       style={{ height: 400 }}
-      opts={{ renderer: "svg" }}
+      opts={{ renderer: "png", }}
       showLoading={loading}
     />
   );

@@ -32,6 +32,13 @@ const UsersChart = ({ tickets, loading }) => {
     }));
 
     return {
+      title: {
+        text: 'Atendimentos por usuário',
+        textStyle: {
+          color: theme.palette.primary.main,
+          fontWeight: 'normal'
+        },
+      },
       toolbox: {
         feature: {
           saveAsImage: {},
@@ -75,7 +82,7 @@ const UsersChart = ({ tickets, loading }) => {
     <ReactECharts
       option={updateMapper(tickets)}
       style={{ height: 400 }}
-      opts={{ renderer: "svg" }}
+      opts={{ renderer: "png" }}
       showLoading={loading}
     />
   );

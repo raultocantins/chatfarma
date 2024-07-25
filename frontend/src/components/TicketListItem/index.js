@@ -237,7 +237,6 @@ const TicketListItem = ({ ticket, userId }) => {
     if (isMounted.current) {
       setLoading(false);
     }
-    history.push(`/tickets/${id}`);
   };
 
   const handleClosedTicket = async (id) => {
@@ -254,7 +253,6 @@ const TicketListItem = ({ ticket, userId }) => {
     if (isMounted.current) {
       setLoading(false);
     }
-    history.push(`/tickets/${id}`);
   };
 
   const handleSelectTicket = (id) => {
@@ -285,10 +283,6 @@ const TicketListItem = ({ ticket, userId }) => {
         dense
         button
         onClick={(e) => {
-          if (ticket.status === "pending") {
-            handleViewTicket(ticket.id)
-            return;
-          }
           handleSelectTicket(ticket.id);
         }}
         selected={ticketId && +ticketId === ticket.id}
@@ -413,8 +407,10 @@ const TicketListItem = ({ ticket, userId }) => {
                         size="small"
                         className={classes.bottomButton}
                         color="primary"
-                        onClick={(e) =>
-                          handleOpenAcceptTicketWithouSelectQueue()
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleOpenAcceptTicketWithouSelectQueue();
+                        }
                         }
                         loading={loading}
                       >
@@ -429,7 +425,11 @@ const TicketListItem = ({ ticket, userId }) => {
                       size="small"
                       className={classes.bottomButton}
                       color="primary"
-                      onClick={(e) => handleAcepptTicket(ticket.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAcepptTicket(ticket.id)
+                      }
+                      }
                     >
                       <Done />
                     </IconButton>
@@ -442,7 +442,11 @@ const TicketListItem = ({ ticket, userId }) => {
                       size="small"
                       className={classes.bottomButton}
                       color="primary"
-                      onClick={(e) => handleClosedTicket(ticket.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleClosedTicket(ticket.id)
+                      }
+                      }
                     >
                       <ClearOutlined />
                     </IconButton>
@@ -455,7 +459,11 @@ const TicketListItem = ({ ticket, userId }) => {
                       size="small"
                       className={classes.bottomButton}
                       color="primary"
-                      onClick={(e) => handleViewTicket(ticket.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleViewTicket(ticket.id);
+                      }
+                      }
                     >
                       <Replay />
                     </IconButton>
@@ -468,7 +476,11 @@ const TicketListItem = ({ ticket, userId }) => {
                       size="small"
                       className={classes.bottomButton}
                       color="primary"
-                      onClick={(e) => handleClosedTicket(ticket.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleClosedTicket(ticket.id)
+                      }
+                      }
                     >
                       <ClearOutlined />
                     </IconButton>
@@ -500,7 +512,7 @@ const TicketListItem = ({ ticket, userId }) => {
       </ListItem>
 
       <Divider variant="inset" component="li" />
-    </React.Fragment>
+    </React.Fragment >
   );
 };
 

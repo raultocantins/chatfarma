@@ -19,7 +19,7 @@ import { i18n } from "../../translate/i18n";
 
 import { AuthContext } from "../../context/Auth/AuthContext";
 import { system } from "../../config.json";
-import logo from "../../assets/pharmacy1.png";
+import logo from "../../assets/pharmacy.png";
 
 const Copyright = () => {
   return (
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundRepeat: "no-repeat",
     display: "flex",
     justifyContent: "flex-end",
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.background.paper,
   },
 }));
 

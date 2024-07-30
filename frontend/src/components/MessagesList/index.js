@@ -39,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
-    backgroundColor: "#6264A715"
+    backgroundColor: 'rgb(12,132,244,0.05)',
+
   },
 
   ticketNumber: {
@@ -101,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
   quotedContainerLeft: {
     margin: "-3px -80px 6px -6px",
     overflow: "hidden",
-    backgroundColor: "rgba(98, 100, 167, 0.1)",
+    backgroundColor: "rgba(12, 132, 244, 0.1)",
     borderRadius: "7.5px",
     display: "flex",
     position: "relative",
@@ -138,7 +139,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     whiteSpace: "pre-wrap",
-    backgroundColor: "rgba(98, 100, 167, 0.1)",
+    backgroundColor: "rgba(12, 132, 244, 0.1)",
     color: "#303030",
     alignSelf: "flex-end",
     borderTopLeftRadius: 8,
@@ -224,7 +225,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     alignSelf: "center",
     width: "110px",
-    backgroundColor: "#6264A7",
+    backgroundColor: "#0C84F4",
     margin: "10px",
     borderRadius: "10px",
   },

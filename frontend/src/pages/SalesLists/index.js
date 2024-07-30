@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(0, 2, 0, 2),
   },
   expandedRow: {
-    backgroundColor: "#6264A715",
+    backgroundColor: "rgb(12,132,244,0.05)",
     paddingBottom: 0,
     paddingTop: 0,
   },

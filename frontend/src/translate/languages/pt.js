@@ -342,7 +342,7 @@ const messages = {
         noTicketsMessage: "Nenhum ticket encontrado com esse status ou termo pesquisado",
         connectionTitle: "Conexão que está sendo utilizada atualmente.",
         items: {
-          queueless: "Sem Setor",
+          queueless: "Sem Departamento",
           accept: "Aceitar",
           spy: "Espiar",
           close: "Encerrar",

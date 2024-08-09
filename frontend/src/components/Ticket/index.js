@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
   ticketInfo: {
     backgroundColor: theme.palette.background.default,
-    maxWidth: "50%",
+    maxWidth: "70%",
     flexBasis: "50%",
     [theme.breakpoints.down("sm")]: {
       maxWidth: "80%",

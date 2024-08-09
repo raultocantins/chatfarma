@@ -46,6 +46,7 @@ import NotificationsPopOver from "../components/NotificationsPopOver";
 import api from "../services/api";
 import ToastSuccess from "../components/ToastSuccess";
 import toastError from "../errors/toastError";
+import logo from "../assets/logo_white.png";
 const useStyles = makeStyles((theme) => ({
   icon: {
     color: "#ffff",
@@ -217,6 +218,9 @@ const MainListItems = (props) => {
 
   return (
     <div onClick={drawerClose}>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: 20 }}>
+        <img src={logo} alt="logo" style={{ height: 30 }} />
+      </div>
       <CssBaseline />
       <li className={classes.li}>
         <ListItem

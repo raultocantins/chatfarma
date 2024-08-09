@@ -311,9 +311,7 @@ const TicketListItem = ({ ticket, userId }) => {
           arrow
           placement="right"
           title={
-            ticket.queue?.name ||
-            ticket?.name ||
-            i18n.t("ticketsList.items.queueless")
+            `${ticket.queue?.name || i18n.t("ticketsList.items.queueless")} | Conexão: ${ticket.whatsapp?.name}`
           }
         >
           <ListItemAvatar>

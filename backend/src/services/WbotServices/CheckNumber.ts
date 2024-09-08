@@ -17,7 +17,7 @@ const CheckContactNumber = async (number: string): Promise<void> => {
 
   const wbot = getWbot(defaultWhatsapp.id);
 
-  const validNumber: any = await wbot.getNumberId(`${correctedNumber}@c.us`);
+  const validNumber: any = await wbot.getNumberId(`${correctedNumber}@${correctedNumber.length > 16 ? 'g.us' : 'c.us'}`);
   return validNumber.user
 };
 

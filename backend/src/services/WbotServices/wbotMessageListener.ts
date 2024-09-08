@@ -352,7 +352,7 @@ const verifyQueue = async (
           );
           verifyMessage(sentMessage, ticket, contact);
         },
-        1500,
+        3000,
         ticket.id
       );
 
@@ -410,7 +410,7 @@ const verifyQueue = async (
           );
           verifyMessage(sentMessage, ticket, contact);
         },
-        1500,
+        3000,
         ticket.id
       );
       if (greetingMessage !== "") {

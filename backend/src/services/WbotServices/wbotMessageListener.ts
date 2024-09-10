@@ -452,26 +452,26 @@ const handleMessage = async (
   if (!isValidMsg(msg)) {
     return;
   }
-  const Integrationdb = await Integration.findOne({
-    where: { key: "urlApiN8N" }
-  });
+  // const Integrationdb = await Integration.findOne({
+  //   where: { key: "urlApiN8N" }
+  // });
 
-  if (Integrationdb?.value) {
-    const options = {
-      method: "POST",
-      url: Integrationdb?.value,
-      headers: {
-        "Content-Type": "application/json"
-      },
-      json: msg
-    };
-    try {
-      const response = await request(options);
-      console.log(response.body);
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
+  // if (Integrationdb?.value) {
+  //   const options = {
+  //     method: "POST",
+  //     url: Integrationdb?.value,
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     json: msg
+  //   };
+  //   try {
+  //     const response = await request(options);
+  //     console.log(response.body);
+  //   } catch (error) {
+  //     throw new Error(error);
+  //   }
+  // }
 
   // IGNORAR MENSAGENS DE GRUPO
   const Settingdb = await Settings.findOne({

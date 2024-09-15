@@ -1,12 +1,16 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import clsx from "clsx";
 
 import { Drawer, List, makeStyles } from "@material-ui/core";
-
 import MainListItems from "./MainListItems";
 import UserModal from "../components/UserModal";
 import { AuthContext } from "../context/Auth/AuthContext";
 import BackdropLoading from "../components/BackdropLoading";
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import logo from "../assets/logo_white.png";
 
 const drawerWidth = 200;
 
@@ -19,64 +23,13 @@ const useStyles = makeStyles((theme) => ({
     },
     background: theme.palette.background.default,
   },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-    color: "#ffffff",
-    background: theme.palette.toolbar.main,
-  },
-  toolbarIcon: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    padding: "0 8px",
-    minHeight: "48px",
-    backgroundColor: theme.palette.toolbarIcon.main,
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: 36,
-  },
   menuButtonHidden: {
     display: "none",
   },
   title: {
     flexGrow: 1,
   },
-  drawerPaper: {
-    position: "relative",
-    whiteSpace: "nowrap",
-    backgroundColor: theme.palette.primary.main,
-    width: drawerWidth,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperClose: {
-    overflowX: "hidden",
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing(7),
-    [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(9),
-    },
-  },
+
   content: {
     flex: 1,
     overflow: "auto",
@@ -97,25 +50,76 @@ const useStyles = makeStyles((theme) => ({
     opacity: 0.2,
     fontSize: 12,
   },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  menuButton: {
+    marginRight: 36,
+  },
+  hide: {
+    display: 'none',
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+  },
+  drawerOpen: {
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerClose: {
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: 'hidden',
+    width: theme.spacing(7) + 1,
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing(9) + 1,
+    },
+  },
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+  },
+  overrideBorder: {
+    '& .MuiDrawer-paperAnchorDockedLeft': {
+      borderRight: 'none',
+    },
+  },
+  drawerBackground: {
+    backgroundColor: theme.palette.primary.main,
+  },
 }));
+
 
 const LoggedInLayout = ({ children }) => {
   const classes = useStyles();
   const [userModalOpen, setUserModalOpen] = useState(false);
 
   const { loading } = useContext(AuthContext);
-  const drawerOpen = false;
-  const [drawerVariant, setDrawerVariant] = useState("permanent");
   const { user } = useContext(AuthContext);
-
-  useEffect(() => {
-    if (document.body.offsetWidth < 600) {
-      setDrawerVariant("temporary");
-    } else {
-      setDrawerVariant("permanent");
-    }
-  }, [drawerOpen]);
-
+  const [open, setOpen] = React.useState(false);
   if (loading) {
     return <BackdropLoading />;
   }
@@ -123,16 +127,26 @@ const LoggedInLayout = ({ children }) => {
   return (
     <div className={classes.root}>
       <Drawer
-        variant={drawerVariant}
-        // className={drawerOpen ? classes.drawerPaper : classes.drawerPaperClose}
+        variant="permanent"
+        className={clsx(classes.drawer, classes.overrideBorder, {
+          [classes.drawerOpen]: open,
+          [classes.drawerClose]: !open,
+        })}
         classes={{
-          paper: clsx(
-            classes.drawerPaper,
-          ),
+          paper: clsx({
+            [classes.drawerOpen]: open,
+            [classes.drawerClose]: !open,
+          }, classes.drawerBackground),
         }}
-        open={drawerOpen}
       >
-        <List style={{ padding: 0 }} >
+        <div className={classes.toolbar}>
+          {open ? <img src={logo} style={{ height: 25 }} alt="logo" /> : null}
+          <IconButton onClick={() => setOpen(!open)}>
+            {!open ? <MenuIcon style={{ color: "#ffff", }} /> : <ChevronLeftIcon style={{ color: "#ffff", }} />}
+          </IconButton>
+        </div>
+        <Divider />
+        <List>
           <MainListItems />
         </List>
       </Drawer>
@@ -141,14 +155,7 @@ const LoggedInLayout = ({ children }) => {
         onClose={() => setUserModalOpen(false)}
         userId={user?.id}
       />
-      {/* <AppBar
-        position="absolute"
-        className={clsx(classes.appBar, drawerOpen && classes.appBarShift)}
-        color={process.env.NODE_ENV === "development" ? "inherit" : "primary"}
-      ></AppBar> */}
       <main className={classes.content}>
-        {/* <div className={classes.appBarSpacer} /> */}
-
         {children ? children : null}
       </main>
     </div>

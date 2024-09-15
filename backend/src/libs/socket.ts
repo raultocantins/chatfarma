@@ -2,6 +2,8 @@ import { Server as SocketIO } from "socket.io";
 import { Server } from "http";
 import AppError from "../errors/AppError";
 import { logger } from "../utils/logger";
+import { verify } from "jsonwebtoken";
+import authConfig from "../config/auth";
 
 let io: SocketIO;
 
@@ -13,6 +15,16 @@ export const initIO = (httpServer: Server): SocketIO => {
   });
 
   io.on("connection", socket => {
+    const { token } = socket.handshake.query;
+    let tokenData = null;
+    try {
+      tokenData = verify(token as string, authConfig.secret);
+      logger.debug(tokenData, "io-onConnection: tokenData");
+    } catch (error) {
+      logger.debug(`Error decoding token: ${error?.message}`);
+      socket.disconnect();
+      return io;
+    }
     logger.info("Client Connected");
     socket.on("joinChatBox", (ticketId: string) => {
       logger.info("A client joined a ticket channel");
@@ -32,6 +44,7 @@ export const initIO = (httpServer: Server): SocketIO => {
     socket.on("disconnect", () => {
       logger.info("Client disconnected");
     });
+    return socket;
   });
   return io;
 };

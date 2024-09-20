@@ -14,6 +14,7 @@ import Api from "../Api";
 import ApiDocs from "../ApiDocs";
 import SettingsKey from "../ApiKey/";
 import Options from "./options";
+import BusinessHours from "../BusinessHours";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -28,7 +29,7 @@ function CustomTabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
@@ -85,7 +86,7 @@ const Settings = () => {
             <Tab label="Integrações" {...a11yProps(2)} />
             <Tab label="Documentação" {...a11yProps(3)} />
             <Tab label="Chave Api" {...a11yProps(4)} />
-
+            <Tab label="Horário de funcionamento" {...a11yProps(5)} />
           </Tabs>
         </Box>
       </Box>
@@ -105,6 +106,9 @@ const Settings = () => {
         </CustomTabPanel>
         <CustomTabPanel value={value} index={4}>
           <SettingsKey />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={5}>
+          <BusinessHours />
         </CustomTabPanel>
 
       </div>

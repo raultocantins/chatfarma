@@ -892,19 +892,19 @@ const MessagesList = ({ ticketId, isGroup, tags }) => {
         >
           {tags != null
             ? tags.map((tag) => {
-              return (
-                <Chip
-                  label={tag.name ?? ""}
-                  size="small"
-                  style={{
-                    background: tag.color,
-                    marginRight: 5,
-                    color: "#ffff",
-                    fontWeight: "bold",
-                  }}
-                />
-              );
-            })
+                return (
+                  <Chip
+                    label={tag.name ?? ""}
+                    size="small"
+                    style={{
+                      background: tag.color,
+                      marginRight: 5,
+                      color: "#ffff",
+                      fontWeight: "bold",
+                    }}
+                  />
+                );
+              })
             : null}
         </div>
 

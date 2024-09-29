@@ -10,6 +10,9 @@ import DeleteWhatsAppMessage from "../services/WbotServices/DeleteWhatsAppMessag
 import SendWhatsAppMedia from "../services/WbotServices/SendWhatsAppMedia";
 import SendWhatsAppMessage from "../services/WbotServices/SendWhatsAppMessage";
 import SendWhatsAppContact from "../services/WbotServices/SendWhatsAppContact";
+import SendWhatsAppSticker from "../services/WbotServices/SendWhatsAppSticker";
+import ListMessageStickersService from "../services/MessageServices/ListMessageStickersService";
+import SaveStickerService from "../services/MessageServices/SaveStickerService";
 
 type IndexQuery = {
   pageNumber: string;
@@ -21,6 +24,9 @@ type MessageData = {
   read: boolean;
   quotedMsg?: Message;
   contactNumber?: string;
+  stickerPath?: string;
+  name?: string;
+  path?: string;
 };
 
 export const index = async (req: Request, res: Response): Promise<Response> => {
@@ -35,6 +41,14 @@ export const index = async (req: Request, res: Response): Promise<Response> => {
   SetTicketMessagesAsRead(ticket);
 
   return res.json({ count, messages, ticket, hasMore });
+};
+
+export const getStickers = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { stickers } = await ListMessageStickersService();
+  return res.json({ stickers });
 };
 
 export const store = async (req: Request, res: Response): Promise<Response> => {
@@ -59,7 +73,34 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
   return res.send();
 };
 
-export const storeContact = async (req: Request, res: Response): Promise<Response> => {
+export const sendSticker = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { ticketId } = req.params;
+  const { stickerPath }: MessageData = req.body;
+  const ticket = await ShowTicketService(ticketId);
+  console.log(req.body);
+  SetTicketMessagesAsRead(ticket);
+
+  await SendWhatsAppSticker({ ticket, stickerPath });
+  return res.send();
+};
+
+export const storeSticker = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { name, path }: MessageData = req.body;
+
+  await SaveStickerService({ name, path });
+  return res.send();
+};
+
+export const storeContact = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const { ticketId } = req.params;
   const { contactNumber }: MessageData = req.body;
   const ticket = await ShowTicketService(ticketId);

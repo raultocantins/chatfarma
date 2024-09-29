@@ -21,6 +21,7 @@ import Campaign from "../models/Campaign";
 import SalesCondition from "../models/SalesCondition";
 import Sale from "../models/Sale";
 import Product from "../models/Product";
+import Sticker from "../models/Sticker";
 
 // eslint-disable-next-line
 const dbConfig = require("../config/database");
@@ -51,7 +52,8 @@ const models = [
   CampaignSetting,
   SalesCondition,
   Sale,
-  Product
+  Product,
+  Sticker
 ];
 
 sequelize.addModels(models);

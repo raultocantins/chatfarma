@@ -11,12 +11,22 @@ const upload = multer(uploadConfig);
 
 messageRoutes.get("/messages/:ticketId", isAuth, MessageController.index);
 
+messageRoutes.get("/stickers", isAuth, MessageController.getStickers);
+
 messageRoutes.post(
   "/messages/:ticketId",
   isAuth,
   upload.array("medias"),
   MessageController.store
 );
+
+messageRoutes.post(
+  "/messages/sticker/:ticketId",
+  isAuth,
+  MessageController.sendSticker
+);
+
+messageRoutes.post("/stickers", isAuth, MessageController.storeSticker);
 
 messageRoutes.post(
   "/messages/contact/:ticketId",

@@ -480,7 +480,6 @@ const handleMessage = async (
   if (Settingdb?.value === "enabled") {
     const chat = await msg.getChat();
     if (
-      msg.type === "sticker" ||
       msg.type === "e2e_notification" ||
       msg.type === "notification_template" ||
       msg.from === "status@broadcast" ||

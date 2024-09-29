@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useRef
-} from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
@@ -25,7 +20,7 @@ import {
   ListItem,
   ListItemText,
   ListItemAvatar,
-  Avatar
+  Avatar,
 } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
 import {
@@ -38,7 +33,8 @@ import {
   Mic,
   Mood,
   MoreVert,
-  Send
+  Note,
+  Send,
 } from "@material-ui/icons";
 import MicRecorder from "mic-recorder-to-mp3";
 import clsx from "clsx";
@@ -50,6 +46,7 @@ import toastError from "../../errors/toastError";
 import api from "../../services/api";
 import RecordingTimer from "./RecordingTimer";
 import SendContactModal from "../SendContactModal";
+import StickerModal from "../StickerModal";
 
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
@@ -69,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     width: "50px",
     height: "50px",
-    borderRadius: "25%"
+    borderRadius: "25%",
   },
   dropInfo: {
     background: "#eee",
@@ -107,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
   messageInput: {
     paddingLeft: 10,
     flex: 1,
-    border: "none"
+    border: "none",
   },
   sendMessageIcons: {
     color: theme.palette.text.primary,
@@ -217,7 +214,7 @@ const useStyles = makeStyles((theme) => ({
         },
       },
     },
-  }
+  },
 }));
 
 const MessageInput = ({ ticketStatus }) => {
@@ -226,6 +223,7 @@ const MessageInput = ({ ticketStatus }) => {
   const [medias, setMedias] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [showEmoji, setShowEmoji] = useState(false);
+  const [showSticker, setShowSticker] = useState(false);
   const [loading, setLoading] = useState(false);
   const [recording, setRecording] = useState(false);
   const [quickAnswers, setQuickAnswer] = useState([]);
@@ -233,7 +231,8 @@ const MessageInput = ({ ticketStatus }) => {
   const inputRef = useRef();
   const [onDragEnter, setOnDragEnter] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const { setReplyingMessage, replyingMessage } = useContext(ReplyMessageContext);
+  const { setReplyingMessage, replyingMessage } =
+    useContext(ReplyMessageContext);
   const { user } = useContext(AuthContext);
   const [signMessage, setSignMessage] = useLocalStorage("signOption", true);
   const [contactModalOpen, setContactModalOpen] = useState(false);
@@ -260,7 +259,7 @@ const MessageInput = ({ ticketStatus }) => {
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+  };
 
   const handleChangeInput = (e) => {
     setInputMessage(e.target.value);
@@ -342,6 +341,22 @@ const MessageInput = ({ ticketStatus }) => {
     setShowEmoji(false);
     setLoading(false);
     setReplyingMessage(null);
+  };
+
+  const handleSendSticker = async (path) => {
+    setLoading(true);
+    const message = {
+      read: 1,
+      fromMe: true,
+      stickerPath: path,
+    };
+    try {
+      await api.post(`/messages/sticker/${ticketId}`, message);
+    } catch (err) {
+      toastError(err);
+    }
+    setShowSticker(false);
+    setLoading(false);
   };
 
   const handleStartRecording = async () => {
@@ -480,7 +495,11 @@ const MessageInput = ({ ticketStatus }) => {
                 return (
                   <ListItem key={index}>
                     <ListItemAvatar>
-                      <Avatar className={classes.avatar} alt={value.name} src={URL.createObjectURL(value)} />
+                      <Avatar
+                        className={classes.avatar}
+                        alt={value.name}
+                        src={URL.createObjectURL(value)}
+                      />
                     </ListItemAvatar>
                     <ListItemText
                       primary={`${value.name}`}
@@ -539,6 +558,14 @@ const MessageInput = ({ ticketStatus }) => {
             >
               <Mood className={classes.sendMessageIcons} />
             </IconButton>
+            <IconButton
+              aria-label="stickerPicker"
+              component="span"
+              disabled={loading || recording || ticketStatus !== "open"}
+              onClick={(e) => setShowSticker((prevState) => !prevState)}
+            >
+              <Note className={classes.sendMessageIcons} />
+            </IconButton>
             {showEmoji ? (
               <div className={classes.emojiBox}>
                 <ClickAwayListener onClickAway={(e) => setShowEmoji(true)}>
@@ -553,13 +580,24 @@ const MessageInput = ({ ticketStatus }) => {
                 </ClickAwayListener>
               </div>
             ) : null}
+
+            <StickerModal
+              open={showSticker}
+              onClose={() => setShowSticker(false)}
+              onSelected={(path) => handleSendSticker(path)}
+            />
+
             <IconButton
               disabled={loading || recording || ticketStatus !== "open"}
               onClick={() => setContactModalOpen(true)}
             >
               <ContactPhoneOutlined className={classes.sendMessageIcons} />
             </IconButton>
-            <SendContactModal modalOpen={contactModalOpen} onClose={() => setContactModalOpen(false)} ticketId={ticketId} />
+            <SendContactModal
+              modalOpen={contactModalOpen}
+              onClose={() => setContactModalOpen(false)}
+              ticketId={ticketId}
+            />
             <input
               multiple
               type="file"

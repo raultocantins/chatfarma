@@ -8,6 +8,7 @@ import ConfirmationModal from "../ConfirmationModal";
 import { Menu } from "@material-ui/core";
 import { ReplyMessageContext } from "../../context/ReplyingMessage/ReplyingMessageContext";
 import toastError from "../../errors/toastError";
+import { toast } from "react-toastify";
 
 const MessageOptionsMenu = ({ message, menuOpen, handleClose, anchorEl }) => {
   const { setReplyingMessage } = useContext(ReplyMessageContext);
@@ -24,6 +25,18 @@ const MessageOptionsMenu = ({ message, menuOpen, handleClose, anchorEl }) => {
   const hanldeReplyMessage = () => {
     setReplyingMessage(message);
     handleClose();
+  };
+
+  const saveAsSticker = async (path) => {
+    try {
+      await api.post(`/stickers`, {
+        name: "sticker",
+        path: path,
+      });
+      toast.success("Figurinha salva com sucesso, recarregue a página.");
+    } catch (err) {
+      toastError(err);
+    }
   };
 
   const handleOpenConfirmationModal = (e) => {
@@ -63,6 +76,11 @@ const MessageOptionsMenu = ({ message, menuOpen, handleClose, anchorEl }) => {
         <MenuItem onClick={hanldeReplyMessage}>
           {i18n.t("messageOptionsMenu.reply")}
         </MenuItem>
+        {message.mediaType === "image" && (
+          <MenuItem onClick={() => saveAsSticker(message.mediaUrl)}>
+            Salvar como figurinha
+          </MenuItem>
+        )}
       </Menu>
     </>
   );

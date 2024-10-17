@@ -33,7 +33,8 @@ const SendWhatsAppMessage = async ({
       formatBody(body, ticket),
       {
         quotedMessageId: quotedMsgSerializedId,
-        linkPreview: false
+        linkPreview: true,
+
       }
     );
 

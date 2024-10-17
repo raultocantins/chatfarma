@@ -9,7 +9,9 @@ import {
   Contact as WbotContact,
   Message as WbotMessage,
   MessageAck,
-  Client
+  Client,
+  Order,
+  MessageMedia
 } from "whatsapp-web.js";
 
 import ffmpeg from "fluent-ffmpeg";
@@ -34,7 +36,6 @@ import { Mutex } from "async-mutex";
 ffmpeg.setFfmpegPath("/usr/bin/ffmpeg");
 
 const request = require("request");
-
 interface Session extends Client {
   id?: number;
 }
@@ -59,13 +60,34 @@ const verifyContact = async (msgContact: WbotContact): Promise<Contact> => {
 
   return contact;
 };
-
 const verifyQuotedMessage = async (
-  msg: WbotMessage
+  msg: WbotMessage,
+  ticket?: Ticket,
+  contact?: Contact
 ): Promise<Message | null> => {
   if (!msg.hasQuotedMsg) return null;
-
   const wbotQuotedMsg = await msg.getQuotedMessage();
+  if(wbotQuotedMsg.type==="product"){
+const base64Data = wbotQuotedMsg.body.replace(/^data:image\/\w+;base64,/, '');
+const buffer = Buffer.from(base64Data, 'base64');
+writeFileAsync(join(__dirname, "..", "..", "..", "public", `${wbotQuotedMsg?.productId??""}.jpeg`), buffer);
+const media = MessageMedia.fromFilePath(join(__dirname, "..", "..", "..", "public", `${wbotQuotedMsg?.productId??""}.jpeg`));
+const messageData = {
+  id: msg.id.id,
+  ticketId: ticket!.id,
+  contactId: msg.fromMe ? undefined : contact!.id,
+  body: msg.body,
+  fromMe: msg.fromMe,
+  read: msg.fromMe,
+  mediaUrl: media.filename?? undefined,
+  mediaType: "image",
+  quotedMsgId: null
+};
+if(ticket!==null){
+  await ticket!.update({ lastMessage: msg.body });
+}
+ await CreateMessageService({ messageData }); 
+  }
 
   const quotedMsg = await Message.findOne({
     where: { id: wbotQuotedMsg.id.id }
@@ -176,7 +198,7 @@ const verifyEditMessage = async (message: WbotMessage, newBody: string, prevBody
 const verifyMediaMessage = async (
   msg: WbotMessage,
   ticket: Ticket,
-  contact: Contact
+  contact: Contact,
 ): Promise<Message> => {
   const quotedMsg = await verifyQuotedMessage(msg);
 
@@ -271,14 +293,51 @@ const prepareLocation = (msg: WbotMessage): WbotMessage => {
   return msg;
 };
 
+
+function formatOrder(order:Order) {
+  let productDetails = '';
+  
+  // Itera sobre os produtos para formatar as informações
+  order.products.forEach((product,index) => {
+    const unitPrice = Number(product.price) / 1000;
+    productDetails += `
+    *ITEM ${index+1}*: ${product.name}
+    Quantidade: ${product.quantity}
+    Preço Unitário: R$ ${unitPrice.toFixed(2).replace('.', ',')}
+    \**
+    `;
+  });
+
+  const subtotal = Number(order.subtotal) / 1000;
+  const total = Number(order.total) / 1000;
+
+  // Converte o timestamp para uma data legível
+  const orderDate = new Date(order.createdAt * 1000).toLocaleDateString('pt-BR');
+  
+  // Formata a string final
+  return `
+    *Pedido feito via catálogo*
+    \**
+    ${productDetails}
+    *Subtotal*: R$ ${subtotal.toFixed(1).replace('.', ',')}
+    *Total*: R$ ${total.toFixed(2).replace('.', ',')}
+    *Data do Pedido*: ${orderDate}
+  `;
+}
+const prepareOrder = async (msg: WbotMessage,ticket:Ticket,contact:Contact): Promise<WbotMessage> => {
+var order = await  msg.getOrder()
+msg.body = formatOrder(order)
+  return msg;
+};
+
 const verifyMessage = async (
   msg: WbotMessage,
   ticket: Ticket,
   contact: Contact
 ) => {
   if (msg.type === "location") msg = prepareLocation(msg);
-
-  const quotedMsg = await verifyQuotedMessage(msg);
+  if (msg.type === "order")  msg = await prepareOrder(msg,ticket,contact);
+  const quotedMsg = await verifyQuotedMessage(msg,ticket,contact);
   const messageData = {
     id: msg.id.id,
     ticketId: ticket.id,

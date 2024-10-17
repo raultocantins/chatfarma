@@ -534,6 +534,8 @@ const MessagesList = ({ ticketId, isGroup, tags }) => {
           controls
         />
       );
+    }else if (message.mediaType === "chat") {
+      return <ModalImageCors imageUrl={message.mediaUrl} />;
     } else {
       return (
         <>

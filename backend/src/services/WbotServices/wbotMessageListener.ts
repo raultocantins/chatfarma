@@ -474,21 +474,21 @@ const handleMessage = async (
   // }
 
   // IGNORAR MENSAGENS DE GRUPO
-  const Settingdb = await Settings.findOne({
-    where: { key: "CheckMsgIsGroup" }
-  });
-  if (Settingdb?.value === "enabled") {
-    const chat = await msg.getChat();
-    if (
-      msg.type === "e2e_notification" ||
-      msg.type === "notification_template" ||
-      msg.from === "status@broadcast" ||
-      msg.author != null ||
-      chat.isGroup
-    ) {
-      return;
-    }
-  }
+  // const Settingdb = await Settings.findOne({
+  //   where: { key: "CheckMsgIsGroup" }
+  // });
+  // if (Settingdb?.value === "enabled") {
+  //   const chat = await msg.getChat();
+  //   if (
+  //     msg.type === "e2e_notification" ||
+  //     msg.type === "notification_template" ||
+  //     msg.from === "status@broadcast" ||
+  //     msg.author != null ||
+  //     chat.isGroup
+  //   ) {
+  //     return;
+  //   }
+  // }
   // IGNORAR MENSAGENS DE GRUPO
 
   try {
@@ -731,10 +731,12 @@ const wbotMessageListener = async (wbot: Session): Promise<void> => {
   });
 
   wbot.on("media_uploaded", async msg => {
+    if (msg.to === "status@broadcast") return;
     handleMessage(msg, wbot);
   });
 
   wbot.on("message_ack", async (msg, ack) => {
+    if (msg.to === "status@broadcast") return;
     handleMsgAck(msg, ack);
   });
 
